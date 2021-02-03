@@ -1,0 +1,22 @@
+---
+title: "Explore Data"
+author: "Jody Daniel"
+date: "`r Sys.Date()`"
+output: 
+ markdowntemplates::bulma:
+    highlight: tango
+    toc: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Background
+
+I will add this later.
+
+```{r }
+# do these show up?
+summary(cars)
+```
