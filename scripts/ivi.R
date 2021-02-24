@@ -4,7 +4,7 @@ library(lubridate)
 library(BiodiversityR)
 library(ggplot2)
 
-veg <- read.csv("Veg data for ivi.csv")
+veg <- read.csv("data/Veg data for ivi.csv")
 veg <- janitor::clean_names(veg)
 veg$date <- dmy(veg$date)
 veg$site <- as.factor(veg$site)
@@ -14,7 +14,7 @@ veg <- mutate(veg, plotID = str_c(site, transect, plot, sep = "0"))
 veg$plotID <- as.factor(veg$plotID)
 
 
-#size classes
+#basal area by size classes, calculated separately
 a <- 2.01e-05
 b <- 0.000246888
 c <- 0.003148181
@@ -77,7 +77,7 @@ total_basal <- sum(veg_all$basal)
 
 # - Freqr in % = (frequency of a species / sum-frequency of all species) x 100
 total_plots <- n_distinct(veg_all$plotID)
-sum_freq <- 0.4 + 0.778 + 0.533
+sum_freq <- 0.4 + 0.778 + 0.533 #individual frequencies from summary below
 
 summary <- veg_all %>% group_by(species) %>%
   summarize(density = sum(count), reldensity = (density/total_no)*100, 
@@ -86,14 +86,14 @@ summary <- veg_all %>% group_by(species) %>%
             ivi = reldensity + reldom + relfreq)
 
 write.csv(summary, "ivi calc by species.csv")
+
 plot <- summary %>% ggplot()+
   geom_col(aes(x = species, y = ivi, fill = species))+
   theme_bw()+
   labs(x = "Mangrove species", y = "Importance Value Index")
 print(plot)
 
-ggsave("overall plot.png", plot, width = 160, height = 100, unit = "mm")
-ggsave("overall plot.pdf", plot, width = 160, height = 100, unit = "mm")
+ggsave("outputs/overall ivi plot.png", plot, width = 160, height = 100, unit = "mm")
 
 sites <- veg_all %>% group_by(site) %>%
   summarize(total_no = sum(count), 
@@ -143,5 +143,4 @@ iviplot <- sitesummary %>% ggplot()+
   labs(x = "Mangrove species", y = "Importance Value Index")
 print(iviplot)
 
-ggsave("ivi plot.png", iviplot, width = 160, height = 100, unit = "mm")
-ggsave("ivi plot.pdf", iviplot, width = 160, height = 100, unit = "mm")
+ggsave("outputs/ivi plots by site.png", iviplot, width = 160, height = 100, unit = "mm")
