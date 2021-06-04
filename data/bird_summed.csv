@@ -1,0 +1,114 @@
+"","site","date","species","abundance"
+"1","Conference","20-May-20","BANA",7
+"2","Conference","20-May-20","HOWR",1
+"3","Conference","20-May-20","LAGU",13
+"4","Conference","20-May-20","MAFR",1
+"5","Conference","20-May-20","SNPI",1
+"6","Conference","20-May-20","SPTH",3
+"7","Conference","20-May-20","YCNH",2
+"8","Conference","20-May-20","ZEND",1
+"9","Conference","22-Apr-20","BANA",19
+"10","Conference","22-Apr-20","CGDO",2
+"11","Conference","22-Apr-20","GRAK",4
+"12","Conference","22-Apr-20","GRHE",1
+"13","Conference","22-Apr-20","LAGU",4
+"14","Conference","22-Apr-20","SNPI",3
+"15","Conference","22-Apr-20","SPTH",4
+"16","Conference","22-Apr-20","TRMO",2
+"17","Conference","28-Feb-20","ANCH",5
+"18","Conference","28-Feb-20","BANA",14
+"19","Conference","28-Feb-20","CAGR",2
+"20","Conference","28-Feb-20","COGA",2
+"21","Conference","28-Feb-20","GRAK",3
+"22","Conference","28-Feb-20","GRHE",1
+"23","Conference","28-Feb-20","LAGU",7
+"24","Conference","28-Feb-20","LBHE",1
+"25","Conference","28-Feb-20","MAFR",3
+"26","Conference","28-Feb-20","SNPI",6
+"27","Conference","28-Feb-20","SPTH",3
+"28","Conference","28-Feb-20","TRMO",3
+"29","Levera","30-Apr-20","ANCH",9
+"30","Levera","30-Apr-20","BANA",66
+"31","Levera","30-Apr-20","BWHA",1
+"32","Levera","30-Apr-20","CAMA",2
+"33","Levera","30-Apr-20","COGA",8
+"34","Levera","30-Apr-20","GFLY",4
+"35","Levera","30-Apr-20","GRAK",6
+"36","Levera","30-Apr-20","HOWR",3
+"37","Levera","30-Apr-20","MACU",1
+"38","Levera","30-Apr-20","SNPI",9
+"39","Levera","30-Apr-20","SPTH",3
+"40","Levera","30-Apr-20","TRMO",8
+"41","Levera","30-Apr-20","YCNH",1
+"42","Levera","30-Apr-20","ZEND",3
+"43","Levera","31-May-20","ANCH",3
+"44","Levera","31-May-20","BANA",42
+"45","Levera","31-May-20","BARS",3
+"46","Levera","31-May-20","BBWD",14
+"47","Levera","31-May-20","BEKI",2
+"48","Levera","31-May-20","BFGR",3
+"49","Levera","31-May-20","BWVI",3
+"50","Levera","31-May-20","CAGR",5
+"51","Levera","31-May-20","CAMA",2
+"52","Levera","31-May-20","CGDO",3
+"53","Levera","31-May-20","COGA",22
+"54","Levera","31-May-20","GBHE",1
+"55","Levera","31-May-20","GFLY",4
+"56","Levera","31-May-20","GRHE",5
+"57","Levera","31-May-20","HOWR",1
+"58","Levera","31-May-20","LAGU",10
+"59","Levera","31-May-20","MACU",1
+"60","Levera","31-May-20","MAFR",4
+"61","Levera","31-May-20","SNPI",44
+"62","Levera","31-May-20","TRMO",9
+"63","Levera","31-May-20","YCNH",3
+"64","Levera","31-May-20","ZEND",1
+"65","Mt. Hartman","04-May-20","ANCH",3
+"66","Mt. Hartman","04-May-20","BANA",6
+"67","Mt. Hartman","04-May-20","BFGR",1
+"68","Mt. Hartman","04-May-20","BWHA",1
+"69","Mt. Hartman","04-May-20","CAGR",4
+"70","Mt. Hartman","04-May-20","GRAK",1
+"71","Mt. Hartman","04-May-20","LATA",1
+"72","Mt. Hartman","04-May-20","MACU",1
+"73","Mt. Hartman","04-May-20","SBAN",1
+"74","Mt. Hartman","04-May-20","SPTH",1
+"75","Mt. Hartman","04-May-20","TRMO",2
+"76","Mt. Hartman","04-May-20","YBEL",1
+"77","Mt. Hartman","04-May-20","YBSE",4
+"78","Mt. Hartman","04-May-20","ZEND",2
+"79","Mt. Hartman","15-Feb-20","ANCH",1
+"80","Mt. Hartman","15-Feb-20","BANA",4
+"81","Mt. Hartman","15-Feb-20","CAGR",3
+"82","Mt. Hartman","15-Feb-20","EADO",1
+"83","Mt. Hartman","15-Feb-20","GRAK",2
+"84","Mt. Hartman","15-Feb-20","HOWR",1
+"85","Mt. Hartman","15-Feb-20","LANB",2
+"86","Mt. Hartman","15-Feb-20","SNPI",1
+"87","Mt. Hartman","15-Feb-20","SPSA",1
+"88","Mt. Hartman","15-Feb-20","SPTH",1
+"89","Mt. Hartman","15-Feb-20","TRMO",3
+"90","Westerhall","04-May-20","BANA",19
+"91","Westerhall","04-May-20","BWHA",2
+"92","Westerhall","04-May-20","CAGR",8
+"93","Westerhall","04-May-20","EADO",8
+"94","Westerhall","04-May-20","GRAK",3
+"95","Westerhall","04-May-20","GRHE",1
+"96","Westerhall","04-May-20","HOWR",4
+"97","Westerhall","04-May-20","LAGU",3
+"98","Westerhall","04-May-20","LBHE",3
+"99","Westerhall","04-May-20","MAFR",2
+"100","Westerhall","04-May-20","SBAN",1
+"101","Westerhall","04-May-20","SHCO",4
+"102","Westerhall","04-May-20","SNPI",34
+"103","Westerhall","04-May-20","TRMO",7
+"104","Westerhall","04-May-20","YBSE",2
+"105","Westerhall","04-May-20","YCNH",1
+"106","Westerhall","04-May-20","ZEND",1
+"107","Westerhall","31-Mar-20","ANCH",5
+"108","Westerhall","31-Mar-20","BANA",7
+"109","Westerhall","31-Mar-20","GFLY",2
+"110","Westerhall","31-Mar-20","HOWR",4
+"111","Westerhall","31-Mar-20","LBHE",4
+"112","Westerhall","31-Mar-20","MACU",1
+"113","Westerhall","31-Mar-20","TRMO",4
