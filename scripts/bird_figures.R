@@ -78,8 +78,7 @@ s.box <- ggplot(uni,
   theme(axis.text = element_text(size = 12),
         axis.title = element_text(size = 13),
         legend.text = element_text(size = 11),
-        legend.position = "none") +
-  ylim(0,30)
+        legend.position = "none") 
 
 sw.box <- ggplot(uni, 
                 aes(x = site, y = H)) +
@@ -96,8 +95,7 @@ sw.box <- ggplot(uni,
   theme(axis.text = element_text(size = 12),
         axis.title = element_text(size = 13),
         legend.text = element_text(size = 11),
-        legend.position = "none") +
-  ylim(0,3)
+        legend.position = "none") 
 
 J.box <- ggplot(uni, 
                  aes(x = site, y = J)) +
@@ -114,8 +112,7 @@ J.box <- ggplot(uni,
   theme(axis.text = element_text(size = 12),
         axis.title = element_text(size = 13),
         legend.text = element_text(size = 11),
-        legend.position = "none") +
-  ylim(0,1)
+        legend.position = "none") 
 
 
 
