@@ -31,8 +31,23 @@ library(viridis)
 
 
 # load data ---------------------------------------------------------------
+bird_data <- read.csv("data/bird data.csv")
+bird_data <- janitor::clean_names(bird_data)
+bird_data <- filter(bird_data, site %in% c("Conference","Levera","Mt. Hartman","Westerhall"))
 
-matrix <- read.csv("data/bird_matrix.csv")
+
+# make into a matrix ------------------------------------------------------
+
+matrix <- data %>% 
+  pivot_wider(names_from = "species",
+              values_from = "abundance",
+              values_fill = 0)
+
+
+write.csv(matrix, "data/bird_matrix.csv")
+
+
+
 uni <- read.csv("data/bird_univariate.csv")
 
 

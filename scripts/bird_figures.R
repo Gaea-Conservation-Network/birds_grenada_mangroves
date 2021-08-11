@@ -28,16 +28,7 @@ data <- bird_data %>%
 
 write.csv(data, "data/bird_summed.csv")
 
-
-# make into matrix
-
-matrix <- data %>% 
-  pivot_wider(names_from = "species",
-              values_from = "abundance",
-              values_fill = 0)
-
-
-write.csv(matrix, "data/bird_matrix.csv")
+matrix <- read.csv("data/bird_matrix.csv")
 
 # Univariate data ---------------------------------------------------------
 
