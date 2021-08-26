@@ -28,16 +28,7 @@ data <- bird_data %>%
 
 write.csv(data, "data/bird_summed.csv")
 
-
-# make into matrix
-
-matrix <- data %>% 
-  pivot_wider(names_from = "species",
-              values_from = "abundance",
-              values_fill = 0)
-
-
-write.csv(matrix, "data/bird_matrix.csv")
+matrix <- read.csv("data/bird_matrix.csv")
 
 # Univariate data ---------------------------------------------------------
 
@@ -54,8 +45,9 @@ write.csv(univariate , "data/bird_univariate.csv")
 
 
 # boxplots --------------------------------------------------------------
+uni <- read.csv("data/bird_univariate.csv", row.names = 1)
 
-ab.box <- ggplot(univariate, aes(x = site, y = abundance)) +
+ab.box <- ggplot(uni, aes(x = site, y = abundance)) +
   geom_boxplot(lwd = 1) +
   geom_jitter(aes(fill = site),
               size = 4,
@@ -69,11 +61,10 @@ ab.box <- ggplot(univariate, aes(x = site, y = abundance)) +
   theme(axis.text = element_text(size = 12),
         axis.title = element_text(size = 13),
         legend.text = element_text(size = 11),
-        legend.position = "none") +
-  ylim(0,250)
+        legend.position = "none") 
 
-s.box <- ggplot(univariate, 
-                aes(x = site, y = rich)) +
+s.box <- ggplot(uni, 
+                aes(x = site, y = richness)) +
   geom_boxplot(lwd = 1) +
   geom_jitter(aes(fill = site),
               size = 4,
@@ -87,10 +78,9 @@ s.box <- ggplot(univariate,
   theme(axis.text = element_text(size = 12),
         axis.title = element_text(size = 13),
         legend.text = element_text(size = 11),
-        legend.position = "none") +
-  ylim(0,30)
+        legend.position = "none") 
 
-sw.box <- ggplot(univariate, 
+sw.box <- ggplot(uni, 
                 aes(x = site, y = H)) +
   geom_boxplot(lwd = 1) +
   geom_jitter(aes(fill = site),
@@ -105,10 +95,9 @@ sw.box <- ggplot(univariate,
   theme(axis.text = element_text(size = 12),
         axis.title = element_text(size = 13),
         legend.text = element_text(size = 11),
-        legend.position = "none") +
-  ylim(0,3)
+        legend.position = "none") 
 
-J.box <- ggplot(univariate, 
+J.box <- ggplot(uni, 
                  aes(x = site, y = J)) +
   geom_boxplot(lwd = 1) +
   geom_jitter(aes(fill = site),
@@ -123,8 +112,7 @@ J.box <- ggplot(univariate,
   theme(axis.text = element_text(size = 12),
         axis.title = element_text(size = 13),
         legend.text = element_text(size = 11),
-        legend.position = "none") +
-  ylim(0,1)
+        legend.position = "none") 
 
 
 

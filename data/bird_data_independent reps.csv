@@ -1,0 +1,240 @@
+Site,Code,SiteID,Date,Visit,Start Time,Precipitation,Beaufort Wind Scale,Background Noise,Cloud Cover,Visit Number,Transect,Tnum,Plot,Pnum,Group,Species,Abundance
+Conference,CN,CN_T1,28-Feb-20,2,7:20 AM,None/Dry,1,0,5,1,1,T1,1,P1,1,BANA,4
+Conference,CN,CN_T1,28-Feb-20,2,7:20 AM,None/Dry,1,0,5,1,1,T1,1,P1,1,GRHE,1
+Conference,CN,CN_T1,28-Feb-20,2,7:20 AM,None/Dry,1,0,5,1,1,T1,1,P1,1,SNPI,3
+Conference,CN,CN_T1,28-Feb-20,2,7:20 AM,None/Dry,1,0,5,1,1,T1,1,P1,1,SPTH,1
+Conference,CN,CN_T1,28-Feb-20,2,7:20 AM,None/Dry,1,0,5,1,1,T1,1,P1,1,LBHE,1
+Conference,CN,CN_T1,28-Feb-20,2,7:20 AM,None/Dry,0,0,5,1,1,T1,1,P1,1,ANCH,1
+Conference,CN,CN_T1,28-Feb-20,2,7:47 AM,None/Dry,0,0,5,1,1,T1,3,P3,1,BANA,6
+Conference,CN,CN_T1,28-Feb-20,2,7:47 AM,None/Dry,0,0,5,1,1,T1,3,P3,1,ANCH,3
+Conference,CN,CN_T1,28-Feb-20,2,7:47 AM,None/Dry,0,0,5,1,1,T1,3,P3,1,CAGR,2
+Conference,CN,CN_T1,28-Feb-20,2,7:47 AM,None/Dry,0,0,5,1,1,T1,3,P3,1,TRMO,1
+Conference,CN,CN_T2,28-Feb-20,2,8:32 AM,None/Dry,0,0,6,1,2,T2,1,P1,2,COGA,2
+Conference,CN,CN_T2,28-Feb-20,2,8:32 AM,None/Dry,0,0,6,1,2,T2,1,P1,2,GRAK,3
+Conference,CN,CN_T2,28-Feb-20,2,8:32 AM,None/Dry,0,0,6,1,2,T2,1,P1,2,LAGU,7
+Conference,CN,CN_T2,28-Feb-20,2,8:32 AM,None/Dry,0,0,6,1,2,T2,1,P1,2,MAFR,3
+Conference,CN,CN_T2,28-Feb-20,2,8:44 AM,None/Dry,0,0,6,1,2,T2,3,P3,2,BANA,4
+Conference,CN,CN_T2,28-Feb-20,2,8:44 AM,None/Dry,0,0,6,1,2,T2,3,P3,2,SPTH,2
+Conference,CN,CN_T2,28-Feb-20,2,8:44 AM,None/Dry,0,0,6,1,2,T2,3,P3,2,ANCH,1
+Conference,CN,CN_T2,28-Feb-20,2,8:44 AM,None/Dry,0,0,6,1,2,T2,3,P3,2,SNPI,3
+Conference,CN,CN_T2,28-Feb-20,2,8:44 AM,None/Dry,0,0,6,1,2,T2,3,P3,2,TRMO,2
+Conference,CN,CN_T1,22-Apr-20,4,7:30 AM,Drizzle,0,0,8,2,1,T1,1,P1,1,BANA,3
+Conference,CN,CN_T1,22-Apr-20,4,7:30 AM,Drizzle,0,0,8,2,1,T1,1,P1,1,SPTH,1
+Conference,CN,CN_T1,22-Apr-20,4,7:30 AM,Drizzle,0,0,8,2,1,T1,1,P1,1,GRHE,1
+Conference,CN,CN_T1,22-Apr-20,4,7:30 AM,Drizzle,0,0,8,2,1,T1,1,P1,1,TRMO,1
+Conference,CN,CN_T1,22-Apr-20,4,7:43 AM,Drizzle,0,0,8,2,1,T1,3,P3,1,BANA,6
+Conference,CN,CN_T1,22-Apr-20,4,7:43 AM,Drizzle,0,0,8,2,1,T1,3,P3,1,GRAK,2
+Conference,CN,CN_T1,22-Apr-20,4,7:43 AM,Drizzle,0,0,8,2,1,T1,3,P3,1,TRMO,1
+Conference,CN,CN_T1,22-Apr-20,4,7:43 AM,Drizzle,0,0,8,2,1,T1,3,P3,1,SPTH,2
+Conference,CN,CN_T2,22-Apr-20,4,8:22 AM,Damp/Haze/Fog,0,0,8,2,2,T2,1,P1,2,LAGU,4
+Conference,CN,CN_T2,22-Apr-20,4,8:22 AM,Damp/Haze/Fog,0,0,8,2,2,T2,1,P1,2,BANA,4
+Conference,CN,CN_T2,22-Apr-20,4,8:22 AM,Damp/Haze/Fog,0,0,8,2,2,T2,1,P1,2,SNPI,3
+Conference,CN,CN_T2,22-Apr-20,4,8:47 AM,Damp/Haze/Fog,0,0,7,2,2,T2,3,P3,2,CGDO,2
+Conference,CN,CN_T2,22-Apr-20,4,8:47 AM,Damp/Haze/Fog,0,0,7,2,2,T2,3,P3,2,BANA,6
+Conference,CN,CN_T2,22-Apr-20,4,8:47 AM,Damp/Haze/Fog,0,0,7,2,2,T2,3,P3,2,GRAK,2
+Conference,CN,CN_T2,22-Apr-20,4,8:47 AM,Damp/Haze/Fog,0,0,7,2,2,T2,3,P3,2,SPTH,1
+Conference,CN,CN_T1,20-May-20,8,8:30 AM,None/Dry,3,0,3,3,1,T1,1,P1,1,LAGU,13
+Conference,CN,CN_T1,20-May-20,8,8:30 AM,None/Dry,3,0,3,3,1,T1,1,P1,1,SPTH,1
+Conference,CN,CN_T1,20-May-20,8,8:30 AM,None/Dry,3,0,3,3,1,T1,1,P1,1,MAFR,1
+Conference,CN,CN_T1,20-May-20,8,8:30 AM,None/Dry,3,0,3,3,1,T1,1,P1,1,ZEND,1
+Conference,CN,CN_T1,20-May-20,8,8:30 AM,None/Dry,3,0,3,3,1,T1,1,P1,1,HOWR,1
+Conference,CN,CN_T1,20-May-20,8,8:30 AM,None/Dry,3,0,3,3,1,T1,1,P1,1,BANA,3
+Conference,CN,CN_T2,20-May-20,8,9:02 AM,None/Dry,0,0,3,3,2,T2,3,P3,2,SNPI,1
+Conference,CN,CN_T2,20-May-20,8,9:02 AM,None/Dry,0,0,3,3,2,T2,3,P3,2,SPTH,2
+Conference,CN,CN_T2,20-May-20,8,9:02 AM,None/Dry,0,0,3,3,2,T2,3,P3,2,BANA,4
+Conference,CN,CN_T2,20-May-20,8,9:02 AM,None/Dry,0,0,3,3,2,T2,3,P3,2,YCNH,2
+Levera,LV,LV_T1_P1,30-Apr-20,5,7:11 AM,None/Dry,1,0,3,2,1,T1,1,P1,,COGA,1
+Levera,LV,LV_T1_P1,30-Apr-20,5,7:11 AM,None/Dry,1,0,3,2,1,T1,1,P1,,BANA,4
+Levera,LV,LV_T1_P1,30-Apr-20,5,7:11 AM,None/Dry,1,0,3,2,1,T1,1,P1,,ZEND,1
+Levera,LV,LV_T1_P1,30-Apr-20,5,7:11 AM,None/Dry,1,0,3,2,1,T1,1,P1,,TRMO,2
+Levera,LV,LV_T1_P1,31-May-20,9,8:19 AM,Damp/Haze/Fog,1,0,4,3,1,T1,1,P1,,SNPI,5
+Levera,LV,LV_T1_P1,31-May-20,9,8:19 AM,Damp/Haze/Fog,1,0,4,3,1,T1,1,P1,,BANA,5
+Levera,LV,LV_T1_P1,31-May-20,9,8:19 AM,Damp/Haze/Fog,1,0,4,3,1,T1,1,P1,,MAFR,1
+Levera,LV,LV_T1_P1,31-May-20,9,8:19 AM,Damp/Haze/Fog,1,0,4,3,1,T1,1,P1,,COGA,3
+Levera,LV,LV_T1_P1,31-May-20,9,8:19 AM,Damp/Haze/Fog,1,0,4,3,1,T1,1,P1,,LAGU,4
+Levera,LV,LV_T1_P3,30-Apr-20,5,8:53 AM,None/Dry,1,0,3,2,1,T1,3,P3,,BANA,3
+Levera,LV,LV_T1_P3,30-Apr-20,5,8:53 AM,None/Dry,1,0,3,2,1,T1,3,P3,,SNPI,1
+Levera,LV,LV_T1_P3,30-Apr-20,5,8:53 AM,None/Dry,1,0,3,2,1,T1,3,P3,,TRMO,2
+Levera,LV,LV_T1_P3,30-Apr-20,5,8:53 AM,None/Dry,1,0,3,2,1,T1,3,P3,,GRAK,1
+Levera,LV,LV_T1_P3,31-May-20,9,9:56 AM,Damp/Haze/Fog,1,0,4,3,1,T1,3,P3,,BANA,4
+Levera,LV,LV_T1_P3,31-May-20,9,9:56 AM,Damp/Haze/Fog,1,0,4,3,1,T1,3,P3,,TRMO,2
+Levera,LV,LV_T1_P3,31-May-20,9,9:56 AM,Damp/Haze/Fog,1,0,4,3,1,T1,3,P3,,SNPI,3
+Levera,LV,LV_T1_P3,31-May-20,9,9:56 AM,Damp/Haze/Fog,1,0,4,3,1,T1,3,P3,,ANCH,1
+Levera,LV,LV_T2_P1,30-Apr-20,5,7:23 AM,None/Dry,1,0,3,2,2,T2,1,P1,,COGA,2
+Levera,LV,LV_T2_P1,30-Apr-20,5,7:23 AM,None/Dry,1,0,3,2,2,T2,1,P1,,ANCH,1
+Levera,LV,LV_T2_P1,30-Apr-20,5,7:23 AM,None/Dry,1,0,3,2,2,T2,1,P1,,SNPI,4
+Levera,LV,LV_T2_P1,30-Apr-20,5,7:23 AM,None/Dry,1,0,3,2,2,T2,1,P1,,BANA,6
+Levera,LV,LV_T2_P1,31-May-20,9,8:33 AM,Damp/Haze/Fog,1,0,4,3,2,T2,1,P1,,BANA,6
+Levera,LV,LV_T2_P1,31-May-20,9,8:33 AM,Damp/Haze/Fog,1,0,4,3,2,T2,1,P1,,SNPI,4
+Levera,LV,LV_T2_P1,31-May-20,9,8:33 AM,Damp/Haze/Fog,1,0,4,3,2,T2,1,P1,,COGA,1
+Levera,LV,LV_T2_P1,31-May-20,9,8:33 AM,Damp/Haze/Fog,1,0,4,3,2,T2,1,P1,,ANCH,1
+Levera,LV,LV_T2_P1,31-May-20,9,8:33 AM,Damp/Haze/Fog,1,0,4,3,2,T2,1,P1,,MAFR,3
+Levera,LV,LV_T2_P1,31-May-20,9,8:33 AM,Damp/Haze/Fog,1,0,4,3,2,T2,1,P1,,LAGU,4
+Levera,LV,LV_T2_P3,30-Apr-20,5,9:11 AM,None/Dry,1,0,3,2,2,T2,3,P3,,BANA,2
+Levera,LV,LV_T2_P3,30-Apr-20,5,9:11 AM,None/Dry,1,0,3,2,2,T2,3,P3,,GRAK,2
+Levera,LV,LV_T2_P3,30-Apr-20,5,9:11 AM,None/Dry,1,0,3,2,2,T2,3,P3,,TRMO,1
+Levera,LV,LV_T2_P3,31-May-20,9,10:08 AM,Damp/Haze/Fog,1,0,4,3,2,T2,3,P3,,BANA,5
+Levera,LV,LV_T2_P3,31-May-20,9,10:08 AM,Damp/Haze/Fog,1,0,4,3,2,T2,3,P3,,TRMO,2
+Levera,LV,LV_T2_P3,31-May-20,9,10:08 AM,Damp/Haze/Fog,1,0,4,3,2,T2,3,P3,,ZEND,1
+Levera,LV,LV_T2_P3,31-May-20,9,10:08 AM,Damp/Haze/Fog,1,0,4,3,2,T2,3,P3,,SNPI,1
+Levera,LV,LV_T2_P3,31-May-20,9,10:08 AM,Damp/Haze/Fog,1,0,4,3,2,T2,3,P3,,GRHE,2
+Levera,LV,LV_T3_P1,30-Apr-20,5,7:36 AM,None/Dry,1,0,3,2,3,T3,1,P1,,BANA,5
+Levera,LV,LV_T3_P1,30-Apr-20,5,7:36 AM,None/Dry,1,0,3,2,3,T3,1,P1,,GRAK,2
+Levera,LV,LV_T3_P1,31-May-20,9,8:57 AM,Damp/Haze/Fog,1,1,4,3,3,T3,1,P1,,BBWD,7
+Levera,LV,LV_T3_P1,31-May-20,9,8:57 AM,Damp/Haze/Fog,1,1,4,3,3,T3,1,P1,,COGA,3
+Levera,LV,LV_T3_P1,31-May-20,9,8:57 AM,Damp/Haze/Fog,1,1,4,3,3,T3,1,P1,,CAGR,2
+Levera,LV,LV_T3_P1,31-May-20,9,8:57 AM,Damp/Haze/Fog,1,1,4,3,3,T3,1,P1,,SNPI,10
+Levera,LV,LV_T3_P3,30-Apr-20,5,9:24 AM,None/Dry,1,0,3,2,3,T3,3,P3,,ANCH,2
+Levera,LV,LV_T3_P3,30-Apr-20,5,9:24 AM,None/Dry,1,0,3,2,3,T3,3,P3,,TRMO,2
+Levera,LV,LV_T3_P3,30-Apr-20,5,9:24 AM,None/Dry,1,0,3,2,3,T3,3,P3,,BANA,3
+Levera,LV,LV_T3_P3,31-May-20,9,10:12 AM,Damp/Haze/Fog,1,4,4,3,3,T3,3,P3,,BANA,4
+Levera,LV,LV_T3_P3,31-May-20,9,10:12 AM,Damp/Haze/Fog,1,4,4,3,3,T3,3,P3,,BWVI,3
+Levera,LV,LV_T3_P3,31-May-20,9,10:12 AM,Damp/Haze/Fog,1,4,4,3,3,T3,3,P3,,ANCH,1
+Levera,LV,LV_T3_P3,31-May-20,9,10:12 AM,Damp/Haze/Fog,1,4,4,3,3,T3,3,P3,,CGDO,2
+Levera,LV,LV_T45,30-Apr-20,5,7:50 AM,None/Dry,1,0,2,2,4,T4,1,P1,,HOWR,1
+Levera,LV,LV_T45,30-Apr-20,5,7:50 AM,None/Dry,1,0,2,2,4,T4,1,P1,,COGA,3
+Levera,LV,LV_T45,30-Apr-20,5,7:50 AM,None/Dry,1,0,2,2,4,T4,1,P1,,BANA,5
+Levera,LV,LV_T45,30-Apr-20,5,7:50 AM,None/Dry,1,0,2,2,4,T4,1,P1,,BWHA,1
+Levera,LV,LV_T45,30-Apr-20,5,7:50 AM,None/Dry,1,0,2,2,4,T4,1,P1,,MACU,1
+Levera,LV,LV_T45,31-May-20,9,9:07 AM,Damp/Haze/Fog,1,1,4,3,4,T4,1,P1,,TRMO,1
+Levera,LV,LV_T45,31-May-20,9,9:07 AM,Damp/Haze/Fog,1,1,4,3,4,T4,1,P1,,LAGU,2
+Levera,LV,LV_T45,31-May-20,9,9:07 AM,Damp/Haze/Fog,1,1,4,3,4,T4,1,P1,,COGA,3
+Levera,LV,LV_T45,31-May-20,9,9:07 AM,Damp/Haze/Fog,1,1,4,3,4,T4,1,P1,,SNPI,7
+Levera,LV,LV_T45,31-May-20,9,9:07 AM,Damp/Haze/Fog,1,1,4,3,4,T4,1,P1,,CGDO,1
+Levera,LV,LV_T45,30-Apr-20,5,9:33 AM,None/Dry,1,0,2,2,4,T4,3,P3,,BANA,5
+Levera,LV,LV_T45,30-Apr-20,5,9:33 AM,None/Dry,1,0,2,2,4,T4,3,P3,,TRMO,1
+Levera,LV,LV_T45,30-Apr-20,5,9:33 AM,None/Dry,1,0,2,2,4,T4,3,P3,,ANCH,2
+Levera,LV,LV_T45,31-May-20,9,10:23 AM,Damp/Haze/Fog,1,4,4,3,4,T4,3,P3,,MACU,1
+Levera,LV,LV_T45,31-May-20,9,10:23 AM,Damp/Haze/Fog,1,4,4,3,4,T4,3,P3,,BANA,4
+Levera,LV,LV_T45,31-May-20,9,10:23 AM,Damp/Haze/Fog,1,4,4,3,4,T4,3,P3,,BFGR,3
+Levera,LV,LV_T45,30-Apr-20,5,8:04 AM,None/Dry,1,0,2,2,5,T5,1,P1,,BANA,11
+Levera,LV,LV_T45,30-Apr-20,5,8:04 AM,None/Dry,1,0,2,2,5,T5,1,P1,,ZEND,1
+Levera,LV,LV_T45,30-Apr-20,5,8:04 AM,None/Dry,1,0,2,2,5,T5,1,P1,,HOWR,2
+Levera,LV,LV_T45,31-May-20,9,9:18 AM,Damp/Haze/Fog,1,3,4,3,5,T5,1,P1,,GBHE,1
+Levera,LV,LV_T45,31-May-20,9,9:18 AM,Damp/Haze/Fog,1,3,4,3,5,T5,1,P1,,TRMO,2
+Levera,LV,LV_T45,31-May-20,9,9:18 AM,Damp/Haze/Fog,1,3,4,3,5,T5,1,P1,,COGA,12
+Levera,LV,LV_T45,31-May-20,9,9:18 AM,Damp/Haze/Fog,1,3,4,3,5,T5,1,P1,,BBWD,7
+Levera,LV,LV_T45,30-Apr-20,5,9:48 AM,None/Dry,3,0,2,2,5,T5,3,P3,,YCNH,1
+Levera,LV,LV_T45,30-Apr-20,5,9:48 AM,None/Dry,3,0,2,2,5,T5,3,P3,,BANA,5
+Levera,LV,LV_T45,30-Apr-20,5,9:48 AM,None/Dry,3,0,2,2,5,T5,3,P3,,ANCH,1
+Levera,LV,LV_T45,31-May-20,9,10:32 AM,Damp/Haze/Fog,1,4,4,3,5,T5,3,P3,,HOWR,1
+Levera,LV,LV_T45,31-May-20,9,10:32 AM,Damp/Haze/Fog,1,4,4,3,5,T5,3,P3,,TRMO,2
+Levera,LV,LV_T45,31-May-20,9,10:32 AM,Damp/Haze/Fog,1,4,4,3,5,T5,3,P3,,CAGR,2
+Levera,LV,LV_T6_P1,30-Apr-20,5,8:04 AM,None/Dry,1,0,1,2,6,T6,1,P1,,BANA,7
+Levera,LV,LV_T6_P1,30-Apr-20,5,8:04 AM,None/Dry,1,0,1,2,6,T6,1,P1,,SNPI,4
+Levera,LV,LV_T6_P1,30-Apr-20,5,8:04 AM,None/Dry,1,0,1,2,6,T6,1,P1,,COGA,2
+Levera,LV,LV_T6_P1,30-Apr-20,5,8:04 AM,None/Dry,1,0,1,2,6,T6,1,P1,,ANCH,3
+Levera,LV,LV_T6_P1,31-May-20,9,9:29 AM,Damp/Haze/Fog,1,3,4,3,6,T6,1,P1,,GRHE,2
+Levera,LV,LV_T6_P1,31-May-20,9,9:29 AM,Damp/Haze/Fog,1,3,4,3,6,T6,1,P1,,BANA,8
+Levera,LV,LV_T6_P1,31-May-20,9,9:29 AM,Damp/Haze/Fog,1,3,4,3,6,T6,1,P1,,SNPI,9
+Levera,LV,LV_T6_P3,30-Apr-20,5,10:13 AM,None/Dry,1,0,1,2,6,T6,3,P3,,BANA,3
+Levera,LV,LV_T6_P3,31-May-20,9,10:46 AM,Damp/Haze/Fog,1,3,4,3,6,T6,3,P3,,YCNH,2
+Levera,LV,LV_T6_P3,31-May-20,9,10:46 AM,Damp/Haze/Fog,1,3,4,3,6,T6,3,P3,,GFLY,2
+Levera,LV,LV_T6_P3,31-May-20,9,10:46 AM,Damp/Haze/Fog,1,3,4,3,6,T6,3,P3,,CAGR,1
+Levera,LV,LV_T7_P1,30-Apr-20,5,8:15 AM,None/Dry,1,0,1,2,7,T7,1,P1,,BANA,4
+Levera,LV,LV_T7_P1,30-Apr-20,5,8:04 AM,None/Dry,1,0,1,2,7,T7,1,P1,,SPTH,3
+Levera,LV,LV_T7_P1,30-Apr-20,5,8:04 AM,None/Dry,1,0,1,2,7,T7,1,P1,,ZEND,1
+Levera,LV,LV_T7_P1,30-Apr-20,5,8:04 AM,None/Dry,1,0,1,2,7,T7,1,P1,,BANA,3
+Levera,LV,LV_T7_P1,30-Apr-20,5,8:04 AM,None/Dry,1,0,1,2,7,T7,1,P1,,GRAK,1
+Levera,LV,LV_T7_P1,30-Apr-20,5,8:04 AM,None/Dry,1,0,1,2,7,T7,1,P1,,GFLY,2
+Levera,LV,LV_T7_P1,30-Apr-20,5,8:04 AM,None/Dry,1,0,1,2,7,T7,1,P1,,CAMA,1
+Levera,LV,LV_T7_P1,31-May-20,9,9:44 AM,Damp/Haze/Fog,1,1,4,3,7,T7,1,P1,,BEKI,2
+Levera,LV,LV_T7_P1,31-May-20,9,9:44 AM,Damp/Haze/Fog,1,1,4,3,7,T7,1,P1,,SNPI,5
+Levera,LV,LV_T7_P1,31-May-20,9,9:44 AM,Damp/Haze/Fog,1,1,4,3,7,T7,1,P1,,BANA,6
+Levera,LV,LV_T7_P1,31-May-20,9,9:44 AM,Damp/Haze/Fog,1,1,4,3,7,T7,1,P1,,YCNH,1
+Levera,LV,LV_T7_P1,31-May-20,9,9:44 AM,Damp/Haze/Fog,1,1,4,3,7,T7,1,P1,,GRHE,1
+Levera,LV,LV_T7_P3,30-Apr-20,5,10:34 AM,None/Dry,2,0,1,2,7,T7,3,P3,,GFLY,2
+Levera,LV,LV_T7_P3,30-Apr-20,5,10:34 AM,None/Dry,2,0,1,2,7,T7,3,P3,,CAMA,1
+Levera,LV,LV_T7_P3,31-May-20,9,10:53 AM,Damp/Haze/Fog,2,1,2,3,7,T7,3,P3,,CAMA,2
+Levera,LV,LV_T7_P3,31-May-20,9,10:53 AM,Damp/Haze/Fog,2,1,2,3,7,T7,3,P3,,GFLY,2
+Levera,LV,LV_T7_P3,31-May-20,9,10:53 AM,Damp/Haze/Fog,2,1,2,3,7,T7,3,P3,,BARS,3
+Mt. Hartman,MH,MH_T1_P1,15-Feb-20,1,9:00 AM,,,,,,1,T1,1,P1,1,BANA,2
+Mt. Hartman,MH,MH_T1_P1,15-Feb-20,1,9:00 AM,,,,,,1,T1,1,P1,1,LANB,2
+Mt. Hartman,MH,MH_T1_P1,15-Feb-20,1,9:00 AM,,,,,,1,T1,1,P1,1,CAGR,2
+Mt. Hartman,MH,MH_T1_P1,15-Feb-20,1,9:00 AM,,,,,,1,T1,1,P1,1,GRAK,2
+Mt. Hartman,MH,MH_T1_P1,15-Feb-20,1,9:00 AM,,,,,,1,T1,1,P1,1,SPTH,1
+Mt. Hartman,MH,MH_T1_P1,15-Feb-20,1,9:00 AM,,,,,,1,T1,1,P1,1,ANCH,1
+Mt. Hartman,MH,MH_T1_P3,15-Feb-20,1,9:00 AM,,,,,,1,T1,3,P3,2,SPSA,1
+Mt. Hartman,MH,MH_T1_P3,15-Feb-20,1,9:00 AM,,,,,,1,T1,3,P3,2,BANA,1
+Mt. Hartman,MH,MH_T1_P3,15-Feb-20,1,9:00 AM,,,,,,1,T1,3,P3,2,CAGR,1
+Mt. Hartman,MH,MH_T1_P3,15-Feb-20,1,9:00 AM,,,,,,1,T1,3,P3,2,TRMO,3
+Mt. Hartman,MH,MH_T1_P3,04-May-20,6,9:00 AM,,,,,3,1,T1,3,P3,2,ANCH,2
+Mt. Hartman,MH,MH_T1_P3,04-May-20,6,9:00 AM,,,,,3,1,T1,3,P3,2,YBEL,1
+Mt. Hartman,MH,MH_T1_P3,04-May-20,6,9:00 AM,,,,,3,1,T1,3,P3,2,BFGR,1
+Mt. Hartman,MH,MH_T1_P3,04-May-20,6,9:00 AM,,,,,3,1,T1,3,P3,2,ZEND,2
+Mt. Hartman,MH,MH_T1_P3,04-May-20,6,9:00 AM,,,,,3,1,T1,3,P3,2,BANA,2
+Mt. Hartman,MH,MH_T1_P3,04-May-20,6,9:00 AM,,,,,3,1,T1,3,P3,2,TRMO,2
+Mt. Hartman,MH,MH_T1_P3,04-May-20,6,9:00 AM,,,,,3,1,T1,3,P3,2,CAGR,3
+Mt. Hartman,MH,MH_T1_P3,04-May-20,6,9:00 AM,,,,,3,1,T1,3,P3,2,BWHA,1
+Mt. Hartman,MH,MH_T1_P3,04-May-20,6,9:00 AM,,,,,3,1,T1,3,P3,2,YBSE,1
+Mt. Hartman,MH,MH_T2_P3,15-Feb-20,1,9:00 AM,,,,,,2,T2,3,P3,3,BANA,1
+Mt. Hartman,MH,MH_T2_P3,15-Feb-20,1,9:00 AM,,,,,,2,T2,3,P3,3,HOWR,1
+Mt. Hartman,MH,MH_T2_P3,15-Feb-20,1,9:00 AM,,,,,,2,T2,3,P3,3,EADO,1
+Mt. Hartman,MH,MH_T2_P3,15-Feb-20,1,9:00 AM,,,,,,2,T2,3,P3,3,SNPI,1
+Mt. Hartman,MH,MH_T2_P3,04-May-20,6,9:00 AM,,,,,3,2,T2,3,P3,3,YBSE,3
+Mt. Hartman,MH,MH_T2_P3,04-May-20,6,9:00 AM,,,,,3,2,T2,3,P3,3,SBAN,1
+Mt. Hartman,MH,MH_T2_P3,04-May-20,6,9:00 AM,,,,,3,2,T2,3,P3,3,BANA,4
+Mt. Hartman,MH,MH_T2_P3,04-May-20,6,9:00 AM,,,,,3,2,T2,3,P3,3,ANCH,1
+Mt. Hartman,MH,MH_T2_P3,04-May-20,6,9:00 AM,,,,,3,2,T2,3,P3,3,MACU,1
+Mt. Hartman,MH,MH_T2_P3,04-May-20,6,9:00 AM,,,,,3,2,T2,3,P3,3,CAGR,1
+Mt. Hartman,MH,MH_T2_P3,04-May-20,6,9:00 AM,,,,,3,2,T2,3,P3,3,LATA,1
+Mt. Hartman,MH,MH_T2_P3,04-May-20,6,9:00 AM,,,,,3,2,T2,3,P3,3,SPTH,1
+Mt. Hartman,MH,MH_T2_P3,04-May-20,6,9:00 AM,,,,,3,2,T2,3,P3,3,GRAK,1
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,1,P1,,MAFR,2
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,1,P1,,SNPI,14
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,1,P1,,ZEND,1
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,1,P1,,BANA,2
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,1,P1,,SHCO,3
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,1,P1,,CAGR,3
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,1,P1,,LBHE,1
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,1,P1,,EADO,3
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,1,P1,,TRMO,3
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,1,P1,,LAGU,2
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,3,P3,,TRMO,2
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,3,P3,,HOWR,2
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,3,P3,,BANA,4
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,3,P3,,EADO,1
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,3,P3,,LAGU,1
+Westerhall,WH,WH_T1,04-May-20,7,8:00 AM,,,,,3,1,T1,3,P3,,YBSE,2
+Westerhall,WH,WH_T2,04-May-20,7,8:00 AM,,,,,3,2,T2,1,P1,,SNPI,4
+Westerhall,WH,WH_T2,04-May-20,7,8:00 AM,,,,,3,2,T2,1,P1,,BANA,3
+Westerhall,WH,WH_T2,04-May-20,7,8:00 AM,,,,,3,2,T2,1,P1,,GRAK,2
+Westerhall,WH,WH_T2,04-May-20,7,8:00 AM,,,,,3,2,T2,1,P1,,CAGR,2
+Westerhall,WH,WH_T2,04-May-20,7,8:00 AM,,,,,3,2,T2,3,P3,,BANA,2
+Westerhall,WH,WH_T2,04-May-20,7,8:00 AM,,,,,3,2,T2,3,P3,,HOWR,2
+Westerhall,WH,WH_T2,04-May-20,7,8:00 AM,,,,,3,2,T2,3,P3,,EADO,1
+Westerhall,WH,WH_T2,04-May-20,7,8:00 AM,,,,,3,2,T2,3,P3,,SBAN,1
+Westerhall,WH,WH_T2,04-May-20,7,8:00 AM,,,,,3,2,T2,3,P3,,BWHA,1
+Westerhall,WH,WH_T2,04-May-20,7,8:00 AM,,,,,3,2,T2,3,P3,,TRMO,2
+Westerhall,WH,WH_T3,04-May-20,7,8:00 AM,,,,,3,3,T3,1,P1,,SNPI,11
+Westerhall,WH,WH_T3,04-May-20,7,8:00 AM,,,,,3,3,T3,1,P1,,YCNH,1
+Westerhall,WH,WH_T3,04-May-20,7,8:00 AM,,,,,3,3,T3,1,P1,,CAGR,3
+Westerhall,WH,WH_T3,04-May-20,7,8:00 AM,,,,,3,3,T3,1,P1,,GRHE,1
+Westerhall,WH,WH_T3,04-May-20,7,8:00 AM,,,,,3,3,T3,1,P1,,EADO,1
+Westerhall,WH,WH_T3,04-May-20,7,8:00 AM,,,,,3,3,T3,1,P1,,BANA,4
+Westerhall,WH,WH_T3,31-Mar-20,3,8:00 AM,,,,,2,3,T3,3,P3,,BANA,3
+Westerhall,WH,WH_T3,31-Mar-20,3,8:00 AM,,,,,2,3,T3,3,P3,,LBHE,2
+Westerhall,WH,WH_T3,31-Mar-20,3,8:00 AM,,,,,2,3,T3,3,P3,,HOWR,2
+Westerhall,WH,WH_T3,31-Mar-20,3,8:00 AM,,,,,2,3,T3,3,P3,,MACU,1
+Westerhall,WH,WH_T3,31-Mar-20,3,8:00 AM,,,,,2,3,T3,3,P3,,TRMO,2
+Westerhall,WH,WH_T3,31-Mar-20,3,8:00 AM,,,,,2,3,T3,3,P3,,ANCH,1
+Westerhall,WH,WH_T4,04-May-20,7,8:00 AM,,,,,3,4,T4,1,P1,,LBHE,2
+Westerhall,WH,WH_T4,04-May-20,7,8:00 AM,,,,,3,4,T4,1,P1,,SNPI,5
+Westerhall,WH,WH_T4,04-May-20,7,8:00 AM,,,,,3,4,T4,1,P1,,SHCO,1
+Westerhall,WH,WH_T4,04-May-20,7,8:00 AM,,,,,3,4,T4,1,P1,,BWHA,1
+Westerhall,WH,WH_T4,04-May-20,7,8:00 AM,,,,,3,4,T4,1,P1,,BANA,4
+Westerhall,WH,WH_T4,04-May-20,7,8:00 AM,,,,,3,4,T4,1,P1,,EADO,2
+Westerhall,WH,WH_T4,04-May-20,7,8:00 AM,,,,,3,4,T4,1,P1,,GRAK,1
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,TRMO,1
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,BANA,2
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,HOWR,1
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,ANCH,2
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,GFLY,1
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,LBHE,1
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,TRMO,1
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,BANA,2
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,HOWR,1
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,ANCH,2
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,GFLY,1
+Westerhall,WH,WH_T4,31-Mar-20,3,8:00 AM,,,,,2,4,T4,3,P3,,LBHE,1
+,,,,,,,,,,2,2,T2,3,P3,,YBSE,2
