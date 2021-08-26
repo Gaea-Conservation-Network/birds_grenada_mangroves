@@ -147,7 +147,7 @@ iviplot <- sitesummary %>% ggplot()+
   labs(x = "Mangrove species", y = "Importance Value Index")
 print(iviplot)
 
-ggsave("figures/updated ivi plot.png", iviplot, width = 160, height = 100, unit = "mm")
+ggsave("figures/updated ivi plot by site.png", iviplot, width = 160, height = 100, unit = "mm")
 
 #by plot/zone
 plots <- veg_all %>% group_by(position) %>%
