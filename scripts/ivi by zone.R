@@ -35,6 +35,8 @@ plot3summary <- plot3 %>% group_by(species) %>%
 
 plotivis <- bind_rows(plot1summary, plot2summary, plot3summary, .id = "zone")
 
+write.csv(plotivis, "data/ivi results by plot.csv")
+
 zoneplot <- plotivis %>% ggplot()+
   geom_col(aes(x = species, y = ivi, fill = species), 
            fill = c("black", "red", "gray", "black", "red", "gray", "black", "red", "gray"))+

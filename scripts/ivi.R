@@ -87,6 +87,8 @@ summary <- veg_all %>% group_by(species) %>%
             dominance = sum(basal), reldom = (dominance/total_basal)*100, 
             freq = n_distinct(plotID)/total_plots, relfreq = (freq/sum_freq)*100, 
             ivi = reldensity + reldom + relfreq)
+write.csv(summary, "data/overall ivi results.csv")
+
 
 plot <- summary %>% ggplot()+
   geom_col(aes(x = species, y = ivi, fill = species), fill = c("black", "red", "gray"))+
@@ -146,6 +148,8 @@ westsummary <- West %>% group_by(species) %>%
 westsummary <- mutate(westsummary, site = "Westerhall")
 
 sitesummary <- bind_rows(confsummary, levsummary, hartsummary, westsummary)
+
+write.csv(sitesummary, "data/ivi results by site.csv")
 
 iviplot <- sitesummary %>% ggplot()+
   geom_col(aes(x = species, y = ivi, fill = species), 
