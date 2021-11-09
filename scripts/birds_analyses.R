@@ -559,10 +559,15 @@ nms <- metaMDS(spp.rel, distance = "bray", # species data, bray-curtis dissimila
                       k = 3, trymax = 1000)   # k = number of axes
 nms
 
+#global Multidimensional Scaling using monoMDS
+#
+#Data:     spp.rel 
+#Distance: bray 
+#
 #Dimensions: 3 
-#Stress:     0.1706756 
+#Stress:     0.1300639 
 #Stress type 1, weak ties
-#Two convergent solutions found after 49 tries
+#Two convergent solutions found after 20 tries
 
 layout(matrix(1:2, ncol = 2))
 plot(nms, main = "Bird NMDS plot"); stressplot(nms, main = "Shepard plot")
@@ -573,13 +578,13 @@ orditorp(nms, display = "species")
 orditorp(nms, display = "sites")
 
 # how many iterations of the NMDS
-nms$iters # 145
+nms$iters # 95
 
 (g <- goodness(nms)) 
 sum(g^2)
-nms$stress^2  # 0.02913016
+nms$stress^2  # 0.01691662
 
-1-nms$stress^2 # 0.9708698 #analogous to square correlation coefficient
+1-nms$stress^2 # 0.9830834 #analogous to square correlation coefficient
 
 
 # NMDS plotting -----------------------------------------------------------
@@ -607,7 +612,7 @@ all.taxa.df <- data.frame((alltaxa12$vectors)$arrows,
 
 
 corr.sp12 <- all.taxa.df %>% 
-  filter(X.alltaxa12.vectors..r > 0.2) %>% 
+  filter(X.alltaxa12.vectors..r > 0.3) %>% 
   rownames_to_column("species")
 
 target12 <- corr.sp12$species # string of the Family names
@@ -633,7 +638,7 @@ all.taxa.df <- data.frame((alltaxa13$vectors)$arrows,
 
 
 corr.sp13 <- all.taxa.df %>% 
-  filter(X.alltaxa13.vectors..r > 0.2) %>% 
+  filter(X.alltaxa13.vectors..r > 0.3) %>% 
   rownames_to_column("species")
 
 target13 <- corr.sp13$species # string of the Family names
@@ -650,7 +655,6 @@ write.csv(corr.vectors.13, "data/bird_nmds/NMDS_correlatedvectors_axis13.csv")
 
 
 # NMDS figure -------------------------------------------------------------
-
 
 scores <- read.csv("data/bird_nmds/NMDS_scores.csv")
 axis12 <- read.csv("data/bird_nmds/NMDS_correlatedvectors_axis12.csv")
@@ -670,7 +674,7 @@ axis12.p <- ggplot(data = scores,
                arrow = arrow(length = unit(0.5, "cm")),
                colour = "black") +
   geom_label_repel(data = axis12, 
-                   aes(x = MDS1, y = MDS2, label = spp),
+                   aes(x = MDS1, y = MDS2, label = species),
                    color="black",
                    size = 5) +
   theme_minimal() + # no background
@@ -696,7 +700,7 @@ axis13.p <- ggplot(data = scores,
                arrow = arrow(length = unit(0.5, "cm")),
                colour = "black") +
   geom_label_repel(data = axis13, 
-                   aes(x = MDS1, y = MDS3, label = spp),
+                   aes(x = MDS1, y = MDS3, label = species),
                    color="black",
                    size = 5) +
   theme_minimal() + # no background
