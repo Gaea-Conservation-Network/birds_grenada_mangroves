@@ -36,6 +36,7 @@ bird_data <- janitor::clean_names(bird_data)
 
 str(bird_data)
 unique(bird_data$site)
+unique(bird_data$site_id_ind)
 
 bird_data <- filter(bird_data, site %in% c("Conference","Levera","Mt. Hartman","Westerhall"))
 
@@ -46,7 +47,7 @@ colnames(bird_data)
 
 matrix1 <- bird_data %>% 
   mutate(date = dmy(date)) %>% 
-  group_by(site, site_id, date, species) %>% 
+  group_by(site, site_id_ind, date, species) %>% 
   summarize_at(vars(abundance), sum) %>% 
   pivot_wider(names_from = species,
               values_from = abundance,
@@ -57,13 +58,24 @@ write.csv(matrix1, "data/bird_matrix.csv")
 ## summing across visits
 
 matrix_sum <- bird_data %>% 
-  group_by(site, site_id, species) %>% 
+  group_by(site, site_id_ind, species) %>% 
   summarize_at(vars(abundance), sum) %>% 
   pivot_wider(names_from = species,
               values_from = abundance,
               values_fill = 0)
 
 write.csv(matrix_sum, "data/bird_matrix_sum.csv")
+
+
+spp_sum <- bird_data %>% 
+  group_by(site, species) %>% 
+  summarize_at(vars(abundance), sum) %>% 
+  pivot_wider(names_from = species,
+              values_from = abundance,
+              values_fill = 0)
+
+write.csv(spp_sum, "data/bird_spp_sum.csv")
+
 
 
 matrix_sum_uni <- matrix_sum %>% 
@@ -73,7 +85,7 @@ matrix_sum_uni <- matrix_sum %>%
          J = H/log(specnumber(across(ANCH:SHCO))))
   
 sum_univariate <- matrix_sum_uni %>% 
-  select(site, site_id, abundance:J)
+  select(site, site_id_ind, abundance:J)
 
 write.csv(sum_univariate, "data/bird_univariate_sum.csv")
 
@@ -85,8 +97,8 @@ matrix_uni_time <- matrix1 %>%
          H = diversity(across(BANA:SHCO), index = "shannon"),
          J = H/log(specnumber(across(BANA:SHCO))))
 
-univariate_time <- matrix_uni %>% 
-  select(site:visit,abundance:J)
+univariate_time <- matrix_uni_time %>% 
+  select(site:date,abundance:J)
 
 write.csv(univariate_time, "data/bird_univariate_time.csv")
 write.csv(matrix1, "data/bird_matrix_time.csv")
@@ -123,11 +135,11 @@ Anova(ab.mod, type = 3)
 #Anova Table (Type III tests)
 #
 #Response: abundance
-#              Sum Sq Df F value   Pr(>F)    
-#  (Intercept) 6962.0  1 47.6154 3.57e-06 ***
-#  site        2607.7  3  5.9449 0.006351 ** 
-#  Residuals   2339.4 16                 
-
+#             Sum Sq Df F value Pr(>F)  
+#(Intercept) 3605.3  1  7.6262 0.0185 *
+#site         162.4  3  0.1145 0.9498  
+#Residuals   5200.3 11     
+                
 check_model(ab.mod) # residuals not super normal
 
 # permutational lm
@@ -140,17 +152,10 @@ Anova(ab.lmp)
 #Anova Table (Type II tests)
 #
 #Response: abundance
-#Sum Sq Df F value   Pr(>F)   
-#site1     2607.7  3  5.9449 0.006351 **
-#Residuals 2339.4 1
+#          Sum Sq Df F value Pr(>F)
+#site1      162.4  3  0.1145 0.9498
+#Residuals 5200.3 11 
 
-site.ab <- HSD.test(ab.lmp, "site")
-
-# abundance groups
-# Conference   59.00000      a
-# Westerhall   35.25000     ab
-# Levera       25.06000      b
-# Mt. Hartman  16.33333      b
 
 
 ## species richness
@@ -158,11 +163,13 @@ site.ab <- HSD.test(ab.lmp, "site")
 s.mod <- lm(richness ~ site, data = uni)
 Anova(s.mod, type = 3)
 
+#Anova Table (Type III tests)
+#
 #Response: richness
-#              Sum Sq Df F value    Pr(>F)    
-#(Intercept) 288.000  1 29.6884 5.358e-05 ***
-#site         89.738  3  3.0835    0.0572 .  
-#Residuals   155.212 16   
+#             Sum Sq Df F value  Pr(>F)  
+#(Intercept) 243.00  1  7.4926 0.01933 *
+#site         18.98  3  0.1951 0.89754  
+#Residuals   356.75 11
 
 check_model(s.mod) # also a mess
 
@@ -173,10 +180,12 @@ s.lmp <- lmp(richness ~ site, data = uni,
 
 Anova(s.lmp)
 
-# Response: richness
-# Sum Sq Df F value Pr(>F)  
-# site1      89.738  3  3.0835 0.0572 .
-# Residuals 155.212 16  
+#Anova Table (Type II tests)
+#
+#Response: richness
+#           Sum Sq Df F value Pr(>F)
+#site1      18.98  3  0.1951 0.8975
+#Residuals 356.75 11 
 
 
 ## Shannon-weiner
@@ -185,11 +194,13 @@ Anova(s.lmp)
 h.mod <- lm(H ~ site, data = uni)
 Anova(h.mod, type = 3)
 
+#Anova Table (Type III tests)
+#
 #Response: H
-#              Sum Sq Df F value    Pr(>F)    
-#  (Intercept) 8.1745  1 93.1971 4.474e-08 ***
-#  site        1.2651  3  4.8076   0.01424 *  
-#  Residuals   1.4034 16
+#Sum Sq Df F value    Pr(>F)    
+#(Intercept) 9.7546  1 40.1095 5.574e-05 ***
+#  site        0.5884  3  0.8065    0.5161    
+#Residuals   2.6752 11 
 
 check_model(h.mod)
 
@@ -200,30 +211,25 @@ h.lmp <- lmp(H ~ site, data = uni,
 
 Anova(h.lmp)
 
+#Anova Table (Type II tests)
+#
 #Response: H
-#            Sum Sq Df F value  Pr(>F)  
-#  site1     1.2651  3  4.8076 0.01424 *
-#  Residuals 1.4034 16  
-
-h.hsd <- HSD.test(h.lmp, "site")
-
-# H groups
-# Westerhall  2.114178      a
-# Mt. Hartman 2.038855     ab
-# Conference  2.021697     ab
-# Levera      1.566060      b
-
+#Sum Sq Df F value Pr(>F)
+#site1     0.58842  3  0.8065 0.5161
+#Residuals 2.67518 11 
 
 # Pielou's evenness
 
 j.mod <- lm(J ~ site, data = uni)
 Anova(j.mod, type = 3)
 
+#Anova Table (Type III tests)
+#
 #Response: J
-#             Sum Sq Df  F value    Pr(>F)    
-#(Intercept) 1.33158  1 441.8948 4.434e-13 ***
-#site        0.01670  3   1.8474    0.1793    
-#Residuals   0.04821 16 
+#Sum Sq Df  F value    Pr(>F)    
+#(Intercept) 2.13973  1 630.3949 4.603e-11 ***
+#  site        0.01148  3   1.1273    0.3802    
+#Residuals   0.03734 11 
 
 check_model(j.mod)
 
@@ -234,10 +240,13 @@ j.lmp <- lmp(J ~ site, data = uni,
 
 Anova(j.lmp)
 
-# Response: J
-# Sum Sq Df F value Pr(>F)
-# site1     0.016701  3  1.8474 0.1793
-# Residuals 0.048213 16   
+#Anova Table (Type II tests)
+#
+#Response: J
+#Sum Sq Df F value Pr(>F)
+#site1     0.011479  3  1.1273 0.3802
+#Residuals 0.037337 11  
+
 
 
 # Univariate figures ------------------------------------------------------
@@ -253,13 +262,10 @@ ab.box <- ggplot(uni, aes(x = site, y = abundance)) +
   theme_bw() +
   scale_colour_viridis(discrete = TRUE) +
   scale_fill_viridis(discrete = TRUE) +
-  theme(axis.text = element_text(size = 12),
-        axis.title = element_text(size = 13),
+  theme(axis.text = element_text(size = 14),
+        axis.title = element_text(size = 14),
         legend.text = element_text(size = 11),
-        legend.position = "none") +
-  annotate("text", x = c(1:4), y = c(70, 50, 55, 55),
-           label = c("a","b","b","ab"),
-           size = 6)
+        legend.position = "none") 
 
 
 s.box <- ggplot(uni, 
@@ -274,8 +280,8 @@ s.box <- ggplot(uni,
   theme_bw() +
   scale_colour_viridis(discrete = TRUE) +
   scale_fill_viridis(discrete = TRUE) +
-  theme(axis.text = element_text(size = 12),
-        axis.title = element_text(size = 13),
+  theme(axis.text = element_text(size = 14),
+        axis.title = element_text(size = 14),
         legend.text = element_text(size = 11),
         legend.position = "none") 
 
@@ -291,13 +297,10 @@ sw.box <- ggplot(uni,
   theme_bw() +
   scale_colour_viridis(discrete = TRUE) +
   scale_fill_viridis(discrete = TRUE) +
-  theme(axis.text = element_text(size = 12),
-        axis.title = element_text(size = 13),
+  theme(axis.text = element_text(size = 14),
+        axis.title = element_text(size = 14),
         legend.text = element_text(size = 11),
-        legend.position = "none") +
-  annotate("text", x = c(1:4), y = 2.6,
-           label = c("ab","b","ab","a"),
-           size = 6)
+        legend.position = "none") 
 
 J.box <- ggplot(uni, 
                 aes(x = site, y = J)) +
@@ -311,15 +314,13 @@ J.box <- ggplot(uni,
   theme_bw() +
   scale_colour_viridis(discrete = TRUE) +
   scale_fill_viridis(discrete = TRUE) +
-  theme(axis.text = element_text(size = 12),
-        axis.title = element_text(size = 13),
+  theme(axis.text = element_text(size = 14),
+        axis.title = element_text(size = 14),
         legend.text = element_text(size = 11),
         legend.position = "none") 
 
 
-panel <- ab.box + s.box + sw.box + J.box +
-  plot_annotation(tag_levels = "A")
-
+panel <- ab.box + s.box + sw.box + J.box 
 
 ggsave("figures/bird_abundance_boxplots.jpeg",
        panel)
@@ -328,7 +329,7 @@ ggsave("figures/bird_abundance_boxplots.jpeg",
 
 # Multivariate analyses ---------------------------------------------------
 
-env <- matrix %>% select(site, site_id)
+env <- matrix %>% select(site, site_id_ind)
 spp <- matrix %>% select(ANCH:SHCO)
 
 spp.rel <- decostand(spp, "max", 2, na.rm = NULL) # rel by column max
@@ -343,15 +344,19 @@ groups <- factor(matrix$site)
 (dispersion <- betadisper(spp.b, groups))
 
 #Average distance to median:
-#Conference   Levera Mt. Hartman  Westerhall 
-#0.2328      0.5249      0.4718      0.3417 
+
+#Conference      Levera Mt. Hartman  Westerhall 
+#0.3646      0.5428      0.4265      0.3196 
+
 
 anova(dispersion)
 
+#Analysis of Variance Table
+#
 #Response: Distances
-#          Df  Sum Sq  Mean Sq F value   Pr(>F)   
-#Groups     3 0.20439 0.068129   7.236 0.002767 **
-#Residuals 16 0.15064 0.009415  
+#          Df  Sum Sq  Mean Sq F value  Pr(>F)  
+#Groups     3 0.13785 0.045951  3.6696 0.04719 *
+#Residuals 11 0.13774 0.012522
 
 boxplot(dispersion)
 plot(dispersion)
@@ -364,25 +369,14 @@ spp.pmv <- adonis2(spp.rel ~ site,
                    method = "bray")
 
 #adonis2(formula = spp.rel ~ site, data = env, method = "bray")
-#         Df SumOfSqs      R2      F Pr(>F)  
-#site      3   1.3667 0.23676 1.6544  0.015 *
-#Residual 16   4.4058 0.76324                
-#Total    19   5.7725 1.00000  
-
-(adonis.pair(spp.b, groups,
-             nper = 1000,
-             corr.method = "bonferroni"))
-
-# combination SumsOfSqs   MeanSqs  F.Model        R2    P.value P.value.corrected
-# 1      Conference <-> Levera 0.3019544 0.3019544 1.017578 0.0846741 0.43556444         1.0000000
-# 2 Conference <-> Mt. Hartman 0.4510855 0.4510855 1.733594 0.3662321 0.10000000         0.6000000
-# 3  Conference <-> Westerhall 0.4237486 0.4237486 2.933754 0.4231119 0.06666667         0.4000000
-# 4     Levera <-> Mt. Hartman 0.5644450 0.5644450 1.769403 0.1285025 0.02997003         0.1798202
-# 5      Levera <-> Westerhall 0.5611739 0.5611739 2.012383 0.1340482 0.01898102         0.1138861
-# 6 Mt. Hartman <-> Westerhall 0.3271773 0.3271773 1.432890 0.2227444 0.13686314         0.8211788
+#          Df SumOfSqs      R2     F Pr(>F)  
+#site      3   1.2722 0.29537 1.537  0.059 .
+#Residual 11   3.0348 0.70463               
+#Total    14   4.3070 1.00000  
 
 # mv glm ------------------------------------------------------------
 
+# dates are all over the place so this doesn't really make sense, but this is the code/results
 env <- matrix %>% select(site, site_id)
 env$site <- as.factor(env$site)
 
@@ -416,10 +410,6 @@ long <- matrix %>%
                names_to = "species",
                values_to = "count")
 
-shapes = c("Conference" = 21,
-           "Levera" = 22,
-           "Mt. Hartman" = 23,
-           "Westerhall" = 24)
 
 
 raw.ab <- ggplot(long, aes(x = site, y = count, 
@@ -517,7 +507,7 @@ time <- ggplot(time.long, aes(x = time, y = count,
   geom_jitter(size = 3, alpha = 0.8) +
   facet_wrap(~site) +
   labs(y = "Bird Abundance",
-       x = ' ') +
+       x = "Days since first survey") +
   theme_bw() +
   geom_smooth(aes(colour = site)) +
   scale_colour_viridis(discrete = TRUE) +
@@ -532,6 +522,22 @@ time <- ggplot(time.long, aes(x = time, y = count,
 ggsave("figures/significant_bird_abundances.jpeg")
 
 
+
+byspecies <- ggplot(time.long, aes(x = time, y = count, 
+                              fill = site,
+                              shape = site)) +
+  geom_jitter(size = 3, alpha = 0.8) +
+  facet_wrap(~species) +
+  labs(y = "Bird Abundance",
+       x = 'Days since first survey') +
+  theme_bw() +
+  scale_colour_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  scale_shape_manual(values = shapes) +
+  theme(axis.text = element_text(size = 12),
+        strip.text = element_text(size = 14),
+        axis.title = element_text(size = 14),
+        legend.text = element_text(size = 11)) 
 
 # NMDS ordination ---------------------------------------------------------
 
@@ -559,13 +565,15 @@ nms <- metaMDS(spp.rel, distance = "bray", # species data, bray-curtis dissimila
                       k = 3, trymax = 1000)   # k = number of axes
 nms
 
+#metaMDS(comm = spp.rel, distance = "bray", k = 3, trymax = 1000,      autotransform = FALSE) 
+#
 #global Multidimensional Scaling using monoMDS
 #
 #Data:     spp.rel 
 #Distance: bray 
 #
 #Dimensions: 3 
-#Stress:     0.1300639 
+#Stress:     0.07515997 
 #Stress type 1, weak ties
 #Two convergent solutions found after 20 tries
 
@@ -578,13 +586,13 @@ orditorp(nms, display = "species")
 orditorp(nms, display = "sites")
 
 # how many iterations of the NMDS
-nms$iters # 95
+nms$iters # 82
 
 (g <- goodness(nms)) 
 sum(g^2)
-nms$stress^2  # 0.01691662
+nms$stress^2  # 0.005649022
 
-1-nms$stress^2 # 0.9830834 #analogous to square correlation coefficient
+1-nms$stress^2 # 0.994351 #analogous to square correlation coefficient
 
 
 # NMDS plotting -----------------------------------------------------------
@@ -612,7 +620,7 @@ all.taxa.df <- data.frame((alltaxa12$vectors)$arrows,
 
 
 corr.sp12 <- all.taxa.df %>% 
-  filter(X.alltaxa12.vectors..r > 0.3) %>% 
+  filter(X.alltaxa12.vectors..r > 0.4) %>% 
   rownames_to_column("species")
 
 target12 <- corr.sp12$species # string of the Family names
@@ -638,7 +646,7 @@ all.taxa.df <- data.frame((alltaxa13$vectors)$arrows,
 
 
 corr.sp13 <- all.taxa.df %>% 
-  filter(X.alltaxa13.vectors..r > 0.3) %>% 
+  filter(X.alltaxa13.vectors..r > 0.4) %>% 
   rownames_to_column("species")
 
 target13 <- corr.sp13$species # string of the Family names
@@ -663,6 +671,11 @@ axis13 <- read.csv("data/bird_nmds/NMDS_correlatedvectors_axis13.csv")
 unique(scores$site)
 
 
+shapes = c("Conference" = 21,
+           "Levera" = 22,
+           "Mt. Hartman" = 23,
+           "Westerhall" = 24)
+
 axis12.p <- ggplot(data = scores,
        aes(x = NMDS1, y = NMDS2)) +
   geom_point(data = scores, 
@@ -675,8 +688,10 @@ axis12.p <- ggplot(data = scores,
                colour = "black") +
   geom_label_repel(data = axis12, 
                    aes(x = MDS1, y = MDS2, label = species),
-                   color="black",
-                   size = 5) +
+                   color= "black",
+                   size = 5,
+                   force = 3,
+                   box.padding = 1) +
   theme_minimal() + # no background
   theme(panel.border = element_rect(fill = NA)) + # full square around figure
   xlab("NMDS 1") +
@@ -685,8 +700,8 @@ axis12.p <- ggplot(data = scores,
   scale_fill_viridis(discrete = TRUE) +
   scale_shape_manual(values = shapes) +
   theme(legend.position = "none") +
-  ylim(-1, 1) +
-  xlim(-1.5, 1.5)
+  ylim(-1.75, 1.75) +
+  xlim(-1.75, 1.75)
 
 
 axis13.p <- ggplot(data = scores,
@@ -702,7 +717,9 @@ axis13.p <- ggplot(data = scores,
   geom_label_repel(data = axis13, 
                    aes(x = MDS1, y = MDS3, label = species),
                    color="black",
-                   size = 5) +
+                   size = 5,
+                   force = 2,
+                   box.padding = 1) +
   theme_minimal() + # no background
   theme(panel.border = element_rect(fill = NA)) + # full square around figure
   xlab("NMDS 1") +
@@ -711,12 +728,22 @@ axis13.p <- ggplot(data = scores,
   scale_fill_viridis(discrete = TRUE) +
   scale_shape_manual(values = shapes) +
   theme(legend.title = element_blank()) +
-  ylim(-1, 1) +
-  xlim(-1.5, 1.5)
+  ylim(-1.75, 1.75) +
+  xlim(-1.75, 1.75)
 
 
 nms <- axis12.p + axis13.p
+nms
 
 ggsave("figures/birds_nmds.jpeg",
        nms)
+
+
+
+
+# traits nmds -------------------------------------------------------------
+
+traits <- read.csv("data/traits_matrix1.csv")
+
+
 

@@ -8,7 +8,7 @@ library(patchwork)
 
 # data --------------------------------------------------------------------
 
-matrix <- read.csv("data/bird_matrix.csv", row.names = 1)
+matrix <- read.csv("data/bird_matrix_sum.csv", row.names = 1)
 
 traits <- read.csv("data/traits_matrix.csv", row.names = 1)
 
