@@ -741,9 +741,264 @@ ggsave("figures/birds_nmds.jpeg",
 
 
 
+# TRAIT ANALYSES ----------------------------------------------------------
+
 # traits nmds -------------------------------------------------------------
 
 traits <- read.csv("data/traits_matrix1.csv")
+
+site <- traits %>% 
+  select(site:site_id)
+
+traits <- traits %>% 
+  select(Fruit:Migrant)
+
+
+trait.b <- vegdist(traits, method = "bray")
+
+groups.t <- factor(env$site)
+
+(dispersion <- betadisper(trait.b, groups.t))
+
+
+#Average distance to median:
+#Conference      Levera Mt. Hartman  Westerhall 
+#0.1736      0.3606      0.3000      0.1492 
+
+anova(dispersion)
+
+# Analysis of Variance Table
+# 
+# Response: Distances
+# Df  Sum Sq  Mean Sq F value Pr(>F)
+# Groups     3 0.13537 0.045124  1.4755 0.2749
+# Residuals 11 0.33640 0.030582 
+
+boxplot(dispersion)
+plot(dispersion)
+
+
+# perMANOVA ---------------------------------------------------------------
+
+trt.pmv <- adonis2(traits ~ site,
+                   data = env,
+                   method = "bray")
+
+#Permutation test for adonis under reduced model
+#Terms added sequentially (first to last)
+#Permutation: free
+#Number of permutations: 999
+#
+#adonis2(formula = traits ~ site, data = env, method = "bray")
+#           Df SumOfSqs      R2      F Pr(>F)
+#site      3  0.37171 0.21476 1.0028  0.415
+#Residual 11  1.35915 0.78524              
+#Total    14  1.73086 1.00000
+
+
+# NMDS ordination ---------------------------------------------------------
+
+# figure out number of dimension
+k_vec <- 1:10 #dimensions 1 - 10
+stress <- numeric(length(k_vec)) # stress of each model put here
+spp.nms <- metaMDSdist(traits,
+                       autotransform = FALSE)
+
+set.seed(25)
+
+for(i in seq_along(k_vec)) {
+  sol <- metaMDSiter(spp.nms, k = i, 
+                     trace = FALSE)
+  stress[i] <- sol$stress
+}
+
+plot(stress) # 3D probably
+
+#### NMDS analysis 
+
+set.seed(120) 
+
+nms <- metaMDS(traits, distance = "bray", # species data, bray-curtis dissimilarity
+               autotransform = FALSE,  # NMDS will do autotransformations for you
+               k = 3, trymax = 1000)   # k = number of axes
+nms
+
+#Call:
+#  metaMDS(comm = traits, distance = "bray", k = 3, trymax = 1000,      autotransform = FALSE) 
+
+#global Multidimensional Scaling using monoMDS
+
+#Data:     traits 
+#Distance: bray 
+#
+#Dimensions: 3 
+#Stress:     0.04469061 
+#Stress type 1, weak ties
+#Two convergent solutions found after 20 tries
+#Scaling: centring, PC rotation, halfchange scaling 
+#Species: expanded scores based on ‘traits
+
+layout(matrix(1:2, ncol = 2))
+plot(nms, main = "Bird traits NMDS plot"); stressplot(nms, main = "Shepard plot")
+
+layout(1)
+
+ordiplot(nms, type = "n")
+orditorp(nms, display = "species")
+orditorp(nms, display = "sites")
+
+# how many iterations of the NMDS
+nms$iters # 132
+
+(g <- goodness(nms)) 
+sum(g^2)
+nms$stress^2  # 0.00199725
+
+1-nms$stress^2 # 0.9980027 #analogous to square correlation coefficient
+
+
+# NMDS plotting -----------------------------------------------------------
+
+## extract the scores for plotting 
+scr <- as.data.frame(scores(nms, display = "sites")) # extract NMDS scores
+
+# adding categorical info to scores
+env$NMDS1 <- scr$NMDS1
+env$NMDS2 <- scr$NMDS2
+env$NMDS3 <- scr$NMDS3
+
+scores <- env
+
+write.csv(scores,"data/trait_nmds/NMDS_scores.csv") # save this as a csv
+
+## species correlated with axis 1 & 2
+
+alltaxa12 <- envfit(nms, traits,
+                    choices = c(1,2)) #produces a list with r2, p value, and NMDS coordinates
+
+all.taxa.df <- data.frame((alltaxa12$vectors)$arrows,
+                          (alltaxa12$vectors)$r,
+                          (alltaxa12$vectors)$pvals) #take list and make into data frame
+
+
+corr.sp12 <- all.taxa.df %>% 
+  filter(X.alltaxa12.vectors..r > 0.4) %>% 
+  rownames_to_column("trait")
+
+target12 <- corr.sp12$trait # string of the Family names
+
+axis12.vectors <- traits %>% select(all_of(target12)) # make a matrix of just those
+
+(nmds.vectors.12 <- envfit(nms$points, axis12.vectors,
+                           permutations = 999, choices = c(1,2)))                        
+
+corr.vectors.12 <- as.data.frame(nmds.vectors.12$vectors$arrows*sqrt(nmds.vectors.12$vectors$r)) #scaling vectors
+corr.vectors.12$species <- rownames(corr.vectors.12) # add Family as a column
+
+write.csv(corr.vectors.12, "data/trait_nmds/NMDS_correlatedvectors_axis12.csv")
+
+## Species correlated with axis 1 & 3
+
+alltaxa13 <- envfit(nms, traits,
+                    choices = c(1,3)) #produces a list with r3, p value, and NMDS coordinates
+
+all.taxa.df <- data.frame((alltaxa13$vectors)$arrows,
+                          (alltaxa13$vectors)$r,
+                          (alltaxa13$vectors)$pvals) #take list and make into data frame
+
+
+corr.sp13 <- all.taxa.df %>% 
+  filter(X.alltaxa13.vectors..r > 0.4) %>% 
+  rownames_to_column("trait")
+
+target13 <- corr.sp13$trait # string of the Family names
+
+axis13.vectors <- traits %>% select(all_of(target13)) # make a matrix of just those
+
+(nmds.vectors.13 <- envfit(nms$points, axis13.vectors,
+                           permutations = 999, choices = c(1,3)))                        
+
+corr.vectors.13 <- as.data.frame(nmds.vectors.13$vectors$arrows*sqrt(nmds.vectors.13$vectors$r)) #scaling vectors
+corr.vectors.13$species <- rownames(corr.vectors.13) 
+
+write.csv(corr.vectors.13, "data/trait_nmds/NMDS_correlatedvectors_axis13.csv")
+
+
+# NMDS figure -------------------------------------------------------------
+
+scores <- read.csv("data/trait_nmds/NMDS_scores.csv")
+axis12 <- read.csv("data/trait_nmds/NMDS_correlatedvectors_axis12.csv")
+axis13 <- read.csv("data/trait_nmds/NMDS_correlatedvectors_axis13.csv")
+
+unique(scores$site)
+
+
+shapes = c("Conference" = 21,
+           "Levera" = 22,
+           "Mt. Hartman" = 23,
+           "Westerhall" = 24)
+
+axis12.p <- ggplot(data = scores,
+                   aes(x = NMDS1, y = NMDS2)) +
+  geom_point(data = scores, 
+             aes(x = NMDS1, y = NMDS2, 
+                 shape = site, fill = site),
+             size = 6, stroke = 1.5) +
+  geom_segment(data = axis12 , 
+               aes(x = 0, xend = MDS1, y = 0, yend = MDS2),
+               arrow = arrow(length = unit(0.5, "cm")),
+               colour = "black") +
+  geom_label_repel(data = axis12, 
+                   aes(x = MDS1, y = MDS2, label = species),
+                   color= "black",
+                   size = 5,
+                   force = 3,
+                   box.padding = 1) +
+  theme_minimal() + # no background
+  theme(panel.border = element_rect(fill = NA)) + # full square around figure
+  xlab("NMDS 1") +
+  ylab("NMDS 2") +
+  scale_colour_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  scale_shape_manual(values = shapes) +
+  theme(legend.position = "none") +
+  coord_fixed()
+
+
+axis13.p <- ggplot(data = scores,
+                   aes(x = NMDS1, y = NMDS3)) +
+  geom_point(data = scores, 
+             aes(x = NMDS1, y = NMDS3, 
+                 shape = site, fill = site),
+             size = 6, stroke = 1.5) +
+  geom_segment(data = axis13 , 
+               aes(x = 0, xend = MDS1, y = 0, yend = MDS3),
+               arrow = arrow(length = unit(0.5, "cm")),
+               colour = "black") +
+  geom_label_repel(data = axis13, 
+                   aes(x = MDS1, y = MDS3, label = species),
+                   color="black",
+                   size = 5,
+                   force = 2,
+                   box.padding = 1) +
+  theme_minimal() + # no background
+  theme(panel.border = element_rect(fill = NA)) + # full square around figure
+  xlab("NMDS 1") +
+  ylab("NMDS 3") +
+  scale_colour_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  scale_shape_manual(values = shapes) +
+  theme(legend.title = element_blank()) +
+  coord_fixed()
+
+
+nms <- axis12.p / axis13.p
+nms
+
+ggsave("figures/trait_nmds.jpeg",
+       nms,
+       height = 14,
+       width = 11)
 
 
 
