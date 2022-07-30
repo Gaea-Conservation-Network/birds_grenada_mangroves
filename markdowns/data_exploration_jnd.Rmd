@@ -10,13 +10,219 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(readxl)
+library(stringi)
+library(stringr)
+library(vegan)
+library(writexl)
 ```
 
-## Background
+# Background
 
-I will add this later.
+Need to do work on congruence between birds and plants - not able to do fish as we did not collected at the same plots. The data for birds are `r paste0(here::here(), "data/bird_matrix.csv")`. Need to prepare the plant data, however.
 
-```{r }
-# do these show up?
-summary(cars)
+# Data Preparation
+For plants, we have the total number trees, by DBH, in each plot - associated with each DBH catgeory, we have the canopy width and tree height. From this ifnormation, we can measure relative density of each species in each plot. We can also get a mean/median and max height for each species present. Thus, I will create 3 sepertae files:
+
+* Basal Area - the total area of each species in a plot. Using a representative tree, we find the basal area (p*r^2, where r = DBH/2) and multiple this value by total number of trees. Because the DBH categories were within categories, we will use the median value in each interval. We repeat this for each DBH category and sum by species.
+* Mean Canopy Width - we find the mean of canopy width of trees for by species. 
+* Mean Tree Height - we find the weighted mean of tree height of of trees for by species. 
+
+Following, because we merged some plots for our bird analyses because of their proximity to other plots, we fill average these values across plot groups. This is what we will use for the congruence analsyes.
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+VegDataRaw <- read_excel(paste0(here::here(),
+                                "/data/Veg data - validated.xlsx"), sheet = "Plants") %>%
+  mutate(SiteID = case_when(SiteName == "Westerhall" ~ "WH",
+                            SiteName == "Conference" ~ "CN",
+                            SiteName == "Levera" ~ "LV",
+                            SiteName == "Mt. Hartman" ~ "MH"),
+         SiteID = paste0(SiteID, "-", "T", Transect, "-",  "P", Plot )) %>%
+  left_join(read_excel(paste0(here::here(),
+                                "/data/Veg data - validated.xlsx"), sheet = "Site Joins"))%>%
+  relocate(Independent, .after = "SiteName") %>%
+  relocate(SiteID, .after = "SiteName") %>%
+  relocate(Longitude, .before = "Date")%>%
+  relocate(Latitude, .before = "Date")
+
+BirdData <- VegDataRaw %>% select(SiteName, SiteID, Independent)%>%
+  right_join(read_csv(paste0(here::here(), "/data/bird_data_independent reps.csv"))%>%
+  rename(SiteName = "Site")%>%
+  mutate(SiteID = paste0(Code, "-", Tnum, "-", Pnum))) %>%
+  group_by(SiteName, Independent, Species) %>%
+  summarise(Abundance = (mean(Abundance, na.rm = TRUE)) %>% round())%>%
+  pivot_wider(names_from  = "Species",
+              values_from = "Abundance",
+              values_fill = 0)%>% filter(!is.na(SiteName))
+
+BirdDataSum <- VegDataRaw %>% select(SiteName, SiteID, Independent)%>%
+  right_join(read_csv(paste0(here::here(), "/data/bird_data_independent reps.csv"))%>%
+  rename(SiteName = "Site")%>%
+  mutate(SiteID = paste0(Code, "-", Tnum, "-", Pnum))) %>%
+  group_by(SiteName, Independent, Species) %>%
+  summarise(Abundance = (sum(Abundance, na.rm = TRUE)) %>% round())%>%
+  pivot_wider(names_from  = "Species",
+              values_from = "Abundance",
+              values_fill = 0)%>% filter(!is.na(SiteName))
+
+
+
+BirdDatDateSum <- VegDataRaw %>% select(SiteName, SiteID, Independent)%>%
+  right_join(read_csv(paste0(here::here(), "/data/bird_data_independent reps.csv"))%>%
+  rename(SiteName = "Site")%>%
+  mutate(SiteID = paste0(Code, "-", Tnum, "-", Pnum))) %>%
+  group_by(SiteName, SiteID, Independent, Date,Visit, Species) %>%
+  summarise(Abundance = (sum(Abundance, na.rm = TRUE)) %>% round())%>%
+  pivot_wider(names_from  = "Species",
+              values_from = "Abundance",
+              values_fill = 0)%>% filter(!is.na(SiteName))
+  
+```
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+VegDatLong <- VegDataRaw %>%
+  select(contains(c("Site", "Independent", "_T_")))%>%
+  pivot_longer(cols = contains("_T_"),
+               names_to = c("Species", "Circumference"),
+               names_pattern = "(.*)_T_(.*)",
+               values_to = "Total") %>%
+  left_join(VegDataRaw %>%
+  select(contains(c("Site", "Independent", "_TH_")))%>%
+  pivot_longer(cols = contains("_TH_"),
+               names_to = c("Species", "Circumference"),
+               names_pattern = "(.*)_TH_(.*)",
+               values_to = "Tree Height")) %>%
+  left_join(VegDataRaw %>%
+  select(contains(c("Site", "Independent", "_CW_")))%>%
+  pivot_longer(cols = contains("_CW_"),
+               names_to = c("Species", "Circumference"),
+               names_pattern = "(.*)_CW_(.*)",
+               values_to = "Canopy Width")) %>%
+  mutate(DBHRange = case_when(Circumference == "0-3.18" ~ "0-10",
+                         Circumference == "3.19-7.96" ~ "10-25",
+                         Circumference == "7.98-31.82" ~ "25-100",
+                         Circumference == "31.83-63.65" ~ "100-200",
+                         Circumference == ">63" ~ ">200"))%>%
+  mutate(DBHMin = ifelse(stringr::str_detect(DBHRange, ">"), 200, 
+                         (stringr::str_remove(DBHRange, "-.*"))) %>% as.numeric(),
+         DBHMax = ifelse(stringr::str_detect(DBHRange, ">"), NA_real_, 
+                         (stringr::str_remove(DBHRange, ".*-"))) %>% as.numeric()) %>%
+  rowwise()%>%
+  mutate(DBH = ifelse(DBHMin == 200, 200, median(c(DBHMax, DBHMin))))%>%
+  ungroup()%>%
+  mutate(`Basal Area (m^2)` = (3.142 * (DBH/2 * 0.001)) * Total)
+  
+```
+
+
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+
+VegMatrixSiteID <-
+  VegDatLong %>% group_by(SiteName, SiteID, Species) %>%
+  summarise(BasalArea = mean(`Basal Area (m^2)` , na.rm = TRUE)) %>%
+  pivot_wider(names_from = "Species", values_from = "BasalArea") %>%
+  rename(`RedBasalArea` = "Red")%>%
+   rename(`BlackBasalArea` = "Black") %>%
+   rename(`WhiteBasalArea` = "White")%>%
+  left_join(VegDatLong %>% group_by(SiteName, SiteID, Species) %>%
+  summarise(CanopyWidth = mean(`Canopy Width` , na.rm = TRUE)) %>%
+  pivot_wider(names_from = "Species", values_from = "CanopyWidth") %>%
+  rename(`RedCanopyWidth` = "Red")%>%
+   rename(`BlackCanopyWidth` = "Black") %>%
+   rename(`WhiteCanopyWidth` = "White"))%>%
+  left_join(VegDatLong %>% group_by(SiteName, SiteID, Species) %>%
+  summarise(TreeHeight = mean(`Tree Height` , na.rm = TRUE)) %>%
+  pivot_wider(names_from = "Species", values_from = "TreeHeight") %>%
+  rename(`RedTreeHeight` = "Red")%>%
+   rename(`BlackTreeHeight` = "Black") %>%
+   rename(`WhiteTreeHeight` = "White"))
+  
+
+VegMatrixIndependent <-
+  VegDatLong %>%  group_by(SiteName, Independent, Species) %>%
+  summarise(BasalArea = mean(`Basal Area (m^2)` , na.rm = TRUE)) %>%
+  pivot_wider(names_from = "Species", values_from = "BasalArea") %>%
+  rename(`RedBasalArea` = "Red")%>%
+   rename(`BlackBasalArea` = "Black") %>%
+   rename(`WhiteBasalArea` = "White")%>%
+  left_join(VegDatLong %>% group_by(SiteName, Independent, Species) %>%
+  summarise(CanopyWidth = mean(`Canopy Width` , na.rm = TRUE)) %>%
+  pivot_wider(names_from = "Species", values_from = "CanopyWidth") %>%
+  rename(`RedCanopyWidth` = "Red")%>%
+   rename(`BlackCanopyWidth` = "Black") %>%
+   rename(`WhiteCanopyWidth` = "White"))%>%
+  left_join(VegDatLong %>% group_by(SiteName, Independent, Species) %>%
+  summarise(TreeHeight = mean(`Tree Height` , na.rm = TRUE)) %>%
+  pivot_wider(names_from = "Species", values_from = "TreeHeight") %>%
+  rename(`RedTreeHeight` = "Red")%>%
+   rename(`BlackTreeHeight` = "Black") %>%
+   rename(`WhiteTreeHeight` = "White")) %>% filter(!is.na(Independent))
+
+```
+
+
+
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+CongruenceCrossTaxon <- function(DataVeg, DataBird, ColTraitVeg){
+  Veg <- vegdist(DataVeg %>% arrange(Independent)%>% ungroup() %>%select(contains(ColTraitVeg)))
+  Bird <- vegdist(DataBird %>% arrange(Independent)%>% ungroup() %>%select(ANCH:SHCO))
+  
+  MantelOverall <- mantel(vegdist(Veg),vegdist(Bird),method="spearman")
+  
+  ProtestOverall <- protest(decostand(Veg,method = "hellinger"),
+                           decostand(Bird,method = "hellinger"))
+  Result <- tibble(Group = "Overall",
+                   Test = c("Mantel", "Procustes"),
+                   Strength = c(MantelOverall$statistic, ProtestOverall$t0),
+                   `P-Value` = c(MantelOverall$signif, ProtestOverall$signif))
+  Result2 <-
+    map_dfr(.x = unique(DataVeg$SiteName), ~{
+    
+    Veg <- vegdist(DataVeg %>% arrange(Independent)%>% ungroup() %>% filter(SiteName == .x)%>%
+                     select(contains(ColTraitVeg)))
+  Bird <- vegdist(DataBird %>% arrange(Independent)%>% ungroup() %>% filter(SiteName == .x)%>%
+                    select(ANCH:SHCO))
+  
+  MantelOverall <- mantel(vegdist(Veg),vegdist(Bird),method="spearman")
+  
+  ProtestOverall <- protest(decostand(Veg,method = "hellinger"),
+                            decostand(Bird,method = "hellinger"))
+  Result <- tibble(Group = .x,
+                   Test = c("Mantel", "Procustes"),
+                   Strength = c(MantelOverall$statistic, ProtestOverall$t0),
+                   `P-Value` = c(MantelOverall$signif, ProtestOverall$signif))
+    
+  })
+  
+  Result <- Result %>% bind_rows(Result2)
+  
+  return(Result)
+}
+
+
+TreeHeightBird <- 
+  CongruenceCrossTaxon(DataVeg = VegMatrixIndependent, BirdData, ColTraitVeg = "TreeHeight") %>% arrange(Test)
+
+
+BasalAreaBird <- 
+  CongruenceCrossTaxon(DataVeg = VegMatrixIndependent, BirdData, ColTraitVeg = "BasalArea") %>% arrange(Test)
+
+CanopyWidthBird <- 
+  CongruenceCrossTaxon(DataVeg = VegMatrixIndependent, BirdData, ColTraitVeg = "CanopyWidth") %>% arrange(Test)
+
+
+```
+
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+write_xlsx(x = list(`Plants - Independent` = VegMatrixIndependent,
+                    `Plants - SiteID` = VegMatrixSiteID,
+                    `Birds - Mean by Independent` = BirdData,
+                    `Birds - Sum by Independent` = BirdDataSum,
+                     `Birds - Sum by Date & Independent` = BirdDatDateSum),
+           path = paste0(here::here(), "/data/DataFromCongruenceAnalyses.xlsx"))
 ```
