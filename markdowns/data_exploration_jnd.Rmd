@@ -241,8 +241,8 @@ CanopyWidthBird <-
 
 
 ```{r message=FALSE, error=FALSE, warning=FALSE}
-write_xlsx(x = list(`Plants - Independent` = VegMatrixIndependent,
-                    `Plants - SiteID` = VegMatrixSiteID,
+write_xlsx(x = list(`Plants - Independent (Mean)` = VegMatrixIndependent,
+                    `Plants - SiteID (Mean)` = VegMatrixSiteID,
                     `Birds - Mean by Independent` = BirdData,
                     `Birds - Sum by Independent` = BirdDataSum,
                      `Birds - Sum by Date & Independent` = BirdDatDateSum),
