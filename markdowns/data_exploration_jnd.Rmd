@@ -34,33 +34,50 @@ Following, because we merged some plots for our bird analyses because of their p
 
 ```{r message=FALSE, error=FALSE, warning=FALSE}
 VegDataRaw <- read_excel(paste0(here::here(),
-                                "/data/Veg data - validated.xlsx"), sheet = "Plants") %>%
-  mutate(SiteID = case_when(SiteName == "Westerhall" ~ "WH",
+                                "/data/Bird and Veg Data - complete and validated.xlsx"), sheet = "Plants") %>%
+  rename(SiteName = Site)%>%
+  mutate(SiteCode = case_when(SiteName == "Westerhall" ~ "WH",
                             SiteName == "Conference" ~ "CN",
                             SiteName == "Levera" ~ "LV",
                             SiteName == "Mt. Hartman" ~ "MH"),
-         SiteID = paste0(SiteID, "-", "T", Transect, "-",  "P", Plot )) %>%
+         SiteID = paste0(SiteCode, "-", "T", Transect, "-",  "P", Plot )) %>%
+  relocate(SiteCode, .after = SiteName)%>%
+  relocate(SiteID, .after = SiteName)%>%
+  filter(!is.na(SiteName))%>%
   left_join(read_excel(paste0(here::here(),
-                                "/data/Veg data - validated.xlsx"), sheet = "Site Joins"))%>%
+                                "/data/Bird and Veg Data - complete and validated.xlsx"), 
+                       sheet = "Site Info") %>%
+              rename(`SiteID`= "Site ID")%>%
+              rename(SiteName = "Area"))%>%
   relocate(Independent, .after = "SiteName") %>%
   relocate(SiteID, .after = "SiteName") %>%
   relocate(Longitude, .before = "Date")%>%
   relocate(Latitude, .before = "Date")
 
 BirdData <- VegDataRaw %>% select(SiteName, SiteID, Independent)%>%
-  right_join(read_csv(paste0(here::here(), "/data/bird_data_independent reps.csv"))%>%
+  right_join(read_excel(paste0(here::here(),
+                                "/data/Bird and Veg Data - complete and validated.xlsx"), sheet = "Birds")%>%
   rename(SiteName = "Site")%>%
-  mutate(SiteID = paste0(Code, "-", Tnum, "-", Pnum))) %>%
+  mutate(SiteCode = case_when(SiteName == "Westerhall" ~ "WH",
+                            SiteName == "Conference" ~ "CN",
+                            SiteName == "Levera" ~ "LV",
+                            SiteName == "Mt. Hartman" ~ "MH"),
+         SiteID = paste0(SiteCode, "-", "T", Transect, "-",  "P", Plot ))) %>%
   group_by(SiteName, Independent, Species) %>%
   summarise(Abundance = (mean(Abundance, na.rm = TRUE)) %>% round())%>%
   pivot_wider(names_from  = "Species",
               values_from = "Abundance",
               values_fill = 0)%>% filter(!is.na(SiteName))
 
-BirdDataSum <- VegDataRaw %>% select(SiteName, SiteID, Independent)%>%
-  right_join(read_csv(paste0(here::here(), "/data/bird_data_independent reps.csv"))%>%
+BirdDataSum <-  VegDataRaw %>% select(SiteName, SiteID, Independent)%>%
+  right_join(read_excel(paste0(here::here(),
+                                "/data/Bird and Veg Data - complete and validated.xlsx"), sheet = "Birds")%>%
   rename(SiteName = "Site")%>%
-  mutate(SiteID = paste0(Code, "-", Tnum, "-", Pnum))) %>%
+  mutate(SiteCode = case_when(SiteName == "Westerhall" ~ "WH",
+                            SiteName == "Conference" ~ "CN",
+                            SiteName == "Levera" ~ "LV",
+                            SiteName == "Mt. Hartman" ~ "MH"),
+         SiteID = paste0(SiteCode, "-", "T", Transect, "-",  "P", Plot ))) %>%
   group_by(SiteName, Independent, Species) %>%
   summarise(Abundance = (sum(Abundance, na.rm = TRUE)) %>% round())%>%
   pivot_wider(names_from  = "Species",
@@ -69,11 +86,16 @@ BirdDataSum <- VegDataRaw %>% select(SiteName, SiteID, Independent)%>%
 
 
 
-BirdDatDateSum <- VegDataRaw %>% select(SiteName, SiteID, Independent)%>%
-  right_join(read_csv(paste0(here::here(), "/data/bird_data_independent reps.csv"))%>%
+BirdDatDateSum <-  VegDataRaw %>% select(SiteName, SiteID, Independent)%>%
+  right_join(read_excel(paste0(here::here(),
+                                "/data/Bird and Veg Data - complete and validated.xlsx"), sheet = "Birds")%>%
   rename(SiteName = "Site")%>%
-  mutate(SiteID = paste0(Code, "-", Tnum, "-", Pnum))) %>%
-  group_by(SiteName, SiteID, Independent, Date,Visit, Species) %>%
+  mutate(SiteCode = case_when(SiteName == "Westerhall" ~ "WH",
+                            SiteName == "Conference" ~ "CN",
+                            SiteName == "Levera" ~ "LV",
+                            SiteName == "Mt. Hartman" ~ "MH"),
+         SiteID = paste0(SiteCode, "-", "T", Transect, "-",  "P", Plot ))) %>%
+  group_by(SiteName, SiteID, Independent, Date, Species) %>%
   summarise(Abundance = (sum(Abundance, na.rm = TRUE)) %>% round())%>%
   pivot_wider(names_from  = "Species",
               values_from = "Abundance",
