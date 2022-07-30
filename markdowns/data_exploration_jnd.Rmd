@@ -17,6 +17,7 @@ library(stringi)
 library(stringr)
 library(vegan)
 library(writexl)
+library(ggthemes)
 ```
 
 # Background
@@ -237,6 +238,29 @@ CanopyWidthBird <-
   CongruenceCrossTaxon(DataVeg = VegMatrixIndependent, BirdData, ColTraitVeg = "CanopyWidth") %>% arrange(Test)
 
 
+```
+
+
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+png(paste0(here::here(), "/outputs/PlantBirdCongruence.png"),
+    units = "in",
+    res = 600, width = 6, height = 4)
+plot(TreeHeightBird %>% filter(Test == "Mantel" & Group == "Overall")%>% mutate(Group = "Tree Height")%>%
+bind_rows(BasalAreaBird %>% filter(Test == "Mantel" & Group == "Overall")%>% mutate(Group = "Basal Area")) %>%
+ bind_rows(CanopyWidthBird %>% filter(Test == "Mantel" & Group == "Overall")%>% mutate(Group = "Canopy Width"))%>%
+  mutate(Significance = case_when(`P-Value`<0.001 ~ "***",
+                                  `P-Value`<0.05 ~ "**",
+                                  `P-Value`<0.1 ~ "*"))%>%
+  ggplot(aes(x = Group, y = Strength))+
+  geom_bar(stat = "identity", position = "dodge")+
+  geom_text(aes(label = Significance), size = 4)+
+  theme_classic()+
+  labs( y = "Strength of Cross-Taxon Congruence",
+        x = "Proxy for Plant Abundance",
+        caption = "Birds & Plants"))
+dev.off()
+  
 ```
 
 
