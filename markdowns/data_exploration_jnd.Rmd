@@ -18,6 +18,9 @@ library(stringr)
 library(vegan)
 library(writexl)
 library(ggthemes)
+library(ggrepel)
+library(viridis)
+source(paste0(here::here(), "/scripts/functions.R"))
 ```
 
 # Background
@@ -139,50 +142,68 @@ VegDatLong <- VegDataRaw %>%
   
 ```
 
+# Site Summary
+
+
+```{r}
+VegDatLong %>%
+  group_by(SiteName)%>%
+  summarise(BasalAreaMean = mean(`Basal Area (m^2)`[`Basal Area (m^2)`!= 0]),
+            BasalAreaSD = sd(`Basal Area (m^2)`[`Basal Area (m^2)`!= 0]),
+            CanopyWidthMean = mean(`Canopy Width`[`Canopy Width`!= 0]),
+            CanopyWidthSD = sd(`Canopy Width`[`Canopy Width`!= 0]),
+            HeightMean = mean(`Tree Height`[`Tree Height`!= 0]),
+            HeightSD = sd(`Tree Height`[`Tree Height`!= 0]))
+
+```
 
 
 ```{r message=FALSE, error=FALSE, warning=FALSE}
 
 VegMatrixSiteID <-
   VegDatLong %>% group_by(SiteName, SiteID, Species) %>%
-  summarise(BasalArea = mean(`Basal Area (m^2)` , na.rm = TRUE)) %>%
+  summarise(BasalArea = mean(`Basal Area (m^2)`[`Basal Area (m^2)`!= 0] , na.rm = TRUE)) %>%
   pivot_wider(names_from = "Species", values_from = "BasalArea") %>%
   rename(`RedBasalArea` = "Red")%>%
    rename(`BlackBasalArea` = "Black") %>%
    rename(`WhiteBasalArea` = "White")%>%
   left_join(VegDatLong %>% group_by(SiteName, SiteID, Species) %>%
-  summarise(CanopyWidth = mean(`Canopy Width` , na.rm = TRUE)) %>%
+  summarise(CanopyWidth = mean(`Canopy Width`[`Canopy Width`!= 0] , na.rm = TRUE)) %>%
   pivot_wider(names_from = "Species", values_from = "CanopyWidth") %>%
   rename(`RedCanopyWidth` = "Red")%>%
    rename(`BlackCanopyWidth` = "Black") %>%
    rename(`WhiteCanopyWidth` = "White"))%>%
   left_join(VegDatLong %>% group_by(SiteName, SiteID, Species) %>%
-  summarise(TreeHeight = mean(`Tree Height` , na.rm = TRUE)) %>%
+  summarise(TreeHeight = mean(`Tree Height`[`Tree Height`!= 0] , na.rm = TRUE)) %>%
   pivot_wider(names_from = "Species", values_from = "TreeHeight") %>%
   rename(`RedTreeHeight` = "Red")%>%
    rename(`BlackTreeHeight` = "Black") %>%
-   rename(`WhiteTreeHeight` = "White"))
+   rename(`WhiteTreeHeight` = "White"))%>%
+  mutate(across(.cols = everything(), ~ ifelse(is.infinite(.x), 0, .x)))%>%
+  mutate(across(.cols = everything(), ~ ifelse(is.na(.x), 0, .x)))
   
 
 VegMatrixIndependent <-
   VegDatLong %>%  group_by(SiteName, Independent, Species) %>%
-  summarise(BasalArea = mean(`Basal Area (m^2)` , na.rm = TRUE)) %>%
+  summarise(BasalArea = mean(`Basal Area (m^2)`[`Basal Area (m^2)`!= 0] , na.rm = TRUE)) %>%
   pivot_wider(names_from = "Species", values_from = "BasalArea") %>%
   rename(`RedBasalArea` = "Red")%>%
    rename(`BlackBasalArea` = "Black") %>%
    rename(`WhiteBasalArea` = "White")%>%
   left_join(VegDatLong %>% group_by(SiteName, Independent, Species) %>%
-  summarise(CanopyWidth = mean(`Canopy Width` , na.rm = TRUE)) %>%
+  summarise(CanopyWidth = mean(`Canopy Width`[`Canopy Width`!= 0] , na.rm = TRUE)) %>%
   pivot_wider(names_from = "Species", values_from = "CanopyWidth") %>%
   rename(`RedCanopyWidth` = "Red")%>%
    rename(`BlackCanopyWidth` = "Black") %>%
    rename(`WhiteCanopyWidth` = "White"))%>%
   left_join(VegDatLong %>% group_by(SiteName, Independent, Species) %>%
-  summarise(TreeHeight = mean(`Tree Height` , na.rm = TRUE)) %>%
+  summarise(TreeHeight = mean(`Tree Height`[`Tree Height`!= 0] , na.rm = TRUE)) %>%
   pivot_wider(names_from = "Species", values_from = "TreeHeight") %>%
   rename(`RedTreeHeight` = "Red")%>%
    rename(`BlackTreeHeight` = "Black") %>%
-   rename(`WhiteTreeHeight` = "White")) %>% filter(!is.na(Independent))
+   rename(`WhiteTreeHeight` = "White")) %>% filter(!is.na(Independent))%>%
+  mutate(across(.cols = everything(), ~ ifelse(is.infinite(.x), 0, .x)))%>%
+  mutate(across(.cols = everything(), ~ ifelse(is.na(.x), 0, .x)))
 
 ```
 
@@ -190,41 +211,7 @@ VegMatrixIndependent <-
 
 
 ```{r message=FALSE, error=FALSE, warning=FALSE}
-CongruenceCrossTaxon <- function(DataVeg, DataBird, ColTraitVeg){
-  Veg <- vegdist(DataVeg %>% arrange(Independent)%>% ungroup() %>%select(contains(ColTraitVeg)))
-  Bird <- vegdist(DataBird %>% arrange(Independent)%>% ungroup() %>%select(ANCH:SHCO))
-  
-  MantelOverall <- mantel(vegdist(Veg),vegdist(Bird),method="spearman")
-  
-  ProtestOverall <- protest(decostand(Veg,method = "hellinger"),
-                           decostand(Bird,method = "hellinger"))
-  Result <- tibble(Group = "Overall",
-                   Test = c("Mantel", "Procustes"),
-                   Strength = c(MantelOverall$statistic, ProtestOverall$t0),
-                   `P-Value` = c(MantelOverall$signif, ProtestOverall$signif))
-  Result2 <-
-    map_dfr(.x = unique(DataVeg$SiteName), ~{
-    
-    Veg <- vegdist(DataVeg %>% arrange(Independent)%>% ungroup() %>% filter(SiteName == .x)%>%
-                     select(contains(ColTraitVeg)))
-  Bird <- vegdist(DataBird %>% arrange(Independent)%>% ungroup() %>% filter(SiteName == .x)%>%
-                    select(ANCH:SHCO))
-  
-  MantelOverall <- mantel(vegdist(Veg),vegdist(Bird),method="spearman")
-  
-  ProtestOverall <- protest(decostand(Veg,method = "hellinger"),
-                            decostand(Bird,method = "hellinger"))
-  Result <- tibble(Group = .x,
-                   Test = c("Mantel", "Procustes"),
-                   Strength = c(MantelOverall$statistic, ProtestOverall$t0),
-                   `P-Value` = c(MantelOverall$signif, ProtestOverall$signif))
-    
-  })
-  
-  Result <- Result %>% bind_rows(Result2)
-  
-  return(Result)
-}
+
 
 
 TreeHeightBird <- 
@@ -257,11 +244,370 @@ bind_rows(BasalAreaBird %>% filter(Test == "Mantel" & Group == "Overall")%>% mut
   geom_text(aes(label = Significance), size = 4)+
   theme_classic()+
   labs( y = "Strength of Cross-Taxon Congruence",
-        x = "Proxy for Plant Abundance",
+        x = "Proxy for Plant Community Structure",
         caption = "Birds & Plants"))
 dev.off()
   
 ```
+
+
+```{r include=FALSE}
+BasalAreaAxis <- 
+NMDS.ScreePoints(data = VegMatrixSiteID %>% arrange(SiteID)%>% 
+                   ungroup() %>%select(contains("BasalArea")),
+                 noRuns = 50)
+CanopyWidthAxis <- 
+NMDS.ScreePoints(data = VegMatrixSiteID %>% arrange(SiteID)%>% 
+                   ungroup() %>%select(contains("CanopyWidth")),
+                 noRuns = 50)
+TreeHeightAxis <- 
+NMDS.ScreePoints(data = VegMatrixSiteID %>% arrange(SiteID)%>% 
+                   ungroup() %>%select(contains("TreeHeight")),
+                 noRuns = 50)
+
+```
+
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+BasalAreaAxis  %>% t() %>% data.frame()%>%
+  mutate(Run = factor(1:50))%>% 
+  pivot_longer(!Run,
+               names_to = c("NoAxis"),
+               names_pattern = "X(.*)",
+               values_to = "Stress")%>%
+  group_by(NoAxis) %>%
+  summarise(Stress = mean(Stress))%>%
+  ungroup()%>%
+  mutate(NoAxis = factor(as.numeric(as.character(NoAxis))))%>%
+  ggplot(aes(x = NoAxis, y = Stress))+
+  geom_line(aes(group = 1), size = 1)+
+  theme_classic()
+CanopyWidthAxis  %>% t() %>% data.frame()%>%
+  mutate(Run = factor(1:50))%>% 
+  pivot_longer(!Run,
+               names_to = c("NoAxis"),
+               names_pattern = "X(.*)",
+               values_to = "Stress")%>%
+  group_by(NoAxis) %>%
+  summarise(Stress = mean(Stress))%>%
+  ungroup()%>%
+  mutate(NoAxis = factor(as.numeric(as.character(NoAxis))))%>%
+  ggplot(aes(x = NoAxis, y = Stress))+
+  geom_line(aes(group = 1), size = 1)+
+  theme_classic()
+TreeHeightAxis  %>% t() %>% data.frame()%>%
+  mutate(Run = factor(1:50))%>% 
+  pivot_longer(!Run,
+               names_to = c("NoAxis"),
+               names_pattern = "X(.*)",
+               values_to = "Stress")%>%
+  group_by(NoAxis) %>%
+  summarise(Stress = mean(Stress))%>%
+  ungroup()%>%
+  mutate(NoAxis = factor(as.numeric(as.character(NoAxis))))%>%
+  ggplot(aes(x = NoAxis, y = Stress))+
+  geom_line(aes(group = 1), size = 1)+
+  theme_classic()
+```
+
+
+```{r include=FALSE}
+TreeHeightSiteIDNMS <- metaMDS(VegMatrixSiteID %>% arrange(SiteID)%>% 
+                   ungroup() %>%select(contains("TreeHeight")),
+                                       distance = "bray",
+                                 k = 2, autotransform = TRUE,trymax=100)
+BasalAreaSiteIDNMS <- metaMDS(VegMatrixSiteID %>% arrange(SiteID)%>% 
+                   ungroup() %>%select(contains("BasalArea")),
+                                       distance = "bray",
+                                 k = 2, autotransform = TRUE,trymax=100)
+CanopyWidthSiteIDNMS <- metaMDS(VegMatrixSiteID %>% arrange(SiteID)%>% 
+                   ungroup() %>%select(contains("CanopyWidth")),
+                                       distance = "bray",
+                                 k = 2, autotransform = TRUE,trymax=100)
+
+TreeHeightIndependentNMS <- metaMDS(VegMatrixIndependent %>% arrange(Independent)%>% 
+                   ungroup() %>%select(contains("TreeHeight")),
+                                       distance = "bray",
+                                 k = 2, autotransform = TRUE,trymax=100)
+BasalAreaIndependentNMS <- metaMDS(VegMatrixIndependent %>% arrange(Independent)%>% 
+                   ungroup() %>%select(contains("BasalArea")),
+                                       distance = "bray",
+                                 k = 2, autotransform = TRUE,trymax=100)
+CanopyWidthIndependentNMS <- metaMDS(VegMatrixIndependent %>% arrange(Independent)%>% 
+                   ungroup() %>%select(contains("CanopyWidth")),
+                                       distance = "bray",
+                                 k = 2, autotransform = TRUE,trymax=100)
+
+```
+
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+BirdsPlantsNMDSPlots <-
+  NMDSPlotsBirdsPlants(NMDSList = list(`Basal Area`= (BasalAreaIndependentNMS),
+                                     `Canopy Width`= CanopyWidthIndependentNMS,
+                                     `Tree Height`= TreeHeightIndependentNMS),
+                     DataX = VegMatrixIndependent,
+                     DataY = list(BirdDataSum, BirdDataSum),
+                     Group = c("Species", "Food", "Behaviour",  "Nesting", "Habitat","Type"))
+PlantsNMDSPlots <-
+NMDSPlotsPlants(NMDSList = list(`Basal Area`= (BasalAreaSiteIDNMS),
+                                     `Canopy Width`= CanopyWidthSiteIDNMS,
+                                     `Tree Height`= TreeHeightSiteIDNMS),
+                     DataX = VegMatrixSiteID)
+
+```
+
+
+# Tree Height
+```{r message=FALSE, error=FALSE, warning=FALSE}
+
+
+(dispersion <- betadisper(vegdist(decostand(VegMatrixSiteID %>% 
+                            arrange(SiteID)%>% ungroup() %>%
+                            select(contains(c("TreeHeight"))), "max", 2)), 
+                          VegMatrixSiteID %>% arrange(SiteID)%>% ungroup() %>% 
+                            select(SiteName) %>% reduce(c)))
+
+#Average distance to median (birds):
+
+#Conference      Levera Mt. Hartman  Westerhall 
+#0.3646      0.5428      0.4265      0.3196 
+```
+
+
+```{r}
+anova(dispersion)
+TukeyHSD(dispersion)
+```
+
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+adonis2(decostand(VegMatrixSiteID %>% 
+                            arrange(SiteID)%>% ungroup() %>%
+                            select(contains(c("TreeHeight"))), "max", 2) ~  VegMatrixSiteID %>% arrange(SiteID)%>% ungroup() %>% 
+                            select(SiteName) %>% reduce(c),
+                   method = "bray")
+
+```
+
+
+```{r}
+png(paste0(here::here(), "/outputs/PlantTreeHeightSpecies.png"),
+    units = "in",
+    res = 600, width = 6, height = 4)
+VegMatrixSiteID %>%
+  ungroup()%>%
+  select(contains(c("SiteName", "TreeHeight")))%>%
+  pivot_longer(!SiteName)%>%
+  mutate(Label = str_remove_all(name, "TreeHeight"))%>%
+  ggplot(aes(x = SiteName, y = value, fill = Label))+
+  geom_point(position = position_jitterdodge(), aes(color = Label), alpha = 0.3)+
+  geom_boxplot(outlier.shape = NA)+
+  theme_classic()+
+  scale_colour_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  labs(color = " ", fill = " ", 
+       x = "Site", y = "Tree Height (m)")+
+  theme(legend.position = "bottom")
+
+dev.off()
+
+png(paste0(here::here(), "/outputs/PlantTreeHeightSite.png"),
+    units = "in",
+    res = 600, width = 6, height = 4)
+VegMatrixSiteID %>%
+  ungroup()%>%
+  select(contains(c("SiteName", "TreeHeight")))%>%
+  pivot_longer(!SiteName)%>%
+  mutate(Label = str_remove_all(name, "TreeHeight"))%>%
+  ggplot(aes(x = SiteName, y = value))+
+  geom_point(alpha = 0.3)+
+  geom_boxplot(outlier.shape = NA)+
+  theme_classic()+
+  scale_colour_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  labs(color = " ", fill = " ", 
+       x = "Site", y = "Tree Height (m)")+
+  theme(legend.position = "bottom")
+
+dev.off()
+```
+
+# Canopy Width
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+
+
+(dispersion <- betadisper(vegdist(decostand(VegMatrixSiteID %>% 
+                            arrange(SiteID)%>% ungroup() %>%
+                            select(contains(c("CanopyWidth"))), "max", 2)), 
+                          VegMatrixSiteID %>% arrange(SiteID)%>% ungroup() %>% 
+                            select(SiteName) %>% reduce(c)))
+
+#Average distance to median (birds):
+
+#Conference      Levera Mt. Hartman  Westerhall 
+#0.3646      0.5428      0.4265      0.3196 
+```
+
+
+```{r}
+anova(dispersion)
+TukeyHSD(dispersion)
+```
+
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+adonis2(decostand(VegMatrixSiteID %>% 
+                            arrange(SiteID)%>% ungroup() %>%
+                            select(contains(c("CanopyWidth"))), "max", 2) ~  VegMatrixSiteID %>% arrange(SiteID)%>% ungroup() %>% 
+                            select(SiteName) %>% reduce(c),
+                   method = "bray")
+
+```
+
+
+```{r}
+png(paste0(here::here(), "/outputs/PlantCanopyWidthSpecies.png"),
+    units = "in",
+    res = 600, width = 6, height = 4)
+VegMatrixSiteID %>%
+  ungroup()%>%
+  select(contains(c("SiteName", "CanopyWidth")))%>%
+  pivot_longer(!SiteName)%>%
+  mutate(Label = str_remove_all(name, "CanopyWidth"))%>%
+  ggplot(aes(x = SiteName, y = value, fill = Label))+
+  geom_point(position = position_jitterdodge(), aes(color = Label), alpha = 0.3)+
+  geom_boxplot(outlier.shape = NA)+
+  theme_classic()+
+  scale_colour_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  labs(color = " ", fill = " ", 
+       x = "Site", y = "Canopy Width (m)")+
+  theme(legend.position = "bottom")
+
+dev.off()
+
+
+png(paste0(here::here(), "/outputs/PlantCanopyWidthSite.png"),
+    units = "in",
+    res = 600, width = 6, height = 4)
+VegMatrixSiteID %>%
+  ungroup()%>%
+  select(contains(c("SiteName", "CanopyWidth")))%>%
+  pivot_longer(!SiteName)%>%
+  mutate(Label = str_remove_all(name, "CanopyWidth"))%>%
+  ggplot(aes(x = SiteName, y = value))+
+  geom_point(alpha = 0.3)+
+  geom_boxplot(outlier.shape = NA)+
+  theme_classic()+
+  scale_colour_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  labs(color = " ", fill = " ", 
+       x = "Site", y = "Canopy Width (m)")+
+  theme(legend.position = "bottom")
+
+dev.off()
+```
+
+# Basal Area
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+
+
+(dispersion <- betadisper(vegdist(decostand(VegMatrixSiteID %>% 
+                            arrange(SiteID)%>% ungroup() %>%
+                            select(contains(c("BasalArea"))), "max", 2)), 
+                          VegMatrixSiteID %>% arrange(SiteID)%>% ungroup() %>% 
+                            select(SiteName) %>% reduce(c)))
+
+#Average distance to median (birds):
+
+#Conference      Levera Mt. Hartman  Westerhall 
+#0.3646      0.5428      0.4265      0.3196 
+
+#Average distance to median (plants):
+
+#Conference      Levera Mt. Hartman  Westerhall 
+# 0.4871      0.4453      0.3748      0.3162
+```
+
+
+```{r}
+anova(dispersion)
+TukeyHSD(dispersion)
+```
+
+```{r}
+plot(dispersion)
+
+```
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+adonis2(decostand(VegMatrixSiteID %>% 
+                            arrange(SiteID)%>% ungroup() %>%
+                            select(contains(c("BasalArea"))), "max", 2) ~  VegMatrixSiteID %>% arrange(SiteID)%>% ungroup() %>% 
+                            select(SiteName) %>% reduce(c),
+                   method = "bray")
+
+```
+
+
+```{r message=FALSE, error=FALSE, warning=FALSE}
+adonis2(decostand(VegMatrixSiteID %>% 
+                            arrange(SiteID)%>% ungroup() %>%
+                            select(contains(c("BasalArea"))), "max", 2) ~  
+          VegMatrixSiteID %>% arrange(SiteID)%>% ungroup() %>% 
+                            select(SiteName) %>% reduce(c),
+                   method = "bray")
+
+```
+
+```{r}
+png(paste0(here::here(), "/outputs/PlantBasalAreaSpecies.png"),
+    units = "in",
+    res = 600, width = 6, height = 4)
+VegMatrixSiteID %>%
+  ungroup()%>%
+  select(contains(c("SiteName", "BasalArea")))%>%
+  pivot_longer(!SiteName)%>%
+  mutate(Label = str_remove_all(name, "BasalArea"))%>%
+  ggplot(aes(x = SiteName, y = value, fill = Label))+
+  geom_point(position = position_jitterdodge(), aes(color = Label), alpha = 0.3)+
+  geom_boxplot(outlier.shape = NA)+
+  theme_classic()+
+  scale_colour_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  labs(color = " ", fill = " ", 
+       x = "Site", y = "Basal Area (m^2)")+
+  theme(legend.position = "bottom")
+
+dev.off()
+
+
+png(paste0(here::here(), "/outputs/PlantBasalAreaSite.png"),
+    units = "in",
+    res = 600, width = 6, height = 4)
+VegMatrixSiteID %>%
+  ungroup()%>%
+  select(contains(c("SiteName", "BasalArea")))%>%
+  pivot_longer(!SiteName)%>%
+  mutate(Label = str_remove_all(name, "BasalArea"))%>%
+  ggplot(aes(x = SiteName, y = value))+
+  geom_point(alpha = 0.3)+
+  geom_boxplot(outlier.shape = NA)+
+  theme_classic()+
+  scale_colour_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  labs(color = " ", fill = " ", 
+       x = "Site", y = "Basal Area (m^2)")+
+  theme(legend.position = "bottom")
+
+dev.off()
+```
+
+
+
 
 
 ```{r message=FALSE, error=FALSE, warning=FALSE}
