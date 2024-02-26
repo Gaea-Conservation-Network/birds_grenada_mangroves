@@ -1,0 +1,134 @@
+---
+title: "Fish diversity in mangroves"
+author: "Jody Daniel"
+date: "`r Sys.Date()`"
+output:
+ markdowntemplates::skeleton:
+    highlight: tango
+    toc: TRUE
+
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+library(vegan)
+library(here)
+#install.packages(paste0(here::here(),"/packages/vegetarian_1.2.tar.gz"), repos = NULL, type = "source")
+library(vegetarian)
+library(readxl)
+library(tidyverse)
+library(indicspecies)
+library(ggthemes)
+library(skimr)
+source(paste0(here::here(), "/scripts/functions.R"))
+
+```
+
+```{r include=FALSE}
+# import the data
+fish_abundance_raw <- read_xlsx(here("data/Fish_MH-WH.xlsx"), sheet = 1)
+fish_biomass_raw <- read_xlsx(here("data/Fish_MH-WH.xlsx"), sheet = 2)
+skim(fish_abundance_raw)
+skim(fish_biomass_raw)
+
+
+```
+
+The data are not following the a bell-shaped curve, and they are likely non-normal. Because the tests we will use make no assumption on the shape of the data, this is not really of concern
+
+## Species Diversity
+
+We first want to determine if there is a difference in diversity between the two sites. So, we will measure richness, shannon weiner and simpsons at the 2 sites and then run a t-test to determine if there is a difference.
+
+```{r function for alpha, include=FALSE}
+
+diversity_alpha <- function(x){
+  library(vegetarian)
+  A <- x[,3:ncol(x)]
+  SiteInfo <- x[,1:2]
+  Richness <- apply(A, 1, function(x){H(x, lev = "alpha", q = 0)})
+  Shannon <- apply(A, 1, function(x){H(x, lev = "alpha", q = 1)})
+  Simpson <- apply(A, 1, function(x){H(x, lev = "alpha", q = 2)})
+  Diversity <- tibble(SiteInfo,Richness,`Shannon-Weiner` = Shannon,Simpson)
+  return(Diversity)
+}
+
+fish_alpha <- diversity_alpha(fish_abundance_raw)
+
+```
+
+```{r test for alpha}
+# is there a difference between the two sites?
+
+t.test(Richness ~ Site, data = fish_alpha) # is there a difference in richness? - yes
+t.test(`Shannon-Weiner` ~ Site, data = fish_alpha) # is there a difference in shannon weiner - yes
+t.test(Simpson ~ Site, data = fish_alpha) # is there a difference in simpsons - yes? if we use an alpha of 0.1
+
+```
+
+## Is there a difference in comuunity composiiton?
+
+Now, we will use a mrpp to see if there is a difference in community composition between the two sites.I used an mrpp because after removing sites with no observations, we ended up with an unbalanced design. 
+
+```{r test for community comp}
+rows_empty <- which(rowSums(fish_abundance_raw[, 3:ncol(fish_abundance_raw)])>0)# some replicates have no observations
+mrpp(fish_abundance_raw[rows_empty,3:ncol(fish_abundance_raw)], fish_abundance_raw$Site[rows_empty]) # is there a difference in community composition based on abundance? - no: p-value = 0.127, A (which is the test statistic) = 0.0007263 (values closer to 1 means there is a large difference, values closer to zero means there is little difference) 
+mrpp(fish_biomass_raw[rows_empty,3:ncol(fish_biomass_raw)], fish_biomass_raw$Site[rows_empty])# is there a difference in community composition based on biomass ? - no : p-value = 0.458, A (which is the test statistic) = -0.0004895  (values closer to 1 means there is a large difference, values closer to zero means there is little difference) 
+```
+
+## Are some species more associated with one site over the other the other?
+
+We will use an indicator species analysis.
+
+```{r isa, echo=FALSE}
+
+fish_abundance_isa <- multipatt(x = fish_abundance_raw[, 3:ncol(fish_abundance_raw)], 
+                                cluster = fish_abundance_raw$Site)
+fish_abundance_isa$sign # no species have a significant p_value, so none are more strongly associated with one site over the other
+
+fish_biomass_isa <- multipatt(x = fish_biomass_raw[, 3:ncol(fish_biomass_raw)], 
+                                 cluster = fish_biomass_raw$Site)
+fish_biomass_isa$sign # no species have a significant p_value, so none are more strongly associated with one site over the other
+fish_abundance_isa$B
+
+```
+## Making figures
+
+```{r include=FALSE}
+#theme_tufte
+fish_alpha_long <- 
+  fish_alpha %>%
+  gather(key = "Alpha", value = "Value", Richness, `Shannon-Weiner`, Simpson)%>%
+  mutate(Significance = case_when(Alpha == "Richness" ~ "***",
+                                 Alpha == "Shannon-Weiner" ~ "**",
+                                 Alpha == "Simpson" ~ "*"))
+FishSig <- fish_alpha_long %>% group_by(Site, Alpha, Significance) %>% 
+  summarise(Value = mean(Value)) 
+
+ 
+
+png(here("outputs/FishDiversity.png"), width = 8, height = 8,
+    res = 600, units = "in")
+ggplot()+
+  stat_summary(data = fish_alpha_long, aes(x = Site, y = Value, 
+                                           fill = Site),
+               fun = "mean", geom = "bar", position = "dodge")+
+  stat_summary(data = fish_alpha_long, aes(x = Site, y = Value),
+               fun.data = "mean_se", geom = "errorbar", position = "dodge")+
+  geom_text(data = FishSig,
+            aes(x = Site, y = Value+0.25,
+                label = Significance), size = 7.5, position = position_dodge(width = .9))+
+  labs(y = "Alpha Diversity", x = " ",
+       title = " ", fill = " ")+
+  scale_x_discrete(labels = c("Mount Hartman",
+                              "Westerhall"))+
+  scale_fill_brewer(palette = "BrBG")+
+  theme_gaea()+
+  facet_grid(~Alpha)+
+  theme(legend.position = "none")
+dev.off()
+```
+

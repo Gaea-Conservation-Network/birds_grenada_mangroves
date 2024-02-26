@@ -1,0 +1,138 @@
+---
+title: "MangrovesForMoney"
+author: "Jody Daniel"
+date: "2023-07-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(readxl)
+library(extrafont)
+library(stringi)
+library(stringr)
+library(showtext)
+library(vegan)
+library(writexl)
+library(ggthemes)
+library(ggrepel)
+library(viridis)
+library(gridExtra)
+source(paste0(here::here(), "/scripts/functions.R"))
+```
+
+
+```{r ecosystemservicesplots, echo=FALSE}
+DataFromPaper <- 
+  tibble(Site = c("La Sagesse", "Levera", "Mount Hartman"),
+         `Size (hectares)` = c(1, 43, 12),
+         # https://www.sciencedirect.com/science/article/pii/S0048969719354099
+         `Carbon Released Minimum (tonnes)` = `Size (hectares)`*17.708,
+         `Carbon Released Maximum (tonnes)` = `Size (hectares)`*19.00,
+         `Carbon Released Minimum/Gasoline Car (tonnes)` = `Carbon Released Minimum (tonnes)`/4.6,
+         `Carbon Released Maximum/Gasoline Car  (tonnes)` = `Carbon Released Maximum (tonnes)` /4.6,
+         # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7459810/
+         `Value of Ecosystem Services Average ($USD/hectare)` = `Size (hectares)`*21000,
+         `Value of Ecosystem Services Provisioning ($USD/hectare)`= `Size (hectares)`*4897.79,
+          `Value of Ecosystem Services Regulating ($USD/hectare)`= `Size (hectares)`*36100.91,
+          `Value of Ecosystem Services Supporting ($USD/hectare)`= `Size (hectares)`*401.68,
+         `Value of Ecosystem Services Cultural ($USD/hectare)`= `Size (hectares)`*49299.21,
+         #https://www.nature.org/content/dam/tnc/nature/en/documents/TNC_MangroveCapital_140922.pdf
+         `Mangrove Restoration Cost Minimum ($USD)` = `Size (hectares)`*23000, 
+         # https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/15-1077 
+         `Mangrove Restoration Cost Maximum ($USD)` = `Size (hectares)`*80000)
+
+png(paste0(here::here(), "/outputs/MangroveForMoneyII.png"), res = 900, units = "in",
+    height = 8, width = 15)
+
+grid.arrange(grobs = list(
+  DataFromPaper %>%
+  ggplot(aes(x = Site)) +
+  geom_linerange(aes(ymin = `Carbon Released Minimum/Gasoline Car (tonnes)`, 
+                     ymax = `Carbon Released Maximum/Gasoline Car  (tonnes)`, x = Site),
+                 size = 3, alpha = 0.25) +
+  geom_point(aes(y = `Carbon Released Minimum/Gasoline Car (tonnes)`),size = 3, color = "#5DC863FF") +
+  geom_point(aes(y = `Carbon Released Maximum/Gasoline Car  (tonnes)`), 
+             size = 3, color = "#21908CFF") +
+    scale_color_viridis_d()+
+  coord_flip() +
+  #scale_y_continuous(labels = scales::dollar_format()) +
+  labs(y = "Number of Cars-worth of Carbon Released from Mangrove Loss Each Year", x = "",
+       caption = str_wrap("Estimate of Carbon Released per Hectare: Sharma, Sahadev, et al. The impacts of degradation, deforestation and restoration on mangrove ecosystem carbon stocks across Cambodia. Science of the Total Environment 706 (2020): 135416.", 100))+
+  theme_hc() +
+  theme(text = element_text(family = "PT Sans Narrow"), axis.title.x = element_text(hjust = 1),
+        plot.margin = margin(t = 0, r = 12, b = 0, l = 0, unit = "pt"),
+         legend.position = "none"),
+  
+  DataFromPaper %>%
+  ggplot(aes(x = Site)) +
+  geom_linerange(aes(ymin = `Mangrove Restoration Cost Minimum ($USD)`, 
+                     ymax = `Mangrove Restoration Cost Maximum ($USD)`, x = Site),
+                 size = 3, alpha = 0.25) +
+  geom_point(aes(y = `Mangrove Restoration Cost Minimum ($USD)`), size = 3,
+             color = "#5DC863FF") +
+  geom_point(aes(y = `Mangrove Restoration Cost Maximum ($USD)`), size = 3,
+             color = "#21908CFF") +
+  coord_flip() +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  labs(y = "Cost of Mangrove Restoration", x = "",
+       caption = str_wrap("Estimate of Mangrove Restoration Cost per Hectare: Menéndez, P., Lowrie, C., and Beck, M. W. (2022). “Building Mangrove Capital: Assessing the Benefit Cost Ratio for Mangrove Restoration Across the Wider Caribbean.” The Nature Conservancy, Arlington, VA", 100))+
+  theme_hc() +
+  theme(text = element_text(family = "PT Sans Narrow"), axis.title.x = element_text(hjust = 1),
+        plot.margin = margin(t = 0, r = 12, b = 0, l = 0, unit = "pt"),
+         legend.position = "none"),
+  
+  DataFromPaper %>%
+    pivot_longer(cols = `Value of Ecosystem Services Provisioning ($USD/hectare)`:`Value of Ecosystem Services Cultural ($USD/hectare)`)%>%
+    mutate(name = str_remove_all(name, "Value of Ecosystem Services"),
+           name = str_split(name, "\\(", simplify=T)[,1])%>%
+  ggplot(aes(y = Site, x = value, color = name, fill = name)) +
+    geom_bar( stat = "identity")+
+  scale_x_continuous(labels = scales::dollar_format()) +
+    scale_fill_viridis_d()+
+    scale_color_viridis_d()+
+  labs(x = "Yearly Value of Ecosystem Services", y = "", fill = " ", color = " ", 
+       caption = str_wrap("Estimate of Yearly Value of Ecosystem Services per Hectare: Getzner, Michael, and Muhammad Shariful Islam. Ecosystem services of mangrove forests: Results of a meta-analysis of economic values. International Journal of Environmental Research and Public Health 17.16 (2020): 5830.", 100))+
+  theme_hc() +
+  theme(text = element_text(family = "PT Sans Narrow"), 
+        axis.title.x = element_text(hjust = 1),
+        plot.margin = margin(t = 0, r = 12, b = 0, l = 0, unit = "pt"),
+        legend.position = "none"),
+  
+  lemon::g_legend(DataFromPaper %>%
+    pivot_longer(cols = `Value of Ecosystem Services Provisioning ($USD/hectare)`:`Value of Ecosystem Services Cultural ($USD/hectare)`)%>%
+    mutate(name = str_remove_all(name, "Value of Ecosystem Services"),
+           name = str_split(name, "\\(", simplify=T)[,1])%>%
+  ggplot(aes(y = Site, x = value, color = name, fill = name)) +
+    geom_bar( stat = "identity")+
+  scale_x_continuous(labels = scales::dollar_format()) +
+    scale_fill_viridis_d()+
+    scale_color_viridis_d()+
+  labs(x = "Yearly Value of Ecosystem Services", y = "", fill = " ", color = " ", 
+       caption = str_wrap("Estimate of Yearly Value of Ecosystem Services per Hectare: Getzner, Michael, and Muhammad Shariful Islam. Ecosystem services of mangrove forests: Results of a meta-analysis of economic values. International Journal of Environmental Research and Public Health 17.16 (2020): 5830.", 100))+
+  theme_hc() +
+  theme(text = element_text(family = "PT Sans Narrow"), 
+        axis.title.x = element_text(hjust = 1),
+        plot.margin = margin(t = 0, r = 12, b = 0, l = 0, unit = "pt")))),
+  #nrow = 2,
+  layout_matrix = rbind(c(1,2,3),
+                        c(1,2,3),
+                        c(1,2,3),
+                        c(1,2,3),
+                        c(NA,4, NA))
+)
+dev.off()
+```
+
+
+
+```{r}
+
+rbind(c(1,1,1,1, 2,2,2,2, 3,3,3,3),
+                        c(1,1,1,1, 2,2,2,2, 3,3,3,3),
+                        c(1,1,1,1, 2,2,2,2, 3,3,3,3),
+                        c(1,1,1,1, 2,2,2,2, 3,3,3,3),
+                        c(4))
+```
