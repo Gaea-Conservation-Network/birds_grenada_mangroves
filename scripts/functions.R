@@ -24,7 +24,7 @@ NMDS.ScreePoints<-function(data,noRuns) { #where data is the name of the data fr
 
 CongruenceCrossTaxon <- function(DataVeg, DataBird, ColTraitVeg){
   Veg <- vegdist(DataVeg %>% arrange(Independent)%>% ungroup() %>%select(contains(ColTraitVeg)))
-  Bird <- vegdist(DataBird %>% arrange(Independent)%>% ungroup() %>%select(ANCH:SHCO))
+  Bird <- vegdist(DataBird %>% arrange(Independent)%>% ungroup() %>%select(ANCH:ZEND))
   
  MantelOverall <- mantel(vegdist(wisconsin(Veg)),
                          vegdist(wisconsin(Bird)),method="spearman")
@@ -42,7 +42,7 @@ CongruenceCrossTaxon <- function(DataVeg, DataBird, ColTraitVeg){
       Veg <- vegdist(DataVeg %>% arrange(Independent)%>% ungroup() %>% filter(SiteName == .x)%>%
                        select(contains(ColTraitVeg)))
       Bird <- vegdist(DataBird %>% arrange(Independent)%>% ungroup() %>% filter(SiteName == .x)%>%
-                        select(ANCH:SHCO))
+                        select(ANCH:ZEND))
       
       MantelOverall <- mantel(vegdist(wisconsin(Veg)),vegdist(wisconsin(Veg)),method="spearman")
       
@@ -61,7 +61,7 @@ CongruenceCrossTaxon <- function(DataVeg, DataBird, ColTraitVeg){
       Veg <- vegdist(DataVeg %>% arrange(Independent)%>% ungroup() %>% filter(SiteType == .x)%>%
                        select(contains(ColTraitVeg)))
       Bird <- vegdist(DataBird %>% arrange(Independent)%>% ungroup() %>% filter(SiteType == .x)%>%
-                        select(ANCH:SHCO))
+                        select(ANCH:ZEND))
       
       MantelOverall <- mantel(vegdist(wisconsin(Veg)),vegdist(wisconsin(Veg)),method="spearman")
       
@@ -98,7 +98,7 @@ DispersionPlots <- function(DataX, DataType, groups){
     
     MatriX <- 
       DataX %>%
-      select(ANCH:SHCO)
+      select(ANCH:ZEND)
     
   }
   
@@ -223,7 +223,7 @@ DispersionResults <- function(DataX, DataType, groups){
     
     MatriX <- 
       DataX %>%
-      select(ANCH:SHCO)
+      select(ANCH:ZEND)
     
     
   }
@@ -345,7 +345,7 @@ NMDSPlotsBirdsPlants <- function(NMDSList,
           DataY <-
             suppressWarnings(suppressMessages(DataY[[1]] %>%
             arrange(Independent)%>% ungroup() %>%
-            select(ANCH:SHCO)))
+            select(ANCH:ZEND)))
         }
         
         else if(y == "Food"){
@@ -353,7 +353,7 @@ NMDSPlotsBirdsPlants <- function(NMDSList,
             suppressWarnings(suppressMessages(DataY[[2]] %>%
             arrange(Independent)%>% ungroup() %>%
             select(Independent, 
-                   ANCH:SHCO) %>%
+                   ANCH:ZEND) %>%
             pivot_longer(!Independent, names_to = "Code",
                          values_to = "Abundance")%>%
             left_join(read_csv(paste0(here::here(),
@@ -374,7 +374,7 @@ NMDSPlotsBirdsPlants <- function(NMDSList,
             suppressWarnings(suppressMessages(DataY[[2]] %>%
             arrange(Independent)%>% ungroup() %>%
             select(Independent, 
-                   ANCH:SHCO) %>%
+                   ANCH:ZEND) %>%
             pivot_longer(!Independent, names_to = "Code",
                          values_to = "Abundance")%>%
             left_join(read_csv(paste0(here::here(),
@@ -396,7 +396,7 @@ NMDSPlotsBirdsPlants <- function(NMDSList,
             suppressWarnings(suppressMessages(DataY[[2]] %>%
             arrange(Independent)%>% ungroup() %>%
             select(Independent, 
-                   ANCH:SHCO) %>%
+                   ANCH:ZEND) %>%
             pivot_longer(!Independent, names_to = "Code",
                          values_to = "Abundance")%>%
             left_join(read_csv(paste0(here::here(),
@@ -418,7 +418,7 @@ NMDSPlotsBirdsPlants <- function(NMDSList,
             suppressWarnings(suppressMessages(DataY[[2]] %>%
             arrange(Independent)%>% ungroup() %>%
             select(Independent, 
-                   ANCH:SHCO) %>%
+                   ANCH:ZEND) %>%
             pivot_longer(!Independent, names_to = "Code",
                          values_to = "Abundance")%>%
             left_join(read_csv(paste0(here::here(),
@@ -439,7 +439,7 @@ NMDSPlotsBirdsPlants <- function(NMDSList,
             suppressWarnings(suppressMessages(DataY[[2]] %>%
             arrange(Independent)%>% ungroup() %>%
             select(Independent, 
-                   ANCH:SHCO) %>%
+                   ANCH:ZEND) %>%
             pivot_longer(!Independent, names_to = "Code",
                          values_to = "Abundance")%>%
             left_join(read_csv(paste0(here::here(),
@@ -584,14 +584,14 @@ NMDSPlotsBirds <- function(NMDSList,
           if(y == "Species"){
             DataY <-
               suppressWarnings(suppressMessages(DataX %>%ungroup()%>%
-                                                  select(ANCH:SHCO)))
+                                                  select(ANCH:ZEND)))
           }
           
           else if(y == "Food"){
             DataY <-
               suppressWarnings(suppressMessages(DataX%>% ungroup()%>%
                                                   select(Independent, 
-                                                         ANCH:SHCO) %>%
+                                                         ANCH:ZEND) %>%
                                                   pivot_longer(!Independent, names_to = "Code",
                                                                values_to = "Abundance")%>%
                                                   left_join(read_csv(paste0(here::here(),
@@ -611,7 +611,7 @@ NMDSPlotsBirds <- function(NMDSList,
             DataY <-
               suppressWarnings(suppressMessages(DataX %>%ungroup()%>% 
                                                   select(Independent, 
-                                                         ANCH:SHCO) %>%
+                                                         ANCH:ZEND) %>%
                                                   pivot_longer(!Independent, names_to = "Code",
                                                                values_to = "Abundance")%>%
                                                   left_join(read_csv(paste0(here::here(),
@@ -632,7 +632,7 @@ NMDSPlotsBirds <- function(NMDSList,
             DataY <-
               suppressWarnings(suppressMessages(DataX %>% ungroup() %>%
                                                   select(Independent, 
-                                                         ANCH:SHCO) %>%
+                                                         ANCH:ZEND) %>%
                                                   pivot_longer(!Independent, names_to = "Code",
                                                                values_to = "Abundance")%>%
                                                   left_join(read_csv(paste0(here::here(),
@@ -653,7 +653,7 @@ NMDSPlotsBirds <- function(NMDSList,
             DataY <-
               suppressWarnings(suppressMessages(DataX %>% ungroup() %>%
                                                   select(Independent, 
-                                                         ANCH:SHCO) %>%
+                                                         ANCH:ZEND) %>%
                                                   pivot_longer(!Independent, names_to = "Code",
                                                                values_to = "Abundance")%>%
                                                   left_join(read_csv(paste0(here::here(),
@@ -673,7 +673,7 @@ NMDSPlotsBirds <- function(NMDSList,
             DataY <-
               suppressWarnings(suppressMessages(DataX %>% ungroup() %>%
                                                   select(Independent, 
-                                                         ANCH:SHCO) %>%
+                                                         ANCH:ZEND) %>%
                                                   pivot_longer(!Independent, names_to = "Code",
                                                                values_to = "Abundance")%>%
                                                   left_join(read_csv(paste0(here::here(),
@@ -1112,4 +1112,9 @@ theme_gaea <-  function(){
           panel.grid.major = element_line(linewidth = 0.10, colour = "grey70"),
           plot.subtitle = element_text(hjust = 1, face = "bold"))
   }
+
+######################################################################################################
+################################ Models - Plants & Birds #############################################
+###################################################################################################### 
+
 

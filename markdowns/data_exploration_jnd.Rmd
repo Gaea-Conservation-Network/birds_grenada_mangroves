@@ -74,11 +74,12 @@ BirdData <- VegDataRaw %>% select(SiteName, SiteID, SiteType, Independent)%>%
                             SiteName == "Levera" ~ "LV",
                             SiteName == "Mt. Hartman" ~ "MH"),
          SiteID = paste0(SiteCode, "-", "T", Transect, "-",  "P", Plot ))) %>%
+  arrange(Species)%>%
  # filter(!SiteName=="Conference" & `Visit Number` == 3)%>% # drop one visit for conference
   group_by(SiteName, SiteType, Independent, Species) %>%
   summarise(Abundance = (mean(Abundance, na.rm = TRUE)) %>% round())%>%
   pivot_wider(names_from  = "Species",
-              values_from = "Abundance",
+              values_from = "Abundance",names_sort = TRUE,
               values_fill = 0)%>% filter(!is.na(SiteName))%>%
   mutate(Independent = paste0(Independent, "-", "0"))
 
@@ -94,10 +95,11 @@ BirdDataSumSiteID <-  VegDataRaw %>% select(SiteName, SiteID, SiteType, Independ
                             SiteName == "Mt. Hartman" ~ "MH"),
          SiteID = paste0(SiteCode, "-", "T", Transect, "-",  "P", Plot ))) %>%
  # filter(!SiteName=="Conference" & `Visit Number` == 3)%>% # drop one visit for conference
+  arrange(Species)%>%
   group_by(SiteName, SiteType, SiteID, Independent, Date, Species) %>%
   summarise(Abundance = (sum(Abundance, na.rm = TRUE)) %>% round())%>%
   pivot_wider(names_from  = "Species",
-              values_from = "Abundance",
+              values_from = "Abundance", names_sort = TRUE,
               values_fill = 0)%>% filter(!is.na(SiteName))%>%
   group_by(Independent)%>%
   mutate(Independent = paste0(Independent, "-", row_number()))
@@ -113,9 +115,10 @@ BirdDataOG <-  VegDataRaw %>% select(SiteName, SiteID, SiteType, Independent)%>%
          SiteID = paste0(SiteCode, "-", "T", Transect, "-",  "P", Plot ))) %>%
  # filter(!SiteName=="Conference" & `Visit Number` == 3)%>% # drop one visit for conference
   group_by(SiteName, SiteType, SiteID, Independent, Species) %>%
+  arrange(Species)%>%
   summarise(Abundance = (sum(Abundance, na.rm = TRUE)) %>% round())%>%
   pivot_wider(names_from  = "Species",
-              values_from = "Abundance",
+              values_from = "Abundance",names_sort = TRUE,
               values_fill = 0)%>% filter(!is.na(SiteName))%>%
   group_by(Independent)%>%
   mutate(Independent = paste0(Independent, "-", row_number())) %>% ungroup()
@@ -128,7 +131,7 @@ BirdTraits <-
   BirdDataSumSiteID %>%
     arrange(SiteID)%>% ungroup() %>%
     select(SiteID, 
-           ANCH:SHCO) %>%
+           ANCH:ZEND) %>%
     pivot_longer(!SiteID, names_to = "Code",
                  values_to = "Abundance")%>%
     left_join(read_csv(paste0(here::here(),
@@ -142,6 +145,26 @@ BirdTraits <-
                                                               values_from = "Abundance")%>%
         
                                                   arrange(SiteID) %>% ungroup()%>% select(-SiteID)
+  }))
+
+
+
+BirdTraitsSpecies <-
+  read_csv(paste0(here::here(),
+                "/data/bird_traits_raw.csv")) %>% select(Code) %>% arrange(Code)%>%
+  bind_cols(
+ map_dfc(.x = c("Food", "Behaviour",  "Nesting", "Habitat","Type"), ~{
+  Save <- 
+    read_csv(paste0(here::here(),
+                "/data/bird_traits_raw.csv")) %>% group_by(Code, !!sym(.x)) %>% tally() %>% arrange(Code) %>% pivot_wider(id_cols = Code, names_from = !!sym(.x), values_from = n)%>% replace(is.na(.), 0) %>% arrange(Code)%>%
+    ungroup()
+  
+   Name <- Save %>% colnames()
+   Saver <- !str_detect(Save %>% colnames(), "NA")
+   
+  Saver <- Name[Saver]
+  
+  Save %>% select(all_of(Saver)) %>% select(!Code)
   }))
 
 
@@ -153,7 +176,7 @@ BirdTraitsOG <-
   BirdDataOG %>%
     arrange(SiteID)%>% ungroup() %>%
     select(SiteID, 
-           ANCH:SHCO) %>%
+           ANCH:ZEND) %>%
     pivot_longer(!SiteID, names_to = "Code",
                  values_to = "Abundance")%>%
     left_join(read_csv(paste0(here::here(),
@@ -168,6 +191,12 @@ BirdTraitsOG <-
         
                                                   arrange(SiteID) %>% ungroup()%>% select(-SiteID)
   }))
+
+BirdTraitsIndependent <- 
+  BirdTraits %>% left_join(VegDataRaw %>% select(SiteName, SiteID, SiteType, Independent)) %>% relocate(Independent, .after = SiteType) %>% ungroup() %>% select(Independent, `Aquatic invertebrates`:Resident) %>% group_by(Independent) %>% summarise(across(`Aquatic invertebrates`:Resident, ~sum(.x, na.rm = TRUE)))
+
+BirdTraitMatrix <- 
+  BirdTraitsIndependent %>% mutate(across(`Aquatic invertebrates`:Resident, ~ifelse(.x>=1,1,0)))
   
 ```
 
@@ -373,6 +402,7 @@ bind_rows(BasalAreaBirdID %>% filter(Test == "Mantel" & Group %in% c("Overall", 
 
 ```
 
+The results here are not reliable - we lack power to decct difefrencs. We will focus on our anlayses exploring differences overall, not be site type. 
 
 
 ```{r view congruence Procustes, echo=FALSE}
@@ -417,38 +447,41 @@ bind_rows(BasalAreaBirdID %>% filter(Test == "Procustes" & Group %in% c("Overall
 
 
 
+
 ```{r export congruence,  message=FALSE, error=FALSE, warning=FALSE}
 png(paste0(here::here(), "/outputs/PlantBirdCongruenceMantel.png"),
     units = "in",
-    res = 600, width = 8, height = 5)
-plot(TreeHeightBirdID %>% filter(Test == "Mantel" & Group %in% c("Overall", "Basin", "Fringe"))%>% 
-       mutate(Type = "Tree Height")%>%
-bind_rows(BasalAreaBirdID %>% filter(Test == "Mantel" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Basal Area")) %>%
- bind_rows(CanopyWidthBirdID %>% filter(Test == "Mantel" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Canopy Width"))%>%
+    res = 600, width = 8, height = 8)
+TreeHeightBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Tree Height")%>%
+bind_rows(BasalAreaBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Basal Area")) %>%
+ bind_rows(CanopyWidthBirdID %>% filter(Group %in% c("Overall"))%>% mutate(Type = "Canopy Width"))%>%
   mutate(Significance = case_when(`P-Value`<0.001 ~ "***",
                                   `P-Value`<0.05 ~ "**",
                                   `P-Value`<0.1 ~ "*",
                                   TRUE ~ ""))%>%
- ggplot(aes(x = Type, y = Strength, fill = Group))+
+filter(Test == "Mantel")%>%
+  ggplot(aes(x = Type, y = Strength, fill = Group))+
   geom_bar(stat = "identity", position = "dodge")+
   scale_fill_brewer(palette = "BrBG")+
   geom_text(aes(label = Significance), size = 6, position = position_dodge(width = .9))+
     theme_gaea()+
   labs( y = "Strength of Cross-Taxon Congruence (r)",
         x = " ", fill = "",
-        caption = "Birds & Plants\nMantel Test"))
+        caption = "Birds & Plants\nMantel Test")+
+  theme(legend.position = "none")
 dev.off()
 
 png(paste0(here::here(), "/outputs/PlantBirdCongruenceProcustes.png"),
     units = "in",
-    res = 600, width = 8, height = 5)
-plot(TreeHeightBird %>% filter(Test == "Procustes" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Tree Height")%>%
-bind_rows(BasalAreaBird %>% filter(Test == "Procustes" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Basal Area")) %>%
- bind_rows(CanopyWidthBird %>% filter(Test == "Procustes" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Canopy Width"))%>%
+    res = 600, width = 8, height = 8)
+TreeHeightBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Tree Height")%>%
+bind_rows(BasalAreaBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Basal Area")) %>%
+ bind_rows(CanopyWidthBirdID %>% filter(Group %in% c("Overall"))%>% mutate(Type = "Canopy Width"))%>%
   mutate(Significance = case_when(`P-Value`<0.001 ~ "***",
                                   `P-Value`<0.05 ~ "**",
                                   `P-Value`<0.1 ~ "*",
                                   TRUE ~ ""))%>%
+filter(Test == "Procustes")%>%
   ggplot(aes(x = Type, y = Strength, fill = Group))+
   geom_bar(stat = "identity", position = "dodge")+
   scale_fill_brewer(palette = "BrBG")+
@@ -456,11 +489,132 @@ bind_rows(BasalAreaBird %>% filter(Test == "Procustes" & Group %in% c("Overall",
     theme_gaea()+
   labs( y = expression(paste("Strength of Cross-Taxon Congruence (", m^2, ")")),
         x = " ", fill = "",
-        caption = "Birds & Plants\nProcustes Analysis"))
+        caption = "Birds & Plants\nProcustes Analysis")+
+  theme(legend.position = "none")
+dev.off()
+
+png(paste0(here::here(), "/outputs/PlantBirdCongruenceMantelProcustes.png"),
+    units = "in",
+    res = 600, width = 8, height = 6)
+TreeHeightBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Tree Height")%>%
+bind_rows(BasalAreaBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Basal Area")) %>%
+ bind_rows(CanopyWidthBirdID %>% filter(Group %in% c("Overall"))%>% mutate(Type = "Canopy Width"))%>%
+  mutate(Significance = case_when(`P-Value`<0.001 ~ "***",
+                                  `P-Value`<0.05 ~ "**",
+                                  `P-Value`<0.1 ~ "*",
+                                  TRUE ~ ""))%>%
+#filter(Test == "Mantel")%>%
+  mutate(Test = ifelse(Test == "Mantel", "Mantel Test", "Procustes Analysis"))%>%
+  ggplot(aes(x = Type, y = Strength, fill = Group))+
+  geom_bar(stat = "identity", position = "dodge")+
+  scale_fill_brewer(palette = "BrBG")+
+  geom_text(aes(label = Significance), size = 6, position = position_dodge(width = .9))+
+    theme_gaea()+
+  facet_grid(~Test)+
+  labs( y = expression(paste("Strength of Cross-Taxon Congruence (r)/", m^2, ")")),
+        x = " ", fill = "",
+        caption = "Birds & Plants")+
+  theme(legend.position = "none")
 dev.off()
   
 ```
+# Functional Disperson
 
+To explore how bird composition is related to plants, we can build models exploring each plant species' abundance is predictive of bird:
+
+* species richness
+* funcitonal richness
+* fuctional dispersion
+
+We can use `dbFD` in the `FD` package to create these metrics, using a matrix of species abundances and binary traits.
+
+```{r functional diversity, include=FALSE}
+TB <- BirdData %>% ungroup() %>% arrange(Independent)%>% select(ANCH:ZEND) %>% as.data.frame()
+rownames(TB) <- BirdData$Independent
+BT <- BirdTraitsSpecies%>% arrange(Code) %>% select(Nectar:Migrant) %>% as.data.frame()
+rownames(BT) <- BirdTraitsSpecies$Code
+BirdFD <- FD::dbFD(BT, TB,
+                    calc.FRic = T, calc.CWM = F, calc.FDiv =T)
+
+write_csv(x = tibble(SiteName = BirdData %>% ungroup() %>% 
+                       arrange(Independent)%>% select(SiteName) %>% reduce(c) ,
+                 SiteType = BirdData %>% ungroup() %>% arrange(Independent)%>% select(SiteType)%>% reduce(c)  , 
+                 Independent = str_remove_all(BirdData %>% ungroup() %>% arrange(Independent)%>% 
+               select(Independent)%>% reduce(c), "-0")  ,
+                 FunctionalDispersion = BirdFD$RaoQ, #Rao's quadratic entropy 
+                 FunctionalRichness = BirdFD$FRic,
+                 FunctionalEveness = BirdFD$FEve,
+                 FunctionalDivergence = BirdFD$FDiv)%>%
+            left_join(VegMatrixIndependent),
+          file = paste0(here::here(), "/data/FunctionalDiversity.csv"))
+
+rm(TB)
+rm(BT)
+
+```
+
+
+
+```{r functional diversity, include=FALSE}
+TB <- BirdDataOG %>% ungroup() %>% arrange(SiteID)%>% select(ANCH:ZEND) %>% as.data.frame()
+rownames(TB) <- BirdDataOG$SiteID
+BT <- BirdTraitsSpecies%>% arrange(Code) %>% select(Nectar:Migrant) %>% as.data.frame()
+rownames(BT) <- BirdTraitsSpecies$Code
+BirdFD <- FD::dbFD(BT, TB,
+                    calc.FRic = T, calc.CWM = F, calc.FDiv =T)
+
+write_csv(x = tibble(SiteName = BirdDataOG %>% ungroup() %>% 
+                       arrange(SiteID)%>% select(SiteName) %>% reduce(c) ,
+                 SiteType = BirdDataOG %>% 
+                   ungroup() %>% arrange(SiteID)%>% select(SiteType)%>% reduce(c)  , 
+                 SiteID = str_remove_all(BirdDataOG %>% ungroup() %>% arrange(SiteID)%>% 
+               select(SiteID)%>% reduce(c), "-0")  ,
+                 FunctionalDispersion = BirdFD$RaoQ, #Rao's quadratic entropy 
+                 FunctionalRichness = BirdFD$FRic,
+                 FunctionalEveness = BirdFD$FEve,
+                 FunctionalDivergence = BirdFD$FDiv)%>%
+            left_join(VegMatrixSiteID),
+          file = paste0(here::here(), "/data/FunctionalDiversityOG.csv"))
+
+rm(TB)
+rm(BT)
+
+```
+
+
+```{r test bird and plants, echo=FALSE}
+
+PBData <- 
+  tibble(SiteName = BirdDataOG %>% ungroup() %>% 
+                       arrange(SiteID)%>% select(SiteName) %>% reduce(c) ,
+                 SiteType = BirdDataOG %>% 
+           ungroup() %>% arrange(SiteID)%>% select(SiteType)%>% reduce(c)  , 
+                 SiteID = str_remove_all(BirdDataOG %>% ungroup() %>% arrange(SiteID)%>% 
+               select(SiteID)%>% reduce(c), "-0")  ,
+                 FunctionalDispersion = BirdFD$RaoQ, #Rao's quadratic entropy 
+                 FunctionalRichness = BirdFD$FRic,
+                 FunctionalEveness = BirdFD$FEve,
+                 FunctionalDivergence = BirdFD$FDiv,
+         Richness = rowSums(BirdDataOG %>% ungroup() %>% arrange(SiteID)%>% select(ANCH:ZEND) %>%
+                              mutate(across(ANCH:ZEND, ~ifelse(.x>=1,1,0)), )))%>%
+            left_join(VegMatrixSiteID)
+
+
+summary(lm(FunctionalDispersion ~ BlackCanopyWidth + RedCanopyWidth + WhiteCanopyWidth,
+   data = PBData))
+
+summary(lm(FunctionalRichness ~ BlackCanopyWidth + RedCanopyWidth + WhiteCanopyWidth,
+   data = PBData))
+
+summary(lm(FunctionalDivergence ~ BlackCanopyWidth + RedCanopyWidth + WhiteCanopyWidth,
+   data = PBData))
+
+summary(lm(FunctionalRichness ~ BlackCanopyWidth + RedCanopyWidth + WhiteCanopyWidth,
+   data = PBData))
+
+summary(lm(Richness ~ BlackCanopyWidth + RedCanopyWidth + WhiteCanopyWidth,
+   data = PBData))
+```
 
 # Visulizing Communtiy Composiiton
 
@@ -560,7 +714,7 @@ CanopyWidthIndependentNMS <- metaMDS(VegMatrixIndependent %>% arrange(Independen
 
 
 ```{r save the plots, include = FALSE, message=FALSE, error=FALSE, warning=FALSE}
-BirdsSiteNMS <- metaMDS(BirdData %>% ungroup() %>% select(ANCH:SHCO) ,  distance = "bray",
+BirdsSiteNMS <- metaMDS(BirdData %>% ungroup() %>% select(ANCH:ZEND) ,  distance = "bray",
                                  k = 2, autotransform = TRUE,trymax=100)
 NMDSPlotsBirds(NMDSList = BirdsSiteNMS,
                  FileNames = "Abundance-Combined",
@@ -575,7 +729,7 @@ NMDSPlotsBirds(NMDSList = BirdsSiteNMS,
                  Group = c("Species", "Food", "Behaviour",  "Nesting", "Habitat","Type"),
                  Type = "Type")
 
-BirdsSiteNMS <- metaMDS(BirdDataOG %>% ungroup() %>% select(ANCH:SHCO) ,  distance = "bray",
+BirdsSiteNMS <- metaMDS(BirdDataOG %>% ungroup() %>% select(ANCH:ZEND) ,  distance = "bray",
                                  k = 3, autotransform = TRUE,trymax=100)
 NMDSPlotsBirds(NMDSList = BirdsSiteNMS,
                  FileNames = "Abundance-OG",
@@ -590,7 +744,7 @@ NMDSPlotsBirds(NMDSList = BirdsSiteNMS,
                  Group = c("Species", "Food", "Behaviour",  "Nesting", "Habitat","Type"),
                  Type = "Type")
 
-BirdsSiteNMS <- metaMDS(BirdDataSumSiteID %>% ungroup() %>% select(ANCH:SHCO) ,  distance = "bray",
+BirdsSiteNMS <- metaMDS(BirdDataSumSiteID %>% ungroup() %>% select(ANCH:ZEND) ,  distance = "bray",
                                  k = 3, autotransform = TRUE,trymax=100)
 NMDSPlotsBirds(NMDSList = BirdsSiteNMS,
                  FileNames = "Abundance-OG-Date-Sum",

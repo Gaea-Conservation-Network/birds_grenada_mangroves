@@ -1,35 +1,42 @@
 Code,Species,Food,Behaviour,Nesting,Habitat,Type
-BANA,Bananaquit,Fruit,Foliage gleaner,Shrub,Open woodlands,Resident
-HOWR,House wren,Insects,Foliage gleaner,Cavity,Open woodlands,Migrant
-LAGU,Laughing gull,Aquatic invertebrates,Ground forager,Ground,Shoreline,Resident
-MAFR,Magnificent frigatebird,Fish,Soaring,Shrub,Oceans,Resident
-SNPI,Scaly-naped Pigeon,Seeds,Foliage gleaner,Tree,Forests,Resident
-SPTH,Spectacled thrush,Fruit,Foliage gleaner,Tree,Open woodlands,Resident
-YCNH,Yellow-crowned night heron,Aquatic invertebrates,Stalking,Tree,Marshes,Resident
-ZEND,Zenaida dove,Seeds,Ground forager,Tree,Forests,Resident
-CGDO,Common ground dove,Seeds,Ground forager,Ground,Scrub,Resident
-GRAK,Gray kingbird,Insects,Aerial forager,Tree,Forests,Resident
-GRHE,Green heron,Fish,Stalking,Tree,Marshes,Resident
-TRMO,Tropical mockingbird,Insects,Ground forager,,,Resident
 ANCH,Antillean crested hummingbird,Nectar,Probing,Shrub,Forests,Resident
-CAGR,Carib grackle,Omnivore,Ground forager,Tree,Open woodlands,Resident
-COGA,Common gallinule,Plants,Dabbler,Floating,Marshes,Resident
-LBHE,Little blue heron,Fish,Stalking,Tree,Marshes,Resident
-BWHA,Broad-winged hawk,Small animals,Aerial dive,Tree,Forests,Resident
-CAMA,Caribbean martin,Insects,Aerial forager,Cavity,Marshes,Resident
-GFLY,Grenada flycatcher,Insects,Aerial forager,,Open woodlands,Resident
-MACU,Mangrove cuckoo,Small animals,Foliage gleaner,Tree,Forests,Resident
+BANA,Bananaquit,Fruit,Foliage gleaner,Shrub,Open woodlands,Resident
 BARS,Barn swallow,Insects,Aerial forager,Building,Grasslands,Migrant
 BBWD,Black-bellied whistling duck,Plants,Dabbler,Cavity,Marshes,Resident
 BEKI,Belted kingfisher,Fish,Aerial dive,Burrow,Lakes and ponds,Migrant
 BFGR,Black-faced grassquit,Seeds,Ground forager,Shrub,Open woodlands,Resident
+BWHA,Broad-winged hawk,Small animals,Aerial dive,Tree,Forests,Resident
 BWVI,Black-whiskered vireo,Insects,Foliage gleaner,Tree,Forests,Migrant
-GBHE,Great blue heron,Fish,Stalking,Tree,Marshes,Migrant
-LATA,Lesser antillean tanager,,,,Open woodlands,Resident
-SBAN,Smooth-billed ani,Omnivore,Ground forager,Tree,Scrub,Resident
-YBEL,Yellow-bellied elaenia,Fruit,Foliage gleaner,Shrub,Open woodlands,Resident
-YBSE,Yellow-bellied seedeater,Seeds,,,Grasslands,Resident
+CAGR,Carib grackle,Omnivore,Ground forager,Tree,Open woodlands,Resident
+CAMA,Caribbean martin,Insects,Aerial forager,Cavity,Marshes,Resident
+CGDO,Common ground dove,Seeds,Ground forager,Ground,Scrub,Resident
+COGA,Common gallinule,Plants,Dabbler,Floating,Marshes,Resident
 EADO,Eared dove,Seeds,Ground forager,Tree,Grasslands,Migrant
-LANB,Lesser antillean bullfinch,Seeds,,,Forests,Resident
-SPSA,Spotted sandpiper,Small animals,Probing,Ground,Shoreline,Migrant
+GBHE,Great blue heron,Fish,Stalking,Tree,Marshes,Migrant
+GFLY,Grenada flycatcher,Insects,Aerial forager,,Open woodlands,Resident
+GRAK,Gray kingbird,Insects,Aerial forager,Tree,Forests,Resident
+GRDO,Grenada Dove,Seeds,Ground forager,Tree,Forests,Resident
+GRHE,Green heron,Fish,Stalking,Tree,Marshes,Resident
+HOWR,House wren,Insects,Foliage gleaner,Cavity,Open woodlands,Migrant
+LAGU,Laughing gull,Aquatic invertebrates,Ground forager,Ground,Shoreline,Resident
+LANB,Lesser antillean bullfinch,Omnivore,Foliage gleaner,Shrub,Forests,Resident
+LATA,Lesser antillean tanager,Omnivore,Foliage gleaner,Tree,Open woodlands,Resident
+LBHE,Little blue heron,Fish,Stalking,Tree,Marshes,Resident
+LIEG,Little Egret,Fish,Stalking,Tree,Marshes,Resident
+MACU,Mangrove cuckoo,Small animals,Foliage gleaner,Tree,Forests,Resident
+MAFR,Magnificent frigatebird,Fish,Soaring,Shrub,Oceans,Resident
+SBAN,Smooth-billed ani,Omnivore,Ground forager,Tree,Scrub,Resident
+SEPL,Semipalmated Plover,Invertebrates,Probing,Ground,Marshes,Migrant
+SESA,Semipalmated Sandpiper,Invertebrates,Probing,Ground,Marshes,Migrant
 SHCO,Shiny cowbird,Omnivore,Ground forager,Tree,Grasslands,Resident
+SNPI,Scaly-naped Pigeon,Seeds,Foliage gleaner,Tree,Forests,Resident
+SPSA,Spotted sandpiper,Small animals,Probing,Ground,Shoreline,Migrant
+SPTH,Spectacled thrush,Fruit,Foliage gleaner,Tree,Open woodlands,Resident
+TRMO,Tropical mockingbird,Insects,Ground forager,Shrub,Forests,Resident
+WHIM,Whimbrel,Invertebrates,Probing,Shrub,Marshes,Migrant
+WIPL,Wilson's Plover,Invertebrates,Probing,Ground,Marshes,Migrant
+YBEL,Yellow-bellied elaenia,Fruit,Foliage gleaner,Shrub,Open woodlands,Resident
+YBSE,Yellow-bellied seedeater,Seeds,Foliage gleaner,Tree,Grasslands,Resident
+YCNH,Yellow-crowned night heron,Aquatic invertebrates,Stalking,Tree,Marshes,Resident
+YEWA,Yellow Warbler,Insects,Aerial forager,,Forests,Migrant
+ZEND,Zenaida dove,Seeds,Ground forager,Tree,Forests,Resident
