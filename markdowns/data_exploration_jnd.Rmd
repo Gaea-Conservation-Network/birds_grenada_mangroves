@@ -545,6 +545,9 @@ write_csv(x = tibble(SiteName = BirdData %>% ungroup() %>%
                  FunctionalRichness = BirdFD$FRic,
                  FunctionalEveness = BirdFD$FEve,
                  FunctionalDivergence = BirdFD$FDiv)%>%
+            left_join(DiversityAlpha(BirdData%>%
+                                       mutate(Independent = str_remove_all(Independent,  "-0")),
+                                     "Independent", "ANCH", "ZEND")) %>%
             left_join(VegMatrixIndependent),
           file = paste0(here::here(), "/data/FunctionalDiversity.csv"))
 
@@ -573,6 +576,9 @@ write_csv(x = tibble(SiteName = BirdDataOG %>% ungroup() %>%
                  FunctionalRichness = BirdFD$FRic,
                  FunctionalEveness = BirdFD$FEve,
                  FunctionalDivergence = BirdFD$FDiv)%>%
+            left_join(DiversityAlpha(BirdDataOG%>%
+                                       mutate(SiteID = str_remove_all(SiteID, "-0")),
+                                     "SiteID", "ANCH", "ZEND")) %>%
             left_join(VegMatrixSiteID),
           file = paste0(here::here(), "/data/FunctionalDiversityOG.csv"))
 
@@ -582,39 +588,7 @@ rm(BT)
 ```
 
 
-```{r test bird and plants, echo=FALSE}
 
-PBData <- 
-  tibble(SiteName = BirdDataOG %>% ungroup() %>% 
-                       arrange(SiteID)%>% select(SiteName) %>% reduce(c) ,
-                 SiteType = BirdDataOG %>% 
-           ungroup() %>% arrange(SiteID)%>% select(SiteType)%>% reduce(c)  , 
-                 SiteID = str_remove_all(BirdDataOG %>% ungroup() %>% arrange(SiteID)%>% 
-               select(SiteID)%>% reduce(c), "-0")  ,
-                 FunctionalDispersion = BirdFD$RaoQ, #Rao's quadratic entropy 
-                 FunctionalRichness = BirdFD$FRic,
-                 FunctionalEveness = BirdFD$FEve,
-                 FunctionalDivergence = BirdFD$FDiv,
-         Richness = rowSums(BirdDataOG %>% ungroup() %>% arrange(SiteID)%>% select(ANCH:ZEND) %>%
-                              mutate(across(ANCH:ZEND, ~ifelse(.x>=1,1,0)), )))%>%
-            left_join(VegMatrixSiteID)
-
-
-summary(lm(FunctionalDispersion ~ BlackCanopyWidth + RedCanopyWidth + WhiteCanopyWidth,
-   data = PBData))
-
-summary(lm(FunctionalRichness ~ BlackCanopyWidth + RedCanopyWidth + WhiteCanopyWidth,
-   data = PBData))
-
-summary(lm(FunctionalDivergence ~ BlackCanopyWidth + RedCanopyWidth + WhiteCanopyWidth,
-   data = PBData))
-
-summary(lm(FunctionalRichness ~ BlackCanopyWidth + RedCanopyWidth + WhiteCanopyWidth,
-   data = PBData))
-
-summary(lm(Richness ~ BlackCanopyWidth + RedCanopyWidth + WhiteCanopyWidth,
-   data = PBData))
-```
 
 # Visulizing Communtiy Composiiton
 

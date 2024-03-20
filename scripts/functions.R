@@ -1117,4 +1117,27 @@ theme_gaea <-  function(){
 ################################ Models - Plants & Birds #############################################
 ###################################################################################################### 
 
-
+DiversityAlpha <- function(data,
+                           SiteID,
+                           ColStart,
+                           ColEnd){
+  library(vegetarian)
+  library(tidyverse)
+  A <- data %>% ungroup()%>% select(!!sym(ColStart):!!sym(ColEnd))
+  
+  Diversity <- 
+    data %>% ungroup()%>% 
+    select(!!sym(SiteID))%>%
+    mutate(Abundance = rowSums(A))%>%
+    bind_cols( map_dfc(0:2, function(x){
+      
+      map(1:nrow(A), function(y){
+        
+        H(A[y,], lev = "alpha", q = x)
+      })%>% reduce(c)
+      
+    }))
+ 
+colnames(Diversity) <- c(SiteID, "Species Abundance", "Species Richness", "Shannon-Weiner", "Simpson")
+  return(Diversity)
+}
