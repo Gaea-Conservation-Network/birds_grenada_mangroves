@@ -37,11 +37,11 @@ data_long$logrichness <- log10(data_long$Species.Richness)
 data_long$logabundance <- log10(data_long$Species.Abundance)
 
 
-write.csv(data_long, "data/functionaldiversity_long_April2024.csv")
+write.csv(data_long, "data/basal_models_2024/functionaldiversity_long_April2024.csv")
 
 # ANCOVA Models ------------------------------------------------------------------
 ## bird diversity metric x basal area
-data_long <- read.csv("data/functionaldiversity_long_April2024.csv")
+data_long <- read.csv("data/basal_models_2024/functionaldiversity_long_April2024.csv")
 
 ##### bird species richness ####
 colnames(data_long)
@@ -50,7 +50,7 @@ colnames(data_long)
 rich_basal <- lm(Species.Richness ~ type*area, data = data_long)
 summary(rich_basal)
 
-Anova(rich_basal, type = "3")
+write.csv(Anova(rich_basal, type = "3"), "data/basal_models_2024/richness_basal_output.csv")
 
 # Anova Table (Type III tests)
 # 
@@ -108,7 +108,7 @@ richness_basal_fig <- data_long %>% ggplot(aes(y = Species.Richness,
 ab_basal <- lm(Species.Abundance ~ type*area, data = data_long)
 summary(ab_basal)
 
-Anova(ab_basal, type = "3")
+write.csv(Anova(ab_basal, type = "3"), "data/basal_models_2024/ab_basal_output.csv")
 
 # Anova Table (Type III tests)
 # 
@@ -169,7 +169,7 @@ colnames(data_long)
 sw_basal <- lm(Shannon.Weiner ~ type*area, data = data_long)
 summary(sw_basal)
 
-Anova(sw_basal, type = "3")
+write.csv(Anova(sw_basal, type = "3"), "data/basal_models_2024/sw_basal_output.csv")
 # 
 # Anova Table (Type III tests)
 # 
@@ -227,7 +227,7 @@ colnames(data_long)
 fd_basal <- lm(FunctionalDispersion ~ type*area, data = data_long)
 summary(fd_basal)
 
-Anova(fd_basal, type = "3")
+write.csv(Anova(fd_basal, type = "3"), "data/basal_models_2024/fd_basal_output.csv")
 
 # Anova Table (Type III tests)
 # 
@@ -270,7 +270,7 @@ fd_basal_fig <- data_long %>% ggplot(aes(y = FunctionalDispersion, x = area,
         legend.title = element_blank(),
         axis.text.x = element_text(size = 18),
         axis.text.y = element_text(size = 18),
-        legend.position = c(0.8, 0.9)) +
+        legend.position = "none") +
   scale_x_continuous(breaks = round(seq(min(data_long$area), max(data_long$area),
                                         by = 0.5),1)) +
   scale_fill_manual(values = colours_man) +
@@ -288,7 +288,7 @@ colnames(data_long)
 fdiv_basal <- lm(FunctionalDivergence ~ type*area, data = data_long)
 summary(fdiv_basal)
 
-Anova(fdiv_basal, type = "3")
+write.csv(Anova(fdiv_basal, type = "3"), "data/basal_models_2024/fdiv_basal_output.csv")
 
 # Anova Table (Type III tests)
 # 
@@ -330,7 +330,7 @@ fdiv_basal_fig <- data_long %>% ggplot(aes(y = FunctionalDivergence, x = area,
         legend.title = element_blank(),
         axis.text.x = element_text(size = 18),
         axis.text.y = element_text(size = 18),
-        legend.position = c(0.8,0.7)) +
+        legend.position = c(0.8,0.9)) +
   scale_x_continuous(breaks = round(seq(min(data_long$area), max(data_long$area),
                                         by = 0.5),1)) +
   scale_fill_manual(values = colours_man) +
@@ -351,6 +351,10 @@ ggsave("figures/ab_s_sw_basal.png",
        width = 14.6)
 
 
-fd_basal_fig + fdiv_basal_fig + plot_annotation(tag_levels = "A")
+fun <- fd_basal_fig + fdiv_basal_fig + plot_annotation(tag_levels = "A")
 
 
+ggsave("figures/fun_div_dis_basal.png",
+       fun,
+       height = 7.73,
+       width = 13.8)
