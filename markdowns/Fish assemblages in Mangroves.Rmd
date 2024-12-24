@@ -23,6 +23,7 @@ library(tidyverse)
 library(indicspecies)
 library(ggthemes)
 library(skimr)
+library(indicspecies)
 source(paste0(here::here(), "/scripts/functions.R"))
 
 ```
@@ -31,8 +32,7 @@ source(paste0(here::here(), "/scripts/functions.R"))
 # import the data
 fish_abundance_raw <- read_xlsx(here("data/Fish_MH-WH.xlsx"), sheet = 1)
 fish_biomass_raw <- read_xlsx(here("data/Fish_MH-WH.xlsx"), sheet = 2)
-skim(fish_abundance_raw)
-skim(fish_biomass_raw)
+
 
 
 ```
@@ -55,6 +55,7 @@ diversity_alpha <- function(x){
   Diversity <- tibble(SiteInfo,Richness,`Shannon-Weiner` = Shannon,Simpson)
   return(Diversity)
 }
+
 
 fish_alpha <- diversity_alpha(fish_abundance_raw)
 
@@ -97,6 +98,7 @@ fish_abundance_isa$B
 ```
 ## Making figures
 
+
 ```{r include=FALSE}
 #theme_tufte
 fish_alpha_long <- 
@@ -110,7 +112,7 @@ FishSig <- fish_alpha_long %>% group_by(Site, Alpha, Significance) %>%
 
  
 
-png(here("outputs/FishDiversity.png"), width = 8, height = 8,
+png(here("outputs/FishDiversity.png"), width = 8, height = 5,
     res = 600, units = "in")
 ggplot()+
   stat_summary(data = fish_alpha_long, aes(x = Site, y = Value, 
@@ -125,10 +127,84 @@ ggplot()+
        title = " ", fill = " ")+
   scale_x_discrete(labels = c("Mount Hartman",
                               "Westerhall"))+
-  scale_fill_brewer(palette = "BrBG")+
-  theme_gaea()+
-  facet_grid(~Alpha)+
-  theme(legend.position = "none")
+ scale_fill_viridis_d(option = "magma",
+                      labels = c("Mount Hartman",
+                              "Westerhall"))+
+      scale_color_viridis_d(option = "magma")+
+      theme_bw()+
+      theme(
+        # X-axis title: no angle, all the way to the right
+        axis.title.x = element_text(angle = 0, hjust = 1, vjust = 0),
+        
+        # Y-axis title: normal vertical orientation, all the way to the left
+        axis.title.y = element_text(angle = 90, hjust = 1, vjust = 0),
+        
+        legend.position = "none")+
+  facet_grid(~Alpha)
 dev.off()
 ```
 
+
+```{r include=FALSE}
+#theme_tufte
+fish_alpha_long <- 
+  fish_alpha %>%
+  gather(key = "Alpha", value = "Value", Richness, `Shannon-Weiner`, Simpson)%>%
+  mutate(Significance = case_when(Alpha == "Richness" ~ "***",
+                                 Alpha == "Shannon-Weiner" ~ "**",
+                                 Alpha == "Simpson" ~ "*"))
+
+
+ 
+
+png(here("outputs/FishDiversityJCO.png"), width = 8, height = 5,
+    res = 600, units = "in")
+ggplot()+
+  stat_summary(data = fish_alpha_long, aes(x = Alpha, y = Value),
+               fun = "mean", geom = "bar", position = "dodge")+
+  stat_summary(data = fish_alpha_long, aes(x = Alpha, y = Value),
+               fun.data = "mean_se", geom = "errorbar", position = "dodge")+
+  labs(x = "Alpha Diversity", y = "Value",
+       title = " ", fill = " ")+
+      scale_fill_viridis_d(option = "magma")+
+      theme_bw()+
+      theme(
+        # X-axis title: no angle, all the way to the right
+        axis.title.x = element_text(angle = 0, hjust = 1, vjust = 0),
+        
+        # Y-axis title: normal vertical orientation, all the way to the left
+        axis.title.y = element_text(angle = 90, hjust = 1, vjust = 0),
+        
+        legend.position = "none")
+dev.off()
+```
+
+
+
+```{r}
+png(here("outputs/FishGuildJCO.png"), width = 8, height = 5,
+    res = 600, units = "in")
+FishDictionary<-
+  read_excel(paste0(here::here(), "/data/DataForFigShare.xlsx"), sheet = 2)
+
+fish_abundance_raw %>% select(-Site, -Replicate)%>%
+  pivot_longer(ATF:FF, names_to = "Species", values_to = "Abundance")%>%
+  left_join(FishDictionary, by = c("Species" = "SpeciesCode"))%>%
+  filter(!is.na(SpeciesName))%>%
+   group_by(`FunctionalGuild/Trait`)%>%
+  reframe(Abundance = sum(Abundance))%>%
+ggplot(aes(x = `FunctionalGuild/Trait`, y = Abundance))+
+  geom_bar(stat = "identity")+
+      scale_fill_viridis_d(option = "magma")+
+      theme_bw()+
+  labs(x = "Functional Guild/Trait")+
+      theme(
+        # X-axis title: no angle, all the way to the right
+        axis.title.x = element_text(angle = 0, hjust = 1, vjust = 0),
+        
+        # Y-axis title: normal vertical orientation, all the way to the left
+        axis.title.y = element_text(angle = 90, hjust = 1, vjust = 0),
+        
+        legend.position = "none")
+dev.off()
+```

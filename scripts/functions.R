@@ -186,25 +186,35 @@ DispersionPlots <- function(DataX, DataType, groups){
       geom_segment(aes(x=PCoA1C, y=PCoA2C, xend=PCoA1, yend=PCoA2, colour=Grouping), 
                    show.legend=FALSE) +
       geom_point(aes(x=PCoA1, y=PCoA2, colour=Grouping))+
-      scale_color_brewer(palette = "BrBG")+
-      scale_fill_brewer(palette = "BrBG")+
-      theme_gaea()+
+      scale_fill_viridis_d(option = "magma")+
+      scale_color_viridis_d(option = "magma")+
+      theme_bw()+
+      theme(
+        # X-axis title: no angle, all the way to the right
+        axis.title.x = element_text(angle = 0, hjust = 1, vjust = 0),
+        
+        # Y-axis title: normal vertical orientation, all the way to the left
+        axis.title.y = element_text(angle = 90, hjust = 1, vjust = 0),
+        
+        # Adjust plot margins to accommodate titles
+        plot.margin = margin(t = 20, r = 20, b = 20, l = 20, unit = "pt"),
+        legend.position = "bottom",
+      )+
       geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
       geom_hline(yintercept = c(0), color = "grey70", linetype = 2) + 
       labs(color = " ", fill = " ")+
       labs(x = paste0("PCoA 1 (", dispersion$eig[1]%>% round(2), "%)"), 
-           y = paste0("PCoA 2 (", dispersion$eig[2] %>% round(2), "%)"),
-           subtitle = LETTERS[.x])
+           y = paste0("PCoA 2 (", dispersion$eig[2] %>% round(2), "%)"))
     
     
   })
   
   png(paste0(here::here(), "/outputs/", paste(c(DataType, groups), collapse = ""), ".png"),
-      width = "10", height = 6, res = 600, units = "in", bg = "white")
-  gridExtra::grid.arrange(grobs = Plot, ncol = 2)
+      width = 6, height = 6, res = 600, units = "in", bg = "white")
+  gridExtra::grid.arrange(grobs = Plot)
   
   dev.off()
-  Plots <- gridExtra::grid.arrange(grobs = Plot, ncol = 2)
+  Plots <- gridExtra::grid.arrange(grobs = Plot)
   
   
   

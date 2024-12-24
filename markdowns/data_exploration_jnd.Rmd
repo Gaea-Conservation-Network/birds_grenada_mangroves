@@ -364,40 +364,34 @@ As we see below, we get confilciting results when we use the combined data versu
 
 ```{r view congruence mantel, echo=FALSE}
 
+library(glue)
 
-plot(TreeHeightBird %>% filter(Test == "Mantel" & Group %in% c("Overall", "Basin", "Fringe"))%>% 
+TreeHeightBirdID %>% filter(Group %in% c("Overall"))%>% 
        mutate(Type = "Tree Height")%>%
-bind_rows(BasalAreaBird %>% filter(Test == "Mantel" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Basal Area")) %>%
- bind_rows(CanopyWidthBird %>% filter(Test == "Mantel" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Canopy Width"))%>%
+bind_rows(BasalAreaBirdID %>% filter(Group %in% c("Overall"))%>% mutate(Type = "Basal Area")) %>%
+ bind_rows(CanopyWidthBirdID %>% filter(Group %in% c("Overall"))%>% mutate(Type = "Canopy Width"))%>%
   mutate(Significance = case_when(`P-Value`<0.001 ~ "***",
                                   `P-Value`<0.05 ~ "**",
                                   `P-Value`<0.1 ~ "*",
                                   TRUE ~ ""))%>%
- ggplot(aes(x = Type, y = Strength, fill = Group))+
+ ggplot(aes(x = Type, y = Strength))+
   geom_bar(stat = "identity", position = "dodge")+
-  scale_fill_brewer(palette = "BrBG")+
+   scale_fill_viridis_d(option = "magma")+
   geom_text(aes(label = Significance), size = 6, position = position_dodge(width = .9))+
-    theme_gaea()+
-  labs( y = "Strength of Cross-Taxon Congruence (r)",
-        x = " ", fill = "",
-        caption = "Birds & Plants\nMantel Test\nRaw Data"))
-
-plot(TreeHeightBirdID %>% filter(Test == "Mantel" & Group %in% c("Overall", "Basin", "Fringe"))%>% 
-       mutate(Type = "Tree Height")%>%
-bind_rows(BasalAreaBirdID %>% filter(Test == "Mantel" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Basal Area")) %>%
- bind_rows(CanopyWidthBirdID %>% filter(Test == "Mantel" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Canopy Width"))%>%
-  mutate(Significance = case_when(`P-Value`<0.001 ~ "***",
-                                  `P-Value`<0.05 ~ "**",
-                                  `P-Value`<0.1 ~ "*",
-                                  TRUE ~ ""))%>%
- ggplot(aes(x = Type, y = Strength, fill = Group))+
-  geom_bar(stat = "identity", position = "dodge")+
-  scale_fill_brewer(palette = "BrBG")+
-  geom_text(aes(label = Significance), size = 6, position = position_dodge(width = .9))+
-    theme_gaea()+
-  labs( y = "Strength of Cross-Taxon Congruence (r)",
-        x = " ", fill = "",
-        caption = "Birds & Plants\nMantel Test\nCombined Data"))
+  facet_wrap(~Test)+
+   theme_bw()+
+  labs( y = expression(paste("Congruence (Procustes:", m^2, "; Mantel:r)")),
+        x = "Plant Structure", fill = "")+
+  theme(
+    # X-axis title: no angle, all the way to the right
+    axis.title.x = element_text(angle = 0, hjust = 1, vjust = 0),
+    
+    # Y-axis title: normal vertical orientation, all the way to the left
+    axis.title.y = element_text(angle = 90, hjust = 1.25, vjust = 0),
+    
+    # Adjust plot margins to accommodate titles
+    plot.margin = margin(t = 20, r = 20, b = 20, l = 20, unit = "pt")
+  )
 
 
 ```
@@ -405,43 +399,9 @@ bind_rows(BasalAreaBirdID %>% filter(Test == "Mantel" & Group %in% c("Overall", 
 The results here are not reliable - we lack power to decct difefrencs. We will focus on our anlayses exploring differences overall, not be site type. 
 
 
-```{r view congruence Procustes, echo=FALSE}
+Below, we see that using the procustes analayses, there is a evidence of congruence between birds and plants when we use basal areas as a proxy for pkant abunance, and this is for basin and fringe sites, as well as overall. 
 
 
-plot(TreeHeightBird %>% filter(Test == "Procustes" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Tree Height")%>%
-bind_rows(BasalAreaBird %>% filter(Test == "Procustes" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Basal Area")) %>%
- bind_rows(CanopyWidthBird %>% filter(Test == "Procustes" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Canopy Width"))%>%
-  mutate(Significance = case_when(`P-Value`<0.001 ~ "***",
-                                  `P-Value`<0.05 ~ "**",
-                                  `P-Value`<0.1 ~ "*",
-                                  TRUE ~ ""))%>%
-  ggplot(aes(x = Type, y = Strength, fill = Group))+
-  geom_bar(stat = "identity", position = "dodge")+
-  scale_fill_brewer(palette = "BrBG")+
-  geom_text(aes(label = Significance), size = 6, position = position_dodge(width = .9))+
-    theme_gaea()+
-  labs( y = expression(paste("Strength of Cross-Taxon Congruence (", m^2, ")")),
-        x = " ", fill = "",
-        caption = "Birds & Plants\nProcustes Analysis\nRaw Data"))
-
-plot(TreeHeightBirdID %>% filter(Test == "Procustes" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Tree Height")%>%
-bind_rows(BasalAreaBirdID %>% filter(Test == "Procustes" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Basal Area")) %>%
- bind_rows(CanopyWidthBirdID %>% filter(Test == "Procustes" & Group %in% c("Overall", "Basin", "Fringe"))%>% mutate(Type = "Canopy Width"))%>%
-  mutate(Significance = case_when(`P-Value`<0.001 ~ "***",
-                                  `P-Value`<0.05 ~ "**",
-                                  `P-Value`<0.1 ~ "*",
-                                  TRUE ~ ""))%>%
-  ggplot(aes(x = Type, y = Strength, fill = Group))+
-  geom_bar(stat = "identity", position = "dodge")+
-  scale_fill_brewer(palette = "BrBG")+
-  geom_text(aes(label = Significance), size = 6, position = position_dodge(width = .9))+
-    theme_gaea()+
-  labs( y = expression(paste("Strength of Cross-Taxon Congruence (", m^2, ")")),
-        x = " ", fill = "",
-        caption = "Birds & Plants\nProcustes Analysis\nCombined Data"))
-
-
-```
 
 
 
@@ -449,73 +409,34 @@ bind_rows(BasalAreaBirdID %>% filter(Test == "Procustes" & Group %in% c("Overall
 
 
 ```{r export congruence,  message=FALSE, error=FALSE, warning=FALSE}
-png(paste0(here::here(), "/outputs/PlantBirdCongruenceMantel.png"),
-    units = "in",
-    res = 600, width = 8, height = 8)
-TreeHeightBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Tree Height")%>%
-bind_rows(BasalAreaBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Basal Area")) %>%
- bind_rows(CanopyWidthBirdID %>% filter(Group %in% c("Overall"))%>% mutate(Type = "Canopy Width"))%>%
-  mutate(Significance = case_when(`P-Value`<0.001 ~ "***",
-                                  `P-Value`<0.05 ~ "**",
-                                  `P-Value`<0.1 ~ "*",
-                                  TRUE ~ ""))%>%
-filter(Test == "Mantel")%>%
-  ggplot(aes(x = Type, y = Strength, fill = Group))+
-  geom_bar(stat = "identity", position = "dodge")+
-  scale_fill_brewer(palette = "BrBG")+
-  geom_text(aes(label = Significance), size = 6, position = position_dodge(width = .9))+
-    theme_gaea()+
-  labs( y = "Strength of Cross-Taxon Congruence (r)",
-        x = " ", fill = "",
-        caption = "Birds & Plants\nMantel Test")+
-  theme(legend.position = "none")
-dev.off()
-
-png(paste0(here::here(), "/outputs/PlantBirdCongruenceProcustes.png"),
-    units = "in",
-    res = 600, width = 8, height = 8)
-TreeHeightBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Tree Height")%>%
-bind_rows(BasalAreaBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Basal Area")) %>%
- bind_rows(CanopyWidthBirdID %>% filter(Group %in% c("Overall"))%>% mutate(Type = "Canopy Width"))%>%
-  mutate(Significance = case_when(`P-Value`<0.001 ~ "***",
-                                  `P-Value`<0.05 ~ "**",
-                                  `P-Value`<0.1 ~ "*",
-                                  TRUE ~ ""))%>%
-filter(Test == "Procustes")%>%
-  ggplot(aes(x = Type, y = Strength, fill = Group))+
-  geom_bar(stat = "identity", position = "dodge")+
-  scale_fill_brewer(palette = "BrBG")+
-  geom_text(aes(label = Significance), size = 6, position = position_dodge(width = .9))+
-    theme_gaea()+
-  labs( y = expression(paste("Strength of Cross-Taxon Congruence (", m^2, ")")),
-        x = " ", fill = "",
-        caption = "Birds & Plants\nProcustes Analysis")+
-  theme(legend.position = "none")
-dev.off()
-
 png(paste0(here::here(), "/outputs/PlantBirdCongruenceMantelProcustes.png"),
     units = "in",
-    res = 600, width = 8, height = 6)
-TreeHeightBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Tree Height")%>%
-bind_rows(BasalAreaBirdID %>% filter( Group %in% c("Overall"))%>% mutate(Type = "Basal Area")) %>%
+    res = 600, width = 8, height = 4)
+TreeHeightBirdID %>% filter(Group %in% c("Overall"))%>% 
+       mutate(Type = "Tree Height")%>%
+bind_rows(BasalAreaBirdID %>% filter(Group %in% c("Overall"))%>% mutate(Type = "Basal Area")) %>%
  bind_rows(CanopyWidthBirdID %>% filter(Group %in% c("Overall"))%>% mutate(Type = "Canopy Width"))%>%
   mutate(Significance = case_when(`P-Value`<0.001 ~ "***",
                                   `P-Value`<0.05 ~ "**",
                                   `P-Value`<0.1 ~ "*",
                                   TRUE ~ ""))%>%
-#filter(Test == "Mantel")%>%
-  mutate(Test = ifelse(Test == "Mantel", "Mantel Test", "Procustes Analysis"))%>%
-  ggplot(aes(x = Type, y = Strength, fill = Group))+
+ ggplot(aes(x = Type, y = Strength))+
   geom_bar(stat = "identity", position = "dodge")+
-  scale_fill_brewer(palette = "BrBG")+
+   scale_fill_viridis_d(option = "magma")+
   geom_text(aes(label = Significance), size = 6, position = position_dodge(width = .9))+
-    theme_gaea()+
-  facet_grid(~Test)+
-  labs( y = expression(paste("Strength of Cross-Taxon Congruence (r)/", m^2, ")")),
-        x = " ", fill = "",
-        caption = "Birds & Plants")+
-  theme(legend.position = "none")
+  facet_wrap(~Test, scales = "free")+
+   theme_bw()+
+  labs( y = expression(paste("Congruence (Procustes:", m^2, "; Mantel:r)")),
+        x = "Plant Structure", fill = "")+
+  theme(
+    # X-axis title: no angle, all the way to the right
+    axis.title.x = element_text(angle = 0, hjust = 1, vjust = 0),
+    
+    # Y-axis title: normal vertical orientation, all the way to the left
+    axis.title.y = element_text(angle = 90, hjust = 1, vjust = 0))
 dev.off()
+
+
   
 ```
 # Functional Disperson
@@ -526,7 +447,7 @@ To explore how bird composition is related to plants, we can build models explor
 * funcitonal richness
 * fuctional dispersion
 
-We can use `dbFD` in the `FD` package to create these metrics, using a matrix of species abundances and binary traits.
+We can use `dbFD` in the `FD` package to create these metrics, using a matrix of species abundances and binary traits. These are metrics I will pass on the courtney to build the models. 
 
 ```{r functional diversity, include=FALSE}
 TB <- BirdData %>% ungroup() %>% arrange(Independent)%>% select(ANCH:ZEND) %>% as.data.frame()
@@ -775,11 +696,11 @@ NMDSPlotsPlants(NMDSList = list(`Basal Area`= (BasalAreaSiteIDNMS),
 DispersionResults(DataX = BirdDataOG %>%  
                     #mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                     mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")), 
-                  DataType = "Birds", groups = c("SiteName", "SiteType"))
+                  DataType = "Birds", groups = "SiteType")
 DispersionPlots(DataX = BirdDataOG %>% 
                     #mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                     mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")), 
-                  DataType = "Birds", groups = c("SiteName", "SiteType"))
+                  DataType = "Birds", groups =  "SiteType")
 
 
 
@@ -789,16 +710,16 @@ DispersionPlots(DataX = BirdDataOG %>%
 
 ```{r permanova birds traits, message=FALSE, error=FALSE, warning=FALSE}
 
-  
+
     
 DispersionResults(DataX = BirdTraitsOG%>% 
                     #mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                     mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")), 
-                  DataType = "Traits", groups = c("SiteName", "SiteType"))
+                  DataType = "Traits", groups = "SiteType")
 DispersionPlots(DataX = BirdTraitsOG%>% 
                  # mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                   mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")),
-                DataType = "Traits", groups = c("SiteName", "SiteType"))
+                DataType = "Traits", groups = "SiteType")
 
 
 
@@ -815,11 +736,11 @@ DispersionPlots(DataX = BirdTraitsOG%>%
 DispersionResults(DataX = VegMatrixSiteID%>% 
                     #mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                     mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")), 
-                  DataType = "BasalArea", groups = c("SiteName", "SiteType"))
+                  DataType = "BasalArea", groups = "SiteType")
 DispersionPlots(DataX = VegMatrixSiteID%>% 
                   #mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                   mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")),
-                DataType = "BasalArea", groups = c("SiteName", "SiteType"))
+                DataType = "BasalArea", groups = "SiteType")
 
 
 
@@ -832,11 +753,11 @@ DispersionPlots(DataX = VegMatrixSiteID%>%
 DispersionResults(DataX = VegMatrixSiteID%>% 
                     #mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                     mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")), 
-                  DataType = "CanopyWidth", groups = c("SiteName", "SiteType"))
+                  DataType = "CanopyWidth", groups = "SiteType")
 DispersionPlots(DataX = VegMatrixSiteID%>% 
                   #mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                   mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")),
-                DataType = "CanopyWidth", groups = c("SiteName", "SiteType"))
+                DataType = "CanopyWidth", groups = "SiteType")
 
 
 
@@ -849,11 +770,11 @@ DispersionPlots(DataX = VegMatrixSiteID%>%
 DispersionResults(DataX = VegMatrixSiteID%>% 
                     #mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                     mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")), 
-                  DataType = "TreeHeight", groups = c("SiteName", "SiteType"))
+                  DataType = "TreeHeight", groups = "SiteType")
 DispersionPlots(DataX = VegMatrixSiteID%>% 
                   #mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                   mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")),
-                DataType = "TreeHeight", groups = c("SiteName", "SiteType"))
+                DataType = "TreeHeight", groups = "SiteType")
 
 
 
@@ -866,272 +787,125 @@ DispersionPlots(DataX = VegMatrixSiteID%>%
 DispersionResults(DataX = VegMatrixSiteID%>% 
                     #mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                     mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")), 
-                  DataType = "CanopyWidth", groups = c("SiteName", "SiteType"))
+                  DataType = "CanopyWidth", groups = "SiteType")
 DispersionPlots(DataX = VegMatrixSiteID%>% 
                   #mutate(SiteType = ifelse(SiteName == "Westerhall", "Both", SiteType))%>%
                   mutate(SiteName  = paste0(SiteName, "\n(", SiteType, ")")),
-                DataType = "CanopyWidth", groups = c("SiteName", "SiteType"))
+                DataType = "CanopyWidth", groups = "SiteType")
 
 
 
 ```
 
+
+## Stable Isotopes
 
 ```{r}
-png(paste0(here::here(), "/outputs/PlantCanopyWidthSpecies.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteName", "CanopyWidth")))%>%
-  pivot_longer(!SiteName)%>%
-  mutate(Label = str_remove_all(name, "CanopyWidth"))%>%
-  ggplot(aes(x = SiteName, y = value, fill = Label))+
-  geom_point(position = position_jitterdodge(), aes(color = Label), alpha = 0.3)+
-  geom_boxplot(outlier.shape = NA)+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site", y = "Canopy Width (m)")+
-  theme(legend.position = "bottom")
-
-dev.off()
-
-png(paste0(here::here(), "/outputs/PlantCanopyWidthSpeciesType.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteType", "CanopyWidth")))%>%
-  pivot_longer(!SiteType)%>%
-  mutate(Label = str_remove_all(name, "CanopyWidth"))%>%
-  ggplot(aes(x = SiteType, y = value, fill = Label))+
-  geom_point(position = position_jitterdodge(), aes(color = Label), alpha = 0.3)+
-  geom_boxplot(outlier.shape = NA)+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site Type", y = "Canopy Width (m)")+
-  theme(legend.position = "bottom")
-
-dev.off()
-
-png(paste0(here::here(), "/outputs/PlantCanopyWidthSite.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteName", "CanopyWidth")))%>%
-  pivot_longer(!SiteName)%>%
-  mutate(Label = str_remove_all(name, "CanopyWidth"))%>%
-  ggplot(aes(x = SiteName, y = value))+
-  geom_point(alpha = 0.3)+
-  geom_boxplot(outlier.shape = NA)+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site", y = "Canopy Width (m)")+
-  theme(legend.position = "bottom")
-
-dev.off()
+png(paste0(here::here(), "/outputs/StableIsotopes.png"),
+      width = 8, height = 5, res = 600, units = "in", bg = "white")
+ read_excel(paste0(here::here(), "/data/2019 Grenada isotopes.xlsx"))%>%
+  mutate(Group = ifelse(str_detect(Type, "plant"), "Plant", "Water"))%>%
+  mutate(Sample = case_when(str_detect(Sample, "pond") ~ "Pond",
+                            TRUE ~ Sample) %>% str_to_title())%>%
+  mutate(SiteType = ifelse(str_detect(Site, "Levera|Conf"), "Basin", "Fringe"))%>%
+  mutate(Group2 = case_when(str_detect(Sample, "Red|Black|Buttonwood|White") ~ Sample,
+                            TRUE ~ "Water"))%>%
+  ggplot(aes(x = `18O`, y = `2H`, shape = Group2, color = Group2))+
+  geom_point(size = 5)+
+  #geom_text_repel()+
+  facet_wrap(~ SiteType)+
+   labs(x = expression(paste( δ^18, "O")), y = expression(paste( δ^2, "H")))+
+scale_fill_viridis_d(option = "magma")+
+      scale_color_viridis_d(option = "magma")+
+      theme_bw()+
+      theme(
+        # X-axis title: no angle, all the way to the right
+        axis.title.x = element_text(angle = 0, hjust = 1, vjust = 0),
+        
+        # Y-axis title: normal vertical orientation, all the way to the left
+        axis.title.y = element_text(angle = 90, hjust = 1, vjust = 0),
+        
+        legend.position = "bottom")+
+  labs(shape = "", color = "")
+  
+  dev.off()
+  
+  
 
 
-png(paste0(here::here(), "/outputs/PlantCanopyWidthSiteType.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteType", "CanopyWidth")))%>%
-  pivot_longer(!SiteType)%>%
-  mutate(Label = str_remove_all(name, "CanopyWidth"))%>%
-  ggplot(aes(x = SiteType, y = value))+
-  geom_point(alpha = 0.3)+
-  geom_boxplot(outlier.shape = NA)+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site Type", y = "Canopy Width (m)")+
-  theme(legend.position = "bottom")
-
-dev.off()
 ```
+
+
+
+## Mammals
 
 
 
 ```{r}
-png(paste0(here::here(), "/outputs/PlantBasalAreaSpecies.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteName", "BasalArea")))%>%
-  pivot_longer(!SiteName)%>%
-  mutate(Label = str_remove_all(name, "BasalArea"))%>%
-  ggplot(aes(x = SiteName, y = value, fill = Label))+
-  geom_point(position = position_jitterdodge(), aes(color = Label), alpha = 0.3)+
-  geom_boxplot(outlier.shape = NA)+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site", y = "Basal Area (m\u00b2)")+
-  theme(legend.position = "bottom")
 
-dev.off()
+library(readxl)
+library(dplyr)
+library(lubridate)
+library(unmarked)
+
+# Read the Excel file
+dataMammals <-  read_csv(paste0(here::here(), "/data/PredatorDataForR.csv")) %>% 
+  mutate(HitTimeDate = lubridate::as_datetime(paste0(as.Date(DateOfHit, "%m/%d/%y"), " ", Time))) %>% 
+  mutate_at(vars(starts_with("Date")), ~as.Date(., "%m/%d/%y")) %>% relocate(HitTimeDate, .after = DateOfHit)
 
 
-png(paste0(here::here(), "/outputs/PlantBasalAreaSite.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteName", "BasalArea")))%>%
-  pivot_longer(!SiteName)%>%
-  mutate(Label = str_remove_all(name, "BasalArea"))%>%
-  ggplot(aes(x = SiteName, y = value))+
-  geom_point(alpha = 0.3)+
-  geom_boxplot(outlier.shape = NA)+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site", y = "Basal Area (m\u00b2)")+
-  theme(legend.position = "bottom")
-
-dev.off()
+dataMammalsGrid <- 
+  expand_grid(
+  Site = unique(dataMammals$Site),
+  Camera = unique(dataMammals$Camera),
+  Date = seq(min(dataMammals$DateOfHit), max(dataMammals$DateOfHit), by = "day"))%>%
+  left_join(dataMammals %>%  mutate(Species = ifelse(str_detect(Species, "Rat|rat"), "Brown Rat", Species)) %>%
+              group_by(Site, Camera, DateOfHit, Species)%>%  tally() %>% pivot_wider(names_from = Species, values_from = n, values_fill = 0)%>%
+              ungroup() %>% rename(Date = DateOfHit))%>%
+   mutate(across(where(is.numeric), ~ ifelse(replace_na(., 0)>1,1,0)))
 
 
-png(paste0(here::here(), "/outputs/PlantBasalAreaSpeciesType.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteType", "BasalArea")))%>%
-  pivot_longer(!SiteType)%>%
-  mutate(Label = str_remove_all(name, "BasalArea"))%>%
-  ggplot(aes(x = SiteType, y = value, fill = Label))+
-  geom_point(position = position_jitterdodge(), aes(color = Label), alpha = 0.3)+
-  geom_boxplot(outlier.shape = NA)+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site Type", y = "Basal Area (m\u00b2)")+
-  theme(legend.position = "bottom")
+SaveModelsOccupance<-
+map(c("Brown Rat", "Cat", "Dog"), function(i){
+  
+dataShifted<- 
+  dataMammalsGrid %>% select(Site, Camera, Date, !!sym(i)) %>% pivot_wider(names_from = Date, values_from = !!sym(i))
 
-dev.off()
+unmarkedData <- unmarkedFrameOccu(y = dataShifted %>% select(-(1:2)) %>% as.matrix(), siteCovs = dataShifted %>% select(1:2))
 
 
-png(paste0(here::here(), "/outputs/PlantBasalAreaSiteType.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteType", "BasalArea")))%>%
-  pivot_longer(!SiteType)%>%
-  mutate(Label = str_remove_all(name, "BasalArea"))%>%
-  ggplot(aes(x = SiteType, y = value))+
-  geom_point(alpha = 0.3)+
-  geom_boxplot(outlier.shape = NA)+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site Type", y = "Basal Area (m\u00b2)")+
-  theme(legend.position = "bottom")
+# Fit occupancy model
+model1 <- occu(~ 1 ~ 1, data = unmarkedData)
+model2 <- occu(~ 1 ~ Site, data = unmarkedData)
 
-dev.off()
+list(Null = model1,
+     Site = model2)
+})
+
 ```
 
 ```{r}
-png(paste0(here::here(), "/outputs/PlantBasalAreaSpeciesViolin.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteName", "BasalArea")))%>%
-  pivot_longer(!SiteName)%>%
-  mutate(Label = str_remove_all(name, "BasalArea"))%>%
-  ggplot(aes(x = SiteName, y = value, fill = Label, color = Label))+
-  geom_point(position = position_jitterdodge(), aes(color = Label), alpha = 0.3)+
-  geom_violin()+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site", y = "Basal Area (m\u00b2)")+
-  theme(legend.position = "bottom")
+png(paste0(here::here(), "/outputs/MammalDetections.png"),
+      width = 8, height = 5, res = 600, units = "in", bg = "white")
+ dataMammals %>%  mutate(Species = ifelse(str_detect(Species, "Rat|rat"), "Brown Rat", Species)) %>%
+    group_by(Site, Species)%>%  tally()%>%
+  ggplot(aes( y = n, x = Site, fill = Species))+
+  geom_bar(position = "dodge", stat = "identity")+
+  scale_fill_viridis_d(option = "magma")+
+      scale_color_viridis_d(option = "magma")+
+      theme_bw()+
+      theme(
+        # X-axis title: no angle, all the way to the right
+        axis.title.x = element_text(angle = 0, hjust = 1, vjust = 0),
+        
+        # Y-axis title: normal vertical orientation, all the way to the left
+        axis.title.y = element_text(angle = 90, hjust = 1, vjust = 0),
+        
+        legend.position = "bottom")+
+  labs(shape = "", color = "", fill = " ", y = "Number of Detections")
+  dev.off()
 
-dev.off()
-
-
-png(paste0(here::here(), "/outputs/PlantBasalAreaSiteViolin.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteName", "BasalArea")))%>%
-  pivot_longer(!SiteName)%>%
-  mutate(Label = str_remove_all(name, "BasalArea"))%>%
-  ggplot(aes(x = SiteName, y = value))+
-  geom_violin(color = "grey50", fill = "grey50")+
-  geom_point(alpha = 0.3)+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site", y = "Basal Area (m\u00b2)")+
-  theme(legend.position = "bottom")
-
-dev.off()
-
-
-png(paste0(here::here(), "/outputs/PlantBasalAreaSpeciesViolinType.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteType", "BasalArea")))%>%
-  pivot_longer(!SiteType)%>%
-  mutate(Label = str_remove_all(name, "BasalArea"))%>%
-  ggplot(aes(x = SiteType, y = value, fill = Label, color = Label))+
-  geom_point(position = position_jitterdodge(), aes(color = Label), alpha = 0.3)+
-  geom_violin()+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site Type", y = "Basal Area (m\u00b2)")+
-  theme(legend.position = "bottom")
-
-dev.off()
-
-
-png(paste0(here::here(), "/outputs/PlantBasalAreaSiteViolinType.png"),
-    units = "in",
-    res = 600, width = 6, height = 4)
-VegMatrixSiteID %>%
-  ungroup()%>%
-  select(contains(c("SiteType", "BasalArea")))%>%
-  pivot_longer(!SiteType)%>%
-  mutate(Label = str_remove_all(name, "BasalArea"))%>%
-  ggplot(aes(x = SiteType, y = value))+
-  geom_violin(color = "grey50", fill = "grey50")+
-  geom_point(alpha = 0.3)+
-  theme_bw()+
-  scale_colour_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  labs(color = " ", fill = " ", 
-       x = "Site Type", y = "Basal Area (m\u00b2)")+
-  theme(legend.position = "bottom")
-
-dev.off()
 ```
-
 
 
 ```{r message=FALSE, error=FALSE, warning=FALSE}
