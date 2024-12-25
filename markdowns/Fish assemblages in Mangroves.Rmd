@@ -112,7 +112,7 @@ FishSig <- fish_alpha_long %>% group_by(Site, Alpha, Significance) %>%
 
  
 
-png(here("outputs/FishDiversity.png"), width = 8, height = 5,
+png(here("figures/FishDiversity.png"), width = 8, height = 5,
     res = 600, units = "in")
 ggplot()+
   stat_summary(data = fish_alpha_long, aes(x = Site, y = Value, 
@@ -131,15 +131,7 @@ ggplot()+
                       labels = c("Mount Hartman",
                               "Westerhall"))+
       scale_color_viridis_d(option = "magma")+
-      theme_bw()+
-      theme(
-        # X-axis title: no angle, all the way to the right
-        axis.title.x = element_text(angle = 0, hjust = 1, vjust = 0),
-        
-        # Y-axis title: normal vertical orientation, all the way to the left
-        axis.title.y = element_text(angle = 90, hjust = 1, vjust = 0),
-        
-        legend.position = "none")+
+      theme_gaea()+
   facet_grid(~Alpha)
 dev.off()
 ```
@@ -157,7 +149,7 @@ fish_alpha_long <-
 
  
 
-png(here("outputs/FishDiversityJCO.png"), width = 8, height = 5,
+png(here("figures/FishDiversityJCO.png"), width = 8, height = 5,
     res = 600, units = "in")
 ggplot()+
   stat_summary(data = fish_alpha_long, aes(x = Alpha, y = Value),
@@ -167,25 +159,17 @@ ggplot()+
   labs(x = "Alpha Diversity", y = "Value",
        title = " ", fill = " ")+
       scale_fill_viridis_d(option = "magma")+
-      theme_bw()+
-      theme(
-        # X-axis title: no angle, all the way to the right
-        axis.title.x = element_text(angle = 0, hjust = 1, vjust = 0),
-        
-        # Y-axis title: normal vertical orientation, all the way to the left
-        axis.title.y = element_text(angle = 90, hjust = 1, vjust = 0),
-        
-        legend.position = "none")
+       theme_gaea()
 dev.off()
 ```
 
 
 
 ```{r}
-png(here("outputs/FishGuildJCO.png"), width = 8, height = 5,
+png(here("figures/FishGuildJCO.png"), width = 8, height = 5,
     res = 600, units = "in")
 FishDictionary<-
-  read_excel(paste0(here::here(), "/data/DataForFigShare.xlsx"), sheet = 2)
+  read_excel(paste0(here::here(), "/data/DataForFigShare.xlsx"), sheet = "Fish Traits & Code")
 
 fish_abundance_raw %>% select(-Site, -Replicate)%>%
   pivot_longer(ATF:FF, names_to = "Species", values_to = "Abundance")%>%
@@ -196,15 +180,6 @@ fish_abundance_raw %>% select(-Site, -Replicate)%>%
 ggplot(aes(x = `FunctionalGuild/Trait`, y = Abundance))+
   geom_bar(stat = "identity")+
       scale_fill_viridis_d(option = "magma")+
-      theme_bw()+
-  labs(x = "Functional Guild/Trait")+
-      theme(
-        # X-axis title: no angle, all the way to the right
-        axis.title.x = element_text(angle = 0, hjust = 1, vjust = 0),
-        
-        # Y-axis title: normal vertical orientation, all the way to the left
-        axis.title.y = element_text(angle = 90, hjust = 1, vjust = 0),
-        
-        legend.position = "none")
+       theme_gaea()
 dev.off()
 ```

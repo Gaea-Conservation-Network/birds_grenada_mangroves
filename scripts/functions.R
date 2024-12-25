@@ -209,7 +209,7 @@ DispersionPlots <- function(DataX, DataType, groups){
     
   })
   
-  png(paste0(here::here(), "/outputs/", paste(c(DataType, groups), collapse = ""), ".png"),
+  png(paste0(here::here(), "/figures/", paste(c(DataType, groups), collapse = ""), ".png"),
       width = 6, height = 6, res = 600, units = "in", bg = "white")
   gridExtra::grid.arrange(grobs = Plot)
   
@@ -559,14 +559,14 @@ NMDSPlotsBirdsPlants <- function(NMDSList,
   files_save <- 
     map(1:length(NMDSList), function(x){
       map(1:length(Groups), function(y){
-        paste0(here::here(), "/outputs/PlantsBirds", Type, str_remove_all(FileNames[x], " "),
+        paste0(here::here(), "/figures/PlantsBirds", Type, str_remove_all(FileNames[x], " "),
                Groups[y], "NMDS.png")
       })})
   
   
   map(1:length(NMDSList), function(x){
     map(1:length(Groups), function(y){
-      png(paste0(here::here(), "/outputs/PlantsBirds",Type, str_remove_all(FileNames[x], " "),
+      png(paste0(here::here(), "/figures/PlantsBirds",Type, str_remove_all(FileNames[x], " "),
                  Groups[y], "NMDS.png"), width = 7, height = 5,units = "in", res = 600, bg = "white")
       plot(Files[[x]][[y]])
       dev.off()
@@ -923,7 +923,7 @@ NMDSPlotsBirds <- function(NMDSList,
   
   files_save <- 
     map(1:length(Groups), function(y){
-        paste0(here::here(), "/outputs/Birds", Type, str_remove_all(FileNames, " "),
+        paste0(here::here(), "/figures/Birds", Type, str_remove_all(FileNames, " "),
                Groups[y], "NMDS.png")
       })
   
@@ -932,7 +932,7 @@ NMDSPlotsBirds <- function(NMDSList,
     
     if(length(Files[[y]])== 1){
       
-      png(paste0(here::here(), "/outputs/Birds",Type, str_remove_all(FileNames, " "),
+      png(paste0(here::here(), "/figures/Birds",Type, str_remove_all(FileNames, " "),
                  Groups[y], "NMDS.png"), width = 7, height = 5,units = "in", res = 600, bg = "white")
       cowplot::ggdraw(Files[[y]])+
         theme(plot.background = element_rect(fill="white", color = NA))
@@ -940,7 +940,7 @@ NMDSPlotsBirds <- function(NMDSList,
     }
     else{
       
-      png(paste0(here::here(), "/outputs/Birds",Type, str_remove_all(FileNames, " "),
+      png(paste0(here::here(), "/figures/Birds",Type, str_remove_all(FileNames, " "),
                  Groups[y], "NMDS.png"), width = 7, height = 5,units = "in", res = 600, bg = "white")
      cowplot::ggdraw(gridExtra::grid.arrange(grobs = list(Files[[y]][[1]],
                                                 Files[[y]][[2]],
@@ -1091,11 +1091,11 @@ NMDSPlotsPlants <- function(NMDSList,
   
   files_save <- 
     map(1:length(NMDSList), function(x){
-        paste0(here::here(), "/outputs/Plants",Type, str_remove_all(FileNames[x], " "), "NMDS.png")})
+        paste0(here::here(), "/figures/Plants",Type, str_remove_all(FileNames[x], " "), "NMDS.png")})
   
   
   map(1:length(NMDSList), function(x){
-    png(paste0(here::here(), "/outputs/Plants", Type, str_remove_all(FileNames[x], " "), "NMDS.png"), 
+    png(paste0(here::here(), "/figures/Plants", Type, str_remove_all(FileNames[x], " "), "NMDS.png"), 
         width = 7, height = 5,units = "in", res = 600, bg = "white")
       plot(Files[[x]])
       dev.off()
@@ -1111,11 +1111,16 @@ NMDSPlotsPlants <- function(NMDSList,
 
 
 theme_gaea <-  function(){ 
-  font <- "Capitana"   
+  font <- "Helvetica"   
   
   
-  theme_tufte() %+replace%   
+  theme_bw() %+replace%   
     theme(text = element_text(family = font),
+          # X-axis title: no angle, all the way to the right
+          axis.title.x = element_text(angle = 0, hjust = 1, vjust = 1),
+          
+          # Y-axis title: normal vertical orientation, all the way to the left
+          axis.title.y = element_text(angle = 90, hjust = 1, vjust = 1),
           legend.position = "bottom",
           panel.border = element_rect(fill = NA, colour = "grey60"),
           panel.grid.minor = element_blank(),
