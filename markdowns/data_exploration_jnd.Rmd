@@ -604,20 +604,7 @@ CanopyWidthIndependentNMS <- metaMDS(VegMatrixIndependent %>% arrange(Independen
 
 
 ```{r save the plots, include = FALSE, message=FALSE, error=FALSE, warning=FALSE}
-BirdsSiteNMS <- metaMDS(BirdData %>% ungroup() %>% select(ANCH:ZEND) ,  distance = "bray",
-                                 k = 2, autotransform = TRUE,trymax=100)
-NMDSPlotsBirds(NMDSList = BirdsSiteNMS,
-                 FileNames = "Abundance-Combined",
-                 DataX =  BirdData,
-                 Choices = c(1:2),
-                 Groups = c("Species", "Food", "Behaviour",  "Nesting", "Habitat","Type"),
-                 Type = "Site")
-NMDSPlotsBirds(NMDSList = BirdsSiteNMS,
-                 FileNames = "Abundance-Combined",
-                 DataX =  BirdData,
-                 Choices = c(1:2),
-                 Groups = c("Species", "Food", "Behaviour",  "Nesting", "Habitat","Type"),
-                 Type = "Type")
+
 
 BirdsSiteNMS <- metaMDS(BirdDataOG %>% ungroup() %>% select(ANCH:ZEND) ,  distance = "bray",
                                  k = 3, autotransform = TRUE,trymax=100)
@@ -849,7 +836,7 @@ dataMammalsGrid <-
   left_join(dataMammals %>%  mutate(Species = ifelse(str_detect(Species, "Rat|rat"), "Brown Rat", Species)) %>%
               group_by(Site, Camera, DateOfHit, Species)%>%  tally() %>% pivot_wider(names_from = Species, values_from = n, values_fill = 0)%>%
               ungroup() %>% rename(Date = DateOfHit))%>%
-   mutate(across(where(is.numeric), ~ ifelse(replace_na(., 0)>1,1,0)))
+   mutate(across(where(is.numeric), ~ ifelse(replace_na(., 0)>0,1,0)))
 
 
 SaveModelsOccupance<-

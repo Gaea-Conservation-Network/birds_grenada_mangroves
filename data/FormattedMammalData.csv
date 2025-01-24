@@ -1,0 +1,523 @@
+Site,Camera,Date,Brown Rat,Mongoose,Dog,Cat
+Conference,CC1,2020-09-12,0,0,0,0
+Conference,CC1,2020-09-13,0,0,0,0
+Conference,CC1,2020-09-14,0,0,0,0
+Conference,CC1,2020-09-15,0,0,0,0
+Conference,CC1,2020-09-16,0,0,0,0
+Conference,CC1,2020-09-17,0,0,0,0
+Conference,CC1,2020-09-18,0,0,0,0
+Conference,CC1,2020-09-19,0,0,0,0
+Conference,CC1,2020-09-20,0,0,0,0
+Conference,CC1,2020-09-21,0,0,0,0
+Conference,CC1,2020-09-22,0,0,0,0
+Conference,CC1,2020-09-23,0,0,0,0
+Conference,CC1,2020-09-24,0,0,0,0
+Conference,CC1,2020-09-25,0,0,0,0
+Conference,CC1,2020-09-26,0,0,0,0
+Conference,CC1,2020-09-27,0,0,0,0
+Conference,CC1,2020-09-28,1,0,0,0
+Conference,CC1,2020-09-29,0,0,0,0
+Conference,CC1,2020-09-30,0,0,0,0
+Conference,CC1,2020-10-01,0,0,0,0
+Conference,CC1,2020-10-02,0,0,0,0
+Conference,CC1,2020-10-03,0,0,0,0
+Conference,CC1,2020-10-04,0,0,0,0
+Conference,CC1,2020-10-05,0,0,0,0
+Conference,CC1,2020-10-06,0,0,0,0
+Conference,CC1,2020-10-07,0,0,0,0
+Conference,CC1,2020-10-08,0,0,0,0
+Conference,CC1,2020-10-09,0,0,0,0
+Conference,CC1,2020-10-10,0,0,0,0
+Conference,CC2,2020-09-12,0,0,0,0
+Conference,CC2,2020-09-13,0,0,0,0
+Conference,CC2,2020-09-14,0,0,0,0
+Conference,CC2,2020-09-15,0,0,0,0
+Conference,CC2,2020-09-16,0,0,0,0
+Conference,CC2,2020-09-17,0,0,0,0
+Conference,CC2,2020-09-18,0,0,0,0
+Conference,CC2,2020-09-19,0,0,0,0
+Conference,CC2,2020-09-20,0,0,0,0
+Conference,CC2,2020-09-21,0,0,0,0
+Conference,CC2,2020-09-22,0,0,0,0
+Conference,CC2,2020-09-23,0,0,0,0
+Conference,CC2,2020-09-24,0,0,0,0
+Conference,CC2,2020-09-25,0,0,0,0
+Conference,CC2,2020-09-26,0,0,0,0
+Conference,CC2,2020-09-27,0,0,0,0
+Conference,CC2,2020-09-28,1,0,0,0
+Conference,CC2,2020-09-29,1,0,0,0
+Conference,CC2,2020-09-30,0,0,0,0
+Conference,CC2,2020-10-01,1,0,0,0
+Conference,CC2,2020-10-02,1,0,0,0
+Conference,CC2,2020-10-03,0,0,0,0
+Conference,CC2,2020-10-04,1,0,0,0
+Conference,CC2,2020-10-05,1,0,0,0
+Conference,CC2,2020-10-06,1,0,0,0
+Conference,CC2,2020-10-07,1,0,0,0
+Conference,CC2,2020-10-08,1,0,0,0
+Conference,CC2,2020-10-09,1,0,0,0
+Conference,CC2,2020-10-10,1,0,0,0
+Conference,CC3,2020-09-12,0,0,0,0
+Conference,CC3,2020-09-13,0,0,0,0
+Conference,CC3,2020-09-14,0,0,0,0
+Conference,CC3,2020-09-15,0,0,0,0
+Conference,CC3,2020-09-16,0,0,0,0
+Conference,CC3,2020-09-17,0,0,0,0
+Conference,CC3,2020-09-18,0,0,0,0
+Conference,CC3,2020-09-19,0,0,0,0
+Conference,CC3,2020-09-20,0,0,0,0
+Conference,CC3,2020-09-21,0,0,0,0
+Conference,CC3,2020-09-22,0,0,0,0
+Conference,CC3,2020-09-23,0,0,0,0
+Conference,CC3,2020-09-24,0,0,0,0
+Conference,CC3,2020-09-25,0,0,0,0
+Conference,CC3,2020-09-26,0,0,0,0
+Conference,CC3,2020-09-27,1,0,0,0
+Conference,CC3,2020-09-28,1,0,0,0
+Conference,CC3,2020-09-29,0,0,0,0
+Conference,CC3,2020-09-30,0,0,0,0
+Conference,CC3,2020-10-01,0,0,0,0
+Conference,CC3,2020-10-02,1,0,0,0
+Conference,CC3,2020-10-03,0,0,0,0
+Conference,CC3,2020-10-04,0,0,0,0
+Conference,CC3,2020-10-05,0,0,0,0
+Conference,CC3,2020-10-06,0,0,0,0
+Conference,CC3,2020-10-07,0,0,0,0
+Conference,CC3,2020-10-08,0,0,0,0
+Conference,CC3,2020-10-09,0,0,0,0
+Conference,CC3,2020-10-10,0,0,0,0
+Conference,L2,2020-09-12,0,0,0,0
+Conference,L2,2020-09-13,0,0,0,0
+Conference,L2,2020-09-14,0,0,0,0
+Conference,L2,2020-09-15,0,0,0,0
+Conference,L2,2020-09-16,0,0,0,0
+Conference,L2,2020-09-17,0,0,0,0
+Conference,L2,2020-09-18,0,0,0,0
+Conference,L2,2020-09-19,0,0,0,0
+Conference,L2,2020-09-20,0,0,0,0
+Conference,L2,2020-09-21,0,0,0,0
+Conference,L2,2020-09-22,0,0,0,0
+Conference,L2,2020-09-23,0,0,0,0
+Conference,L2,2020-09-24,0,0,0,0
+Conference,L2,2020-09-25,0,0,0,0
+Conference,L2,2020-09-26,0,0,0,0
+Conference,L2,2020-09-27,0,0,0,0
+Conference,L2,2020-09-28,0,0,0,0
+Conference,L2,2020-09-29,0,0,0,0
+Conference,L2,2020-09-30,0,0,0,0
+Conference,L2,2020-10-01,0,0,0,0
+Conference,L2,2020-10-02,0,0,0,0
+Conference,L2,2020-10-03,0,0,0,0
+Conference,L2,2020-10-04,0,0,0,0
+Conference,L2,2020-10-05,0,0,0,0
+Conference,L2,2020-10-06,0,0,0,0
+Conference,L2,2020-10-07,0,0,0,0
+Conference,L2,2020-10-08,0,0,0,0
+Conference,L2,2020-10-09,0,0,0,0
+Conference,L2,2020-10-10,0,0,0,0
+Conference,L3,2020-09-12,0,0,0,0
+Conference,L3,2020-09-13,0,0,0,0
+Conference,L3,2020-09-14,0,0,0,0
+Conference,L3,2020-09-15,0,0,0,0
+Conference,L3,2020-09-16,0,0,0,0
+Conference,L3,2020-09-17,0,0,0,0
+Conference,L3,2020-09-18,0,0,0,0
+Conference,L3,2020-09-19,0,0,0,0
+Conference,L3,2020-09-20,0,0,0,0
+Conference,L3,2020-09-21,0,0,0,0
+Conference,L3,2020-09-22,0,0,0,0
+Conference,L3,2020-09-23,0,0,0,0
+Conference,L3,2020-09-24,0,0,0,0
+Conference,L3,2020-09-25,0,0,0,0
+Conference,L3,2020-09-26,0,0,0,0
+Conference,L3,2020-09-27,0,0,0,0
+Conference,L3,2020-09-28,0,0,0,0
+Conference,L3,2020-09-29,0,0,0,0
+Conference,L3,2020-09-30,0,0,0,0
+Conference,L3,2020-10-01,0,0,0,0
+Conference,L3,2020-10-02,0,0,0,0
+Conference,L3,2020-10-03,0,0,0,0
+Conference,L3,2020-10-04,0,0,0,0
+Conference,L3,2020-10-05,0,0,0,0
+Conference,L3,2020-10-06,0,0,0,0
+Conference,L3,2020-10-07,0,0,0,0
+Conference,L3,2020-10-08,0,0,0,0
+Conference,L3,2020-10-09,0,0,0,0
+Conference,L3,2020-10-10,0,0,0,0
+Conference,MH3,2020-09-12,0,0,0,0
+Conference,MH3,2020-09-13,0,0,0,0
+Conference,MH3,2020-09-14,0,0,0,0
+Conference,MH3,2020-09-15,0,0,0,0
+Conference,MH3,2020-09-16,0,0,0,0
+Conference,MH3,2020-09-17,0,0,0,0
+Conference,MH3,2020-09-18,0,0,0,0
+Conference,MH3,2020-09-19,0,0,0,0
+Conference,MH3,2020-09-20,0,0,0,0
+Conference,MH3,2020-09-21,0,0,0,0
+Conference,MH3,2020-09-22,0,0,0,0
+Conference,MH3,2020-09-23,0,0,0,0
+Conference,MH3,2020-09-24,0,0,0,0
+Conference,MH3,2020-09-25,0,0,0,0
+Conference,MH3,2020-09-26,0,0,0,0
+Conference,MH3,2020-09-27,0,0,0,0
+Conference,MH3,2020-09-28,0,0,0,0
+Conference,MH3,2020-09-29,0,0,0,0
+Conference,MH3,2020-09-30,0,0,0,0
+Conference,MH3,2020-10-01,0,0,0,0
+Conference,MH3,2020-10-02,0,0,0,0
+Conference,MH3,2020-10-03,0,0,0,0
+Conference,MH3,2020-10-04,0,0,0,0
+Conference,MH3,2020-10-05,0,0,0,0
+Conference,MH3,2020-10-06,0,0,0,0
+Conference,MH3,2020-10-07,0,0,0,0
+Conference,MH3,2020-10-08,0,0,0,0
+Conference,MH3,2020-10-09,0,0,0,0
+Conference,MH3,2020-10-10,0,0,0,0
+Levera,CC1,2020-09-12,0,0,0,0
+Levera,CC1,2020-09-13,0,0,0,0
+Levera,CC1,2020-09-14,0,0,0,0
+Levera,CC1,2020-09-15,0,0,0,0
+Levera,CC1,2020-09-16,0,0,0,0
+Levera,CC1,2020-09-17,0,0,0,0
+Levera,CC1,2020-09-18,0,0,0,0
+Levera,CC1,2020-09-19,0,0,0,0
+Levera,CC1,2020-09-20,0,0,0,0
+Levera,CC1,2020-09-21,0,0,0,0
+Levera,CC1,2020-09-22,0,0,0,0
+Levera,CC1,2020-09-23,0,0,0,0
+Levera,CC1,2020-09-24,0,0,0,0
+Levera,CC1,2020-09-25,0,0,0,0
+Levera,CC1,2020-09-26,0,0,0,0
+Levera,CC1,2020-09-27,0,0,0,0
+Levera,CC1,2020-09-28,0,0,0,0
+Levera,CC1,2020-09-29,0,0,0,0
+Levera,CC1,2020-09-30,0,0,0,0
+Levera,CC1,2020-10-01,0,0,0,0
+Levera,CC1,2020-10-02,0,0,0,0
+Levera,CC1,2020-10-03,0,0,0,0
+Levera,CC1,2020-10-04,0,0,0,0
+Levera,CC1,2020-10-05,0,0,0,0
+Levera,CC1,2020-10-06,0,0,0,0
+Levera,CC1,2020-10-07,0,0,0,0
+Levera,CC1,2020-10-08,0,0,0,0
+Levera,CC1,2020-10-09,0,0,0,0
+Levera,CC1,2020-10-10,0,0,0,0
+Levera,CC2,2020-09-12,0,0,0,0
+Levera,CC2,2020-09-13,0,0,0,0
+Levera,CC2,2020-09-14,0,0,0,0
+Levera,CC2,2020-09-15,0,0,0,0
+Levera,CC2,2020-09-16,0,0,0,0
+Levera,CC2,2020-09-17,0,0,0,0
+Levera,CC2,2020-09-18,0,0,0,0
+Levera,CC2,2020-09-19,0,0,0,0
+Levera,CC2,2020-09-20,0,0,0,0
+Levera,CC2,2020-09-21,0,0,0,0
+Levera,CC2,2020-09-22,0,0,0,0
+Levera,CC2,2020-09-23,0,0,0,0
+Levera,CC2,2020-09-24,0,0,0,0
+Levera,CC2,2020-09-25,0,0,0,0
+Levera,CC2,2020-09-26,0,0,0,0
+Levera,CC2,2020-09-27,0,0,0,0
+Levera,CC2,2020-09-28,0,0,0,0
+Levera,CC2,2020-09-29,0,0,0,0
+Levera,CC2,2020-09-30,0,0,0,0
+Levera,CC2,2020-10-01,0,0,0,0
+Levera,CC2,2020-10-02,0,0,0,0
+Levera,CC2,2020-10-03,0,0,0,0
+Levera,CC2,2020-10-04,0,0,0,0
+Levera,CC2,2020-10-05,0,0,0,0
+Levera,CC2,2020-10-06,0,0,0,0
+Levera,CC2,2020-10-07,0,0,0,0
+Levera,CC2,2020-10-08,0,0,0,0
+Levera,CC2,2020-10-09,0,0,0,0
+Levera,CC2,2020-10-10,0,0,0,0
+Levera,CC3,2020-09-12,0,0,0,0
+Levera,CC3,2020-09-13,0,0,0,0
+Levera,CC3,2020-09-14,0,0,0,0
+Levera,CC3,2020-09-15,0,0,0,0
+Levera,CC3,2020-09-16,0,0,0,0
+Levera,CC3,2020-09-17,0,0,0,0
+Levera,CC3,2020-09-18,0,0,0,0
+Levera,CC3,2020-09-19,0,0,0,0
+Levera,CC3,2020-09-20,0,0,0,0
+Levera,CC3,2020-09-21,0,0,0,0
+Levera,CC3,2020-09-22,0,0,0,0
+Levera,CC3,2020-09-23,0,0,0,0
+Levera,CC3,2020-09-24,0,0,0,0
+Levera,CC3,2020-09-25,0,0,0,0
+Levera,CC3,2020-09-26,0,0,0,0
+Levera,CC3,2020-09-27,0,0,0,0
+Levera,CC3,2020-09-28,0,0,0,0
+Levera,CC3,2020-09-29,0,0,0,0
+Levera,CC3,2020-09-30,0,0,0,0
+Levera,CC3,2020-10-01,0,0,0,0
+Levera,CC3,2020-10-02,0,0,0,0
+Levera,CC3,2020-10-03,0,0,0,0
+Levera,CC3,2020-10-04,0,0,0,0
+Levera,CC3,2020-10-05,0,0,0,0
+Levera,CC3,2020-10-06,0,0,0,0
+Levera,CC3,2020-10-07,0,0,0,0
+Levera,CC3,2020-10-08,0,0,0,0
+Levera,CC3,2020-10-09,0,0,0,0
+Levera,CC3,2020-10-10,0,0,0,0
+Levera,L2,2020-09-12,1,0,0,0
+Levera,L2,2020-09-13,0,1,0,0
+Levera,L2,2020-09-14,1,0,0,0
+Levera,L2,2020-09-15,1,0,0,0
+Levera,L2,2020-09-16,0,0,0,0
+Levera,L2,2020-09-17,0,0,0,0
+Levera,L2,2020-09-18,0,0,0,0
+Levera,L2,2020-09-19,0,0,0,0
+Levera,L2,2020-09-20,1,0,0,0
+Levera,L2,2020-09-21,1,0,0,0
+Levera,L2,2020-09-22,1,0,0,0
+Levera,L2,2020-09-23,0,0,0,0
+Levera,L2,2020-09-24,1,0,0,0
+Levera,L2,2020-09-25,0,0,0,0
+Levera,L2,2020-09-26,0,0,0,0
+Levera,L2,2020-09-27,0,0,0,0
+Levera,L2,2020-09-28,0,0,0,0
+Levera,L2,2020-09-29,0,0,0,0
+Levera,L2,2020-09-30,0,0,0,0
+Levera,L2,2020-10-01,0,0,0,0
+Levera,L2,2020-10-02,0,0,0,0
+Levera,L2,2020-10-03,0,0,0,0
+Levera,L2,2020-10-04,0,0,0,0
+Levera,L2,2020-10-05,0,0,0,0
+Levera,L2,2020-10-06,0,0,0,0
+Levera,L2,2020-10-07,0,0,0,0
+Levera,L2,2020-10-08,0,0,0,0
+Levera,L2,2020-10-09,0,0,0,0
+Levera,L2,2020-10-10,0,0,0,0
+Levera,L3,2020-09-12,0,0,0,0
+Levera,L3,2020-09-13,0,1,0,0
+Levera,L3,2020-09-14,1,1,0,0
+Levera,L3,2020-09-15,1,1,1,0
+Levera,L3,2020-09-16,1,1,0,0
+Levera,L3,2020-09-17,1,0,0,0
+Levera,L3,2020-09-18,1,1,0,0
+Levera,L3,2020-09-19,1,1,0,0
+Levera,L3,2020-09-20,1,0,0,0
+Levera,L3,2020-09-21,1,1,0,0
+Levera,L3,2020-09-22,1,0,0,0
+Levera,L3,2020-09-23,0,0,0,0
+Levera,L3,2020-09-24,1,0,0,0
+Levera,L3,2020-09-25,0,0,0,0
+Levera,L3,2020-09-26,0,0,0,0
+Levera,L3,2020-09-27,0,0,0,0
+Levera,L3,2020-09-28,0,0,0,0
+Levera,L3,2020-09-29,0,0,0,0
+Levera,L3,2020-09-30,0,0,0,0
+Levera,L3,2020-10-01,0,0,0,0
+Levera,L3,2020-10-02,0,0,0,0
+Levera,L3,2020-10-03,0,0,0,0
+Levera,L3,2020-10-04,0,0,0,0
+Levera,L3,2020-10-05,0,0,0,0
+Levera,L3,2020-10-06,0,0,0,0
+Levera,L3,2020-10-07,0,0,0,0
+Levera,L3,2020-10-08,0,0,0,0
+Levera,L3,2020-10-09,0,0,0,0
+Levera,L3,2020-10-10,0,0,0,0
+Levera,MH3,2020-09-12,0,0,0,0
+Levera,MH3,2020-09-13,0,0,0,0
+Levera,MH3,2020-09-14,0,0,0,0
+Levera,MH3,2020-09-15,0,0,0,0
+Levera,MH3,2020-09-16,0,0,0,0
+Levera,MH3,2020-09-17,0,0,0,0
+Levera,MH3,2020-09-18,0,0,0,0
+Levera,MH3,2020-09-19,0,0,0,0
+Levera,MH3,2020-09-20,0,0,0,0
+Levera,MH3,2020-09-21,0,0,0,0
+Levera,MH3,2020-09-22,0,0,0,0
+Levera,MH3,2020-09-23,0,0,0,0
+Levera,MH3,2020-09-24,0,0,0,0
+Levera,MH3,2020-09-25,0,0,0,0
+Levera,MH3,2020-09-26,0,0,0,0
+Levera,MH3,2020-09-27,0,0,0,0
+Levera,MH3,2020-09-28,0,0,0,0
+Levera,MH3,2020-09-29,0,0,0,0
+Levera,MH3,2020-09-30,0,0,0,0
+Levera,MH3,2020-10-01,0,0,0,0
+Levera,MH3,2020-10-02,0,0,0,0
+Levera,MH3,2020-10-03,0,0,0,0
+Levera,MH3,2020-10-04,0,0,0,0
+Levera,MH3,2020-10-05,0,0,0,0
+Levera,MH3,2020-10-06,0,0,0,0
+Levera,MH3,2020-10-07,0,0,0,0
+Levera,MH3,2020-10-08,0,0,0,0
+Levera,MH3,2020-10-09,0,0,0,0
+Levera,MH3,2020-10-10,0,0,0,0
+Mt Hartman,CC1,2020-09-12,0,0,0,0
+Mt Hartman,CC1,2020-09-13,0,0,0,0
+Mt Hartman,CC1,2020-09-14,0,0,0,0
+Mt Hartman,CC1,2020-09-15,0,0,0,0
+Mt Hartman,CC1,2020-09-16,0,0,0,0
+Mt Hartman,CC1,2020-09-17,0,0,0,0
+Mt Hartman,CC1,2020-09-18,0,0,0,0
+Mt Hartman,CC1,2020-09-19,0,0,0,0
+Mt Hartman,CC1,2020-09-20,0,0,0,0
+Mt Hartman,CC1,2020-09-21,0,0,0,0
+Mt Hartman,CC1,2020-09-22,0,0,0,0
+Mt Hartman,CC1,2020-09-23,0,0,0,0
+Mt Hartman,CC1,2020-09-24,0,0,0,0
+Mt Hartman,CC1,2020-09-25,0,0,0,0
+Mt Hartman,CC1,2020-09-26,0,0,0,0
+Mt Hartman,CC1,2020-09-27,0,0,0,0
+Mt Hartman,CC1,2020-09-28,0,0,0,0
+Mt Hartman,CC1,2020-09-29,0,0,0,0
+Mt Hartman,CC1,2020-09-30,0,0,0,0
+Mt Hartman,CC1,2020-10-01,0,0,0,0
+Mt Hartman,CC1,2020-10-02,0,0,0,0
+Mt Hartman,CC1,2020-10-03,0,0,0,0
+Mt Hartman,CC1,2020-10-04,0,0,0,0
+Mt Hartman,CC1,2020-10-05,0,0,0,0
+Mt Hartman,CC1,2020-10-06,0,0,0,0
+Mt Hartman,CC1,2020-10-07,0,0,0,0
+Mt Hartman,CC1,2020-10-08,0,0,0,0
+Mt Hartman,CC1,2020-10-09,0,0,0,0
+Mt Hartman,CC1,2020-10-10,0,0,0,0
+Mt Hartman,CC2,2020-09-12,0,0,0,0
+Mt Hartman,CC2,2020-09-13,0,0,0,0
+Mt Hartman,CC2,2020-09-14,0,0,0,0
+Mt Hartman,CC2,2020-09-15,0,0,0,0
+Mt Hartman,CC2,2020-09-16,0,0,0,0
+Mt Hartman,CC2,2020-09-17,0,0,0,0
+Mt Hartman,CC2,2020-09-18,0,0,0,0
+Mt Hartman,CC2,2020-09-19,0,0,0,0
+Mt Hartman,CC2,2020-09-20,0,0,0,0
+Mt Hartman,CC2,2020-09-21,0,0,0,0
+Mt Hartman,CC2,2020-09-22,0,0,0,0
+Mt Hartman,CC2,2020-09-23,0,0,0,0
+Mt Hartman,CC2,2020-09-24,0,0,0,0
+Mt Hartman,CC2,2020-09-25,0,0,0,0
+Mt Hartman,CC2,2020-09-26,0,0,0,0
+Mt Hartman,CC2,2020-09-27,0,0,0,0
+Mt Hartman,CC2,2020-09-28,0,0,0,0
+Mt Hartman,CC2,2020-09-29,0,0,0,0
+Mt Hartman,CC2,2020-09-30,0,0,0,0
+Mt Hartman,CC2,2020-10-01,0,0,0,0
+Mt Hartman,CC2,2020-10-02,0,0,0,0
+Mt Hartman,CC2,2020-10-03,0,0,0,0
+Mt Hartman,CC2,2020-10-04,0,0,0,0
+Mt Hartman,CC2,2020-10-05,0,0,0,0
+Mt Hartman,CC2,2020-10-06,0,0,0,0
+Mt Hartman,CC2,2020-10-07,0,0,0,0
+Mt Hartman,CC2,2020-10-08,0,0,0,0
+Mt Hartman,CC2,2020-10-09,0,0,0,0
+Mt Hartman,CC2,2020-10-10,0,0,0,0
+Mt Hartman,CC3,2020-09-12,0,0,0,0
+Mt Hartman,CC3,2020-09-13,0,0,0,0
+Mt Hartman,CC3,2020-09-14,0,0,0,0
+Mt Hartman,CC3,2020-09-15,0,0,0,0
+Mt Hartman,CC3,2020-09-16,0,0,0,0
+Mt Hartman,CC3,2020-09-17,0,0,0,0
+Mt Hartman,CC3,2020-09-18,0,0,0,0
+Mt Hartman,CC3,2020-09-19,0,0,0,0
+Mt Hartman,CC3,2020-09-20,0,0,0,0
+Mt Hartman,CC3,2020-09-21,0,0,0,0
+Mt Hartman,CC3,2020-09-22,0,0,0,0
+Mt Hartman,CC3,2020-09-23,0,0,0,0
+Mt Hartman,CC3,2020-09-24,0,0,0,0
+Mt Hartman,CC3,2020-09-25,0,0,0,0
+Mt Hartman,CC3,2020-09-26,0,0,0,0
+Mt Hartman,CC3,2020-09-27,0,0,0,0
+Mt Hartman,CC3,2020-09-28,0,0,0,0
+Mt Hartman,CC3,2020-09-29,0,0,0,0
+Mt Hartman,CC3,2020-09-30,0,0,0,0
+Mt Hartman,CC3,2020-10-01,0,0,0,0
+Mt Hartman,CC3,2020-10-02,0,0,0,0
+Mt Hartman,CC3,2020-10-03,0,0,0,0
+Mt Hartman,CC3,2020-10-04,0,0,0,0
+Mt Hartman,CC3,2020-10-05,0,0,0,0
+Mt Hartman,CC3,2020-10-06,0,0,0,0
+Mt Hartman,CC3,2020-10-07,0,0,0,0
+Mt Hartman,CC3,2020-10-08,0,0,0,0
+Mt Hartman,CC3,2020-10-09,0,0,0,0
+Mt Hartman,CC3,2020-10-10,0,0,0,0
+Mt Hartman,L2,2020-09-12,0,0,0,0
+Mt Hartman,L2,2020-09-13,0,0,0,0
+Mt Hartman,L2,2020-09-14,0,0,0,0
+Mt Hartman,L2,2020-09-15,0,0,0,0
+Mt Hartman,L2,2020-09-16,0,0,0,0
+Mt Hartman,L2,2020-09-17,0,0,0,0
+Mt Hartman,L2,2020-09-18,0,0,0,0
+Mt Hartman,L2,2020-09-19,0,0,0,0
+Mt Hartman,L2,2020-09-20,0,0,0,0
+Mt Hartman,L2,2020-09-21,0,0,0,0
+Mt Hartman,L2,2020-09-22,0,0,0,0
+Mt Hartman,L2,2020-09-23,0,0,0,0
+Mt Hartman,L2,2020-09-24,0,0,0,0
+Mt Hartman,L2,2020-09-25,0,0,0,0
+Mt Hartman,L2,2020-09-26,0,0,0,0
+Mt Hartman,L2,2020-09-27,0,0,0,0
+Mt Hartman,L2,2020-09-28,0,0,0,0
+Mt Hartman,L2,2020-09-29,0,0,0,0
+Mt Hartman,L2,2020-09-30,0,0,0,0
+Mt Hartman,L2,2020-10-01,0,0,0,0
+Mt Hartman,L2,2020-10-02,0,0,0,0
+Mt Hartman,L2,2020-10-03,0,0,0,0
+Mt Hartman,L2,2020-10-04,0,0,0,0
+Mt Hartman,L2,2020-10-05,0,0,0,0
+Mt Hartman,L2,2020-10-06,0,0,0,0
+Mt Hartman,L2,2020-10-07,0,0,0,0
+Mt Hartman,L2,2020-10-08,0,0,0,0
+Mt Hartman,L2,2020-10-09,0,0,0,0
+Mt Hartman,L2,2020-10-10,0,0,0,0
+Mt Hartman,L3,2020-09-12,0,0,0,0
+Mt Hartman,L3,2020-09-13,0,0,0,0
+Mt Hartman,L3,2020-09-14,0,0,0,0
+Mt Hartman,L3,2020-09-15,0,0,0,0
+Mt Hartman,L3,2020-09-16,0,0,0,0
+Mt Hartman,L3,2020-09-17,0,0,0,0
+Mt Hartman,L3,2020-09-18,0,0,0,0
+Mt Hartman,L3,2020-09-19,0,0,0,0
+Mt Hartman,L3,2020-09-20,0,0,0,0
+Mt Hartman,L3,2020-09-21,0,0,0,0
+Mt Hartman,L3,2020-09-22,0,0,0,0
+Mt Hartman,L3,2020-09-23,0,0,0,0
+Mt Hartman,L3,2020-09-24,0,0,0,0
+Mt Hartman,L3,2020-09-25,0,0,0,0
+Mt Hartman,L3,2020-09-26,0,0,0,0
+Mt Hartman,L3,2020-09-27,0,0,0,0
+Mt Hartman,L3,2020-09-28,0,0,0,0
+Mt Hartman,L3,2020-09-29,0,0,0,0
+Mt Hartman,L3,2020-09-30,0,0,0,0
+Mt Hartman,L3,2020-10-01,0,0,0,0
+Mt Hartman,L3,2020-10-02,0,0,0,0
+Mt Hartman,L3,2020-10-03,0,0,0,0
+Mt Hartman,L3,2020-10-04,0,0,0,0
+Mt Hartman,L3,2020-10-05,0,0,0,0
+Mt Hartman,L3,2020-10-06,0,0,0,0
+Mt Hartman,L3,2020-10-07,0,0,0,0
+Mt Hartman,L3,2020-10-08,0,0,0,0
+Mt Hartman,L3,2020-10-09,0,0,0,0
+Mt Hartman,L3,2020-10-10,0,0,0,0
+Mt Hartman,MH3,2020-09-12,0,0,0,0
+Mt Hartman,MH3,2020-09-13,0,0,0,0
+Mt Hartman,MH3,2020-09-14,0,1,0,0
+Mt Hartman,MH3,2020-09-15,0,0,0,0
+Mt Hartman,MH3,2020-09-16,0,0,0,0
+Mt Hartman,MH3,2020-09-17,0,0,0,1
+Mt Hartman,MH3,2020-09-18,0,0,0,0
+Mt Hartman,MH3,2020-09-19,0,0,0,1
+Mt Hartman,MH3,2020-09-20,0,0,0,0
+Mt Hartman,MH3,2020-09-21,0,0,0,0
+Mt Hartman,MH3,2020-09-22,0,0,0,0
+Mt Hartman,MH3,2020-09-23,0,0,0,0
+Mt Hartman,MH3,2020-09-24,0,0,0,0
+Mt Hartman,MH3,2020-09-25,0,0,0,0
+Mt Hartman,MH3,2020-09-26,0,0,0,0
+Mt Hartman,MH3,2020-09-27,0,0,0,0
+Mt Hartman,MH3,2020-09-28,0,0,0,0
+Mt Hartman,MH3,2020-09-29,0,0,0,0
+Mt Hartman,MH3,2020-09-30,0,0,0,0
+Mt Hartman,MH3,2020-10-01,0,0,0,0
+Mt Hartman,MH3,2020-10-02,0,0,0,0
+Mt Hartman,MH3,2020-10-03,0,0,0,0
+Mt Hartman,MH3,2020-10-04,0,0,0,0
+Mt Hartman,MH3,2020-10-05,0,0,0,0
+Mt Hartman,MH3,2020-10-06,0,0,0,0
+Mt Hartman,MH3,2020-10-07,0,0,0,0
+Mt Hartman,MH3,2020-10-08,0,0,0,0
+Mt Hartman,MH3,2020-10-09,0,0,0,0
+Mt Hartman,MH3,2020-10-10,0,0,0,0
